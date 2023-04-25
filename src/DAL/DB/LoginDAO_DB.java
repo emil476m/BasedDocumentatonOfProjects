@@ -1,6 +1,6 @@
 package DAL.DB;
 
-import BE.User;
+import BE.UserTypes.User;
 import DAL.Interface.ILoginDAO;
 
 public class LoginDAO_DB implements ILoginDAO {

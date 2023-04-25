@@ -27,7 +27,7 @@ public class Main extends Application {
 
         primaryStage.setScene(scene);
         primaryStage.initStyle(StageStyle.UNDECORATED);
-        //primaryStage.getIcons().add(new Image("/GUI/GUI.Images/EA.png"));
+        primaryStage.getIcons().add(new Image("/GUI.Images/WUAV.png"));
         primaryStage.show();
     }
 }

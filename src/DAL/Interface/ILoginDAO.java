@@ -1,6 +1,6 @@
 package DAL.Interface;
 
-import BE.User;
+import BE.UserTypes.User;
 
 public interface ILoginDAO {
 

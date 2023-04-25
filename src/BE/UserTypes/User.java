@@ -1,4 +1,4 @@
-package BE;
+package BE.UserTypes;
 
 public class User {
     private String name;
