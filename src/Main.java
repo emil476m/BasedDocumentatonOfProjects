@@ -22,7 +22,7 @@ public class Main extends Application {
 
 
         BaseController controller = loader.getController();
-        controller.setModel(new ModelsHandler());
+        controller.setModel(ModelsHandler.getInstance());
         controller.setup();
 
         primaryStage.setScene(scene);
