@@ -9,9 +9,9 @@ public class Project {
     private String projectLocation;
     private String projectDescription;
     private int projectCreatorId;
-    private String projectIsDeleted;
+    private boolean projectIsDeleted;
 
-    public Project(String costumerName, LocalDate projectDate, String projectLocation, String projectDescription, int projectCreatorId, String projectIsDeleted) {
+    public Project(String costumerName, LocalDate projectDate, String projectLocation, String projectDescription, int projectCreatorId, boolean projectIsDeleted) {
         this.costumerName = costumerName;
         this.projectDate = projectDate;
         this.projectLocation = projectLocation;
@@ -20,7 +20,7 @@ public class Project {
         this.projectIsDeleted = projectIsDeleted;
     }
 
-    public Project(int projectId, String costumerName, LocalDate projectDate, String projectLocation, String projectDescription, int projectCreatorId, String projectIsDeleted) {
+    public Project(int projectId, String costumerName, LocalDate projectDate, String projectLocation, String projectDescription, int projectCreatorId, boolean projectIsDeleted) {
         this.projectId = projectId;
         this.costumerName = costumerName;
         this.projectDate = projectDate;
@@ -54,7 +54,7 @@ public class Project {
         return projectCreatorId;
     }
 
-    public String getProjectIsDeleted() {
+    public boolean getProjectIsDeleted() {
         return projectIsDeleted;
     }
 
@@ -78,7 +78,7 @@ public class Project {
         this.projectCreatorId = projectCreatorId;
     }
 
-    public void setProjectIsDeleted(String projectIsDeleted) {
+    public void setProjectIsDeleted(boolean projectIsDeleted) {
         this.projectIsDeleted = projectIsDeleted;
     }
 }

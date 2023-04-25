@@ -38,9 +38,16 @@ public class CEODAO_DB implements ICEODAO {
                 String projectLocation = resultSet.getString("ProjectLocation");
                 String projectDescription = resultSet.getString("ProjectDescription");
                 int projectCreator = resultSet.getInt("ProjectCreator");
-                String isDeleted = resultSet.getString("IsDeleted");
-            }
-            for (Project p:projectList){
+                String deletedIs = resultSet.getString("IsDeleted");
+
+                boolean isDeleted;
+                if (deletedIs.equals("false")) {
+                    isDeleted = false;
+                    Project project = new Project(id, costumerName, projectDate, projectLocation, projectDescription, projectCreator, isDeleted);
+                    projectList.add(project);
+                }
+                else
+                    isDeleted = true;
 
             }
             return projectList;

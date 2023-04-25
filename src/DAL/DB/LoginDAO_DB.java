@@ -7,6 +7,6 @@ public class LoginDAO_DB implements ILoginDAO {
 
     @Override
     public User loginUser(String username, String password) {
-
+        return null;
     }
 }
