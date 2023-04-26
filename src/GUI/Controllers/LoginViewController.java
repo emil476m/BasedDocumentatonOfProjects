@@ -12,6 +12,8 @@ import javafx.scene.control.Button;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
+import javafx.scene.input.KeyCode;
+import javafx.scene.input.KeyEvent;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 
@@ -31,6 +33,11 @@ public class LoginViewController extends BaseController{
 
 
     public void loginAction(ActionEvent actionEvent) {
+      login();
+    }
+
+    private void login()
+    {
         try {
             getModelsHandler().getLoginModel().loginAction(txtUsername.getText(),pfPasswordField.getText());
             if(getModelsHandler().getLoginModel().getUser().getClass().getSimpleName().equals(CEO.class.getSimpleName()))
@@ -70,5 +77,12 @@ public class LoginViewController extends BaseController{
     public void closeAction(ActionEvent actionEvent) {
         Stage stage = (Stage) btnClose.getScene().getWindow();
         stage.close();
+    }
+
+    @FXML
+    public void handleEnter(KeyEvent keyEvent) {
+        if (keyEvent.getCode().equals(KeyCode.ENTER)){
+            login();
+        }
     }
 }
