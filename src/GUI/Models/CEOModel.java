@@ -33,4 +33,9 @@ public class CEOModel {
         List<Project> projects = ceoManager.getAllProjects();
         projectsObservableList.addAll(projects);
     }
+
+    public void getAllUsers() throws Exception {
+        List<User> users = ceoManager.getAllUsers();
+        userObservableList.addAll(users);
+    }
 }

@@ -83,12 +83,23 @@ public class CEOController extends BaseController{
 
     private void setUpTableViews() throws Exception {
         getModelsHandler().getCeoModel().getAllProjects();
+        getModelsHandler().getCeoModel().getAllUsers();
 
+        //Project tableview
         tbvInstallationlist.setItems(getModelsHandler().getCeoModel().getProjectsObservableList());
         clmINSId.setCellValueFactory(new PropertyValueFactory<>("projectId"));
         clmCostumerName.setCellValueFactory(new PropertyValueFactory<>("costumerName"));
         clmINSAddress.setCellValueFactory(new PropertyValueFactory<>("projectLocation"));
         clmINSDate.setCellValueFactory(new PropertyValueFactory<>("projectDate"));
+
+        //User tableview
+        tbvUserlist.setItems(getModelsHandler().getCeoModel().getUserObservableList());
+        clmUserId.setCellValueFactory(new PropertyValueFactory<>("userID"));
+        clmUserName.setCellValueFactory(new PropertyValueFactory<>("name"));
+        clmUserClass.setCellValueFactory(new PropertyValueFactory<>("userClass"));
+
+        //Device tableview
+        //tbvUserlist.setItems();
     }
 
     public void handleLogout(ActionEvent actionEvent) {

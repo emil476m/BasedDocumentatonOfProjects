@@ -36,6 +36,10 @@ public class User {
         this.mail = mail;
     }
 
+    public String getUserClass(){
+        return this.getClass().getSimpleName();
+    }
+
     public String getName() {
         return name;
     }
