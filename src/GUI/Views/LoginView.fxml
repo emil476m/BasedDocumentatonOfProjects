@@ -9,20 +9,20 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.BorderPane?>
 
-<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="GUI.Controllers.LoginViewController">
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" styleClass="root" stylesheets="/GUI/Css/LoginViewCss.css" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="GUI.Controllers.LoginViewController">
    <center>
       <AnchorPane prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER">
          <children>
-            <PasswordField fx:id="pfPasswordField" layoutX="351.0" layoutY="239.0" prefHeight="26.0" prefWidth="173.0" promptText="Password" />
             <TextField fx:id="txtUsername" layoutX="352.0" layoutY="200.0" prefHeight="26.0" prefWidth="173.0" promptText="Username" />
+            <PasswordField fx:id="pfPasswordField" layoutX="351.0" layoutY="239.0" prefHeight="26.0" prefWidth="173.0" promptText="Password" />
+            <Button fx:id="btnLogin" layoutX="480.0" layoutY="275.0" mnemonicParsing="false" onAction="#loginAction" text="Login" />
+            <Button fx:id="btnClose" layoutX="518.0" layoutY="352.0" mnemonicParsing="false" onAction="#closeAction" text="Close" />
             <ImageView fitHeight="134.0" fitWidth="133.0" layoutX="26.0" layoutY="288.0" pickOnBounds="true" preserveRatio="true">
                <image>
                   <Image url="@../Images/WUAV.png" />
                </image>
             </ImageView>
-            <Label layoutX="65.0" layoutY="136.0" prefHeight="18.0" prefWidth="171.0" text="WUAV Documentation" />
-            <Button fx:id="btnClose" layoutX="518.0" layoutY="352.0" mnemonicParsing="false" text="Close" />
-            <Button fx:id="btnLogin" layoutX="480.0" layoutY="275.0" mnemonicParsing="false" onAction="#loginAction" text="Login" />
+            <Label alignment="TOP_LEFT" layoutX="65.0" layoutY="136.0" prefHeight="107.0" prefWidth="220.0" text="WUAV Documentation" wrapText="true" />
          </children>
       </AnchorPane>
    </center>

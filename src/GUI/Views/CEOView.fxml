@@ -10,7 +10,7 @@
 <?import javafx.scene.layout.Pane?>
 <?import javafx.scene.text.Text?>
 
-<BorderPane fx:id="borderPaneCEO" prefHeight="606.0" prefWidth="869.0" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="GUI.Controllers.CEOController">
+<BorderPane fx:id="borderPaneCEO" prefHeight="606.0" prefWidth="869.0" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="GUI.Controllers.CEOController" styleClass="root" stylesheets="/GUI/Css/CEOViewCss.css">
    <left>
       <Pane prefHeight="606.0" prefWidth="204.0" BorderPane.alignment="CENTER">
          <children>

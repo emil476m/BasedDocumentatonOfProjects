@@ -6,16 +6,18 @@ public class User {
     private String userName;
     private String passWord;
     private int userType;
+    private Boolean isDeleted;
 
     private int userID;
 
-    public User(int userID, String passWord, String userName, String mail, String name, int userType){
+    public User(int userID, String passWord, String userName, String mail, String name, int userType, Boolean isDeleted){
         this.userID = userID;
         this.passWord = passWord;
         this.userName = userName;
         this.mail = mail;
         this.name = name;
         this.userType = userType;
+        this.isDeleted = isDeleted;
     }
     public User(String passWord, String userName, String mail, String name, int userType){
         this.passWord = passWord;
@@ -23,6 +25,7 @@ public class User {
         this.mail = mail;
         this.name = name;
         this.userType = userType;
+        this.isDeleted = false;
     }
 
     public void setName(String name) {
@@ -53,6 +56,14 @@ public class User {
 
     public int getUserType() {
         return userType;
+    }
+
+    public Boolean getDeleted() {
+        return isDeleted;
+    }
+
+    public void setDeleted(Boolean deleted) {
+        isDeleted = deleted;
     }
 
     @Override

@@ -1,0 +1,27 @@
+.root
+{
+    -fx-background-color: #393939;
+}
+
+.button
+{
+    -fx-background-color: #FC4C02;
+    -fx-text-fill: #F8F8F8;
+    -fx-background-radius:20px;
+}
+
+.text-field
+{
+    -fx-background-color: #ECF2F7;
+}
+
+.password-field
+{
+    -fx-background-color: #ECF2F7;
+}
+
+.label
+{
+    -fx-font-size: 26px;
+    -fx-text-fill: #ECF2F7;
+}

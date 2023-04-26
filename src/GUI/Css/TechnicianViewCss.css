@@ -1,0 +1,26 @@
+.root
+{
+    -fx-background-color: #393939;;
+}
+
+.button
+{
+    -fx-background-color: #FC4C02;
+    -fx-text-fill: #F8F8F8;
+    -fx-background-radius:20px;
+}
+
+.button:focused
+{
+    -fx-border-color: transparent;
+}
+
+.text-field
+{
+    -fx-background-color: #ECF2F7;
+}
+
+.table-view
+{
+    -fx-background-color: transparent;
+}
