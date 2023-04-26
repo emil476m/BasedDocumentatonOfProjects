@@ -1,11 +1,16 @@
 package GUI.Controllers;
 
+import BE.Project;
 import javafx.event.ActionEvent;
 import javafx.scene.control.Button;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
+import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.text.Text;
+
+import java.time.LocalDate;
+import java.util.Date;
 
 public class CEOController extends BaseController{
     public BorderPane borderPaneCEO;
@@ -21,18 +26,23 @@ public class CEOController extends BaseController{
     public TableColumn clmUserId;
     public TableColumn clmUserName;
     public TableColumn clmUserClass;
-    public TableView tbvInstallationlist;
-    public TableColumn clmINSId;
-    public TableColumn clmCostumerName;
-    public TableColumn clmINSAddress;
+    public TableView<Project> tbvInstallationlist;
+    public TableColumn<Project, Integer> clmINSId;
+    public TableColumn<Project, String> clmCostumerName;
+    public TableColumn<Project, String> clmINSAddress;
     public TableView tbvDevicelist;
     public TableColumn clmDeviceId;
     public TableColumn clmDeviceName;
+    public TableColumn<Project, LocalDate> clmINSDate;
 
     @Override
     public void setup() {
         toggleViews(true, false, false);
-
+        try {
+            setUpTableViews();
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
     }
 
     public CEOController(){
@@ -69,6 +79,16 @@ public class CEOController extends BaseController{
             btnShowDevices.setDisable(false);
             tbvDevicelist.setVisible(false);
         }
+    }
+
+    private void setUpTableViews() throws Exception {
+        getModelsHandler().getCeoModel().getAllProjects();
+
+        tbvInstallationlist.setItems(getModelsHandler().getCeoModel().getProjectsObservableList());
+        clmINSId.setCellValueFactory(new PropertyValueFactory<>("projectId"));
+        clmCostumerName.setCellValueFactory(new PropertyValueFactory<>("costumerName"));
+        clmINSAddress.setCellValueFactory(new PropertyValueFactory<>("projectLocation"));
+        clmINSDate.setCellValueFactory(new PropertyValueFactory<>("projectDate"));
     }
 
     public void handleLogout(ActionEvent actionEvent) {

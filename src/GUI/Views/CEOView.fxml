@@ -43,11 +43,12 @@
             <TableView fx:id="tbvInstallationlist" layoutX="55.0" layoutY="138.0" prefHeight="365.0" prefWidth="570.0" AnchorPane.leftAnchor="45.0" AnchorPane.topAnchor="130.0">
                <columns>
                   <TableColumn fx:id="clmINSId" prefWidth="75.0" text="Id" />
-                  <TableColumn fx:id="clmCostumerName" prefWidth="230.0" text="Costumer Name" />
-                  <TableColumn fx:id="clmINSAddress" minWidth="0.0" prefWidth="263.0" text="Address" />
+                  <TableColumn fx:id="clmCostumerName" prefWidth="149.0" text="Costumer Name" />
+                  <TableColumn fx:id="clmINSAddress" minWidth="0.0" prefWidth="208.0" text="Address" />
+                  <TableColumn fx:id="clmINSDate" minWidth="0.0" prefWidth="137.0" text="Date" />
                </columns>
             </TableView>
-            <TableView fx:id="tbvDevicelist" layoutX="65.0" layoutY="148.0" prefHeight="365.0" prefWidth="570.0" AnchorPane.leftAnchor="45.0" AnchorPane.topAnchor="130.0">
+            <TableView fx:id="tbvDevicelist" layoutX="685.0" layoutY="-84.0" prefHeight="365.0" prefWidth="570.0" AnchorPane.leftAnchor="45.0" AnchorPane.topAnchor="130.0">
                <columns>
                   <TableColumn fx:id="clmDeviceId" prefWidth="75.0" text="Id" />
                   <TableColumn fx:id="clmDeviceName" prefWidth="494.0" text="Name" />

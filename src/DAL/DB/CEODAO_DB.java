@@ -48,7 +48,6 @@ public class CEODAO_DB implements ICEODAO {
                 }
                 else
                     isDeleted = true;
-
             }
             return projectList;
         }
