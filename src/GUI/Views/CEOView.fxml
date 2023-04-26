@@ -10,7 +10,7 @@
 <?import javafx.scene.layout.Pane?>
 <?import javafx.scene.text.Text?>
 
-<BorderPane fx:id="borderPaneCEO" prefHeight="606.0" prefWidth="869.0" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="GUI.Controllers.CEOController" styleClass="root" stylesheets="/GUI/Css/CEOViewCss.css">
+<BorderPane fx:id="borderPaneCEO" prefHeight="606.0" prefWidth="869.0" styleClass="root" stylesheets="/GUI/Css/CEOViewCss.css" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="GUI.Controllers.CEOController">
    <left>
       <Pane prefHeight="606.0" prefWidth="204.0" BorderPane.alignment="CENTER">
          <children>
@@ -27,12 +27,12 @@
       </Pane>
    </left>
    <center>
-      <AnchorPane prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER">
+      <AnchorPane prefHeight="200.0" prefWidth="200.0" styleClass="anchor-pane" BorderPane.alignment="CENTER">
          <children>
-            <Button fx:id="btnCreate" layoutX="95.0" layoutY="544.0" mnemonicParsing="false" onAction="#handleCreate" prefHeight="30.0" prefWidth="140.0" text="Create" />
-            <Button fx:id="btnDelete" layoutX="275.0" layoutY="544.0" mnemonicParsing="false" onAction="#handleDelete" prefHeight="30.0" prefWidth="140.0" text="Delete" />
-            <Button fx:id="btnOpen" layoutX="448.0" layoutY="544.0" mnemonicParsing="false" onAction="#handleOpen" prefHeight="30.0" prefWidth="140.0" text="Open" />
-            <Text fx:id="txtViewName" layoutX="57.0" layoutY="103.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Users" wrappingWidth="76.13671875" />
+            <Button fx:id="btnCreate" layoutX="95.0" layoutY="544.0" mnemonicParsing="false" onAction="#handleCreate" prefHeight="30.0" prefWidth="140.0" styleClass="buttonothertext" text="Create" />
+            <Button fx:id="btnDelete" layoutX="275.0" layoutY="544.0" mnemonicParsing="false" onAction="#handleDelete" prefHeight="30.0" prefWidth="140.0" styleClass="buttonothertext" text="Delete" />
+            <Button fx:id="btnOpen" layoutX="448.0" layoutY="544.0" mnemonicParsing="false" onAction="#handleOpen" prefHeight="30.0" prefWidth="140.0" styleClass="buttonothertext" text="Open" />
+            <Text fx:id="txtViewName" layoutX="57.0" layoutY="90.0" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="text" text="Users" wrappingWidth="156.13671875" />
             <TableView fx:id="tbvUserlist" layoutX="45.0" layoutY="128.0" prefHeight="365.0" prefWidth="570.0" AnchorPane.leftAnchor="45.0" AnchorPane.rightAnchor="50.0" AnchorPane.topAnchor="130.0">
               <columns>
                 <TableColumn fx:id="clmUserId" prefWidth="75.0" text="Id" />
