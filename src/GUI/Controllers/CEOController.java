@@ -1,6 +1,8 @@
 package GUI.Controllers;
 
+import BE.DeviceType;
 import BE.Project;
+import BE.UserTypes.User;
 import javafx.event.ActionEvent;
 import javafx.scene.control.Button;
 import javafx.scene.control.TableColumn;
@@ -22,17 +24,17 @@ public class CEOController extends BaseController{
     public Button btnDelete;
     public Button btnOpen;
     public Text txtViewName;
-    public TableView tbvUserlist;
-    public TableColumn clmUserId;
-    public TableColumn clmUserName;
-    public TableColumn clmUserClass;
+    public TableView<User> tbvUserlist;
+    public TableColumn<User, String> clmUserId;
+    public TableColumn<User, String> clmUserName;
+    public TableColumn<User, String> clmUserClass;
     public TableView<Project> tbvInstallationlist;
     public TableColumn<Project, Integer> clmINSId;
     public TableColumn<Project, String> clmCostumerName;
     public TableColumn<Project, String> clmINSAddress;
-    public TableView tbvDevicelist;
-    public TableColumn clmDeviceId;
-    public TableColumn clmDeviceName;
+    public TableView<DeviceType> tbvDevicelist;
+    public TableColumn<DeviceType, Integer> clmDeviceId;
+    public TableColumn<DeviceType, String> clmDeviceName;
     public TableColumn<Project, LocalDate> clmINSDate;
 
     @Override
@@ -72,7 +74,7 @@ public class CEOController extends BaseController{
 
         if (devices == true){
             tbvDevicelist.setVisible(true);
-            txtViewName.setText("Devices:");
+            txtViewName.setText("DeviceTypes:");
             btnShowDevices.setDisable(true);
         }
         else {
@@ -84,6 +86,7 @@ public class CEOController extends BaseController{
     private void setUpTableViews() throws Exception {
         getModelsHandler().getCeoModel().getAllProjects();
         getModelsHandler().getCeoModel().getAllUsers();
+        getModelsHandler().getCeoModel().getAllDeviceTypes();
 
         //Project tableview
         tbvInstallationlist.setItems(getModelsHandler().getCeoModel().getProjectsObservableList());
@@ -99,7 +102,9 @@ public class CEOController extends BaseController{
         clmUserClass.setCellValueFactory(new PropertyValueFactory<>("userClass"));
 
         //Device tableview
-        //tbvUserlist.setItems();
+        tbvDevicelist.setItems(getModelsHandler().getCeoModel().getDeviceTypeObservableList());
+        clmDeviceId.setCellValueFactory(new PropertyValueFactory<>("id"));
+        clmDeviceName.setCellValueFactory(new PropertyValueFactory<>("type"));
     }
 
     public void handleLogout(ActionEvent actionEvent) {
