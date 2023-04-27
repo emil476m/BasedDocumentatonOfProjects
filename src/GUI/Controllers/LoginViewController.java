@@ -2,7 +2,7 @@ package GUI.Controllers;
 
 import BE.UserTypes.CEO;
 import GUI.Models.ModelsHandler;
-import GUI.Util.ExeptionHandeler;
+import GUI.Util.ExceptionHandler;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -47,7 +47,7 @@ public class LoginViewController extends BaseController{
                 stage.close();
             }
         } catch (SQLException e) {
-            ExeptionHandeler.displayError(e);
+            ExceptionHandler.displayError(e);
         } catch (IOException e) {
             throw new RuntimeException(e);
         }

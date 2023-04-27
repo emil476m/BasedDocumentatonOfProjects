@@ -2,7 +2,7 @@ package GUI.Util;
 
 import javafx.scene.control.Alert;
 
-public class ExeptionHandeler {
+public class ExceptionHandler {
     /**
      * Displays an error as an AlertBox to the user.
      * @param throwable The error to display.

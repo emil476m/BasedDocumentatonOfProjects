@@ -40,4 +40,22 @@ public class CEOManager implements ICEOManager {
     public List<DeviceType> getAllDeviceTypes() throws Exception {
         return deviceDatabaseAccess.getAllDeviceTypes();
     }
+
+    @Override
+    public User createUser(User user) throws Exception{
+        return userDatabaseAccess.createUser(user);
+    }
+    @Override
+    public void updateUser(User user) throws Exception{
+        userDatabaseAccess.updateUser(user);
+    }
+    @Override
+    public boolean checkUserName(String userName) throws Exception{
+        return userDatabaseAccess.checkUserName(userName);
+    }
+
+    @Override
+    public User getUserFromId(int userId) throws Exception{
+        return userDatabaseAccess.getUserFromId(userId);
+    }
 }
