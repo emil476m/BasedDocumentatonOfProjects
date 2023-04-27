@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.text.Text?>
+
+<BorderPane fx:id="borderPaneProjectManager" prefHeight="606.0" prefWidth="869.0" styleClass="root" stylesheets="/GUI/Css/ProjectManagerViewCss.css" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="GUI.Controllers.ProjectManagerViewController">
+   <left>
+      <Pane prefHeight="606.0" prefWidth="204.0" BorderPane.alignment="CENTER">
+         <children>
+            <ImageView fitHeight="124.0" fitWidth="174.0" layoutX="15.0" layoutY="31.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../Images/WUAV.png" />
+               </image>
+            </ImageView>
+            <Button fx:id="btnLogout" layoutX="33.0" layoutY="546.0" mnemonicParsing="false" onAction="#handleLogout" prefHeight="30.0" prefWidth="140.0" text="Logout" />
+            <Button fx:id="btnShowDevices" layoutX="32.0" layoutY="273.0" mnemonicParsing="false" onAction="#handleShowDevices" prefHeight="30.0" prefWidth="140.0" text="Devices" />
+            <Button fx:id="btnshowInstallations" layoutX="33.0" layoutY="185.0" mnemonicParsing="false" onAction="#handleShowInstallations" prefHeight="30.0" prefWidth="140.0" text="Installations" />
+         </children>
+      </Pane>
+   </left>
+   <center>
+      <AnchorPane prefHeight="200.0" prefWidth="200.0" styleClass="anchor-pane" BorderPane.alignment="CENTER">
+         <children>
+            <Button fx:id="btnCreate" layoutX="95.0" layoutY="544.0" mnemonicParsing="false" onAction="#handleCreate" prefHeight="30.0" prefWidth="140.0" styleClass="buttonothertext" text="Create" />
+            <Button fx:id="btnDelete" layoutX="275.0" layoutY="544.0" mnemonicParsing="false" onAction="#handleDelete" prefHeight="30.0" prefWidth="140.0" styleClass="buttonothertext" text="Delete" />
+            <Button fx:id="btnOpen" layoutX="448.0" layoutY="544.0" mnemonicParsing="false" onAction="#handleOpen" prefHeight="30.0" prefWidth="140.0" styleClass="buttonothertext" text="Open" />
+            <Text fx:id="txtViewName" layoutX="57.0" layoutY="90.0" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="text" text="Users" wrappingWidth="156.13671875" />
+            <TableView fx:id="tbvInstallationlist" layoutX="55.0" layoutY="138.0" prefHeight="365.0" prefWidth="570.0" AnchorPane.leftAnchor="45.0" AnchorPane.topAnchor="130.0">
+               <columns>
+                  <TableColumn fx:id="clmINSId" prefWidth="75.0" text="Id" />
+                  <TableColumn fx:id="clmCostumerName" prefWidth="149.0" text="Costumer Name" />
+                  <TableColumn fx:id="clmINSAddress" minWidth="0.0" prefWidth="208.0" text="Address" />
+                  <TableColumn fx:id="clmINSDate" minWidth="0.0" prefWidth="137.0" text="Date" />
+               </columns>
+            </TableView>
+            <TableView fx:id="tbvDevicelist" layoutX="685.0" layoutY="-84.0" prefHeight="365.0" prefWidth="570.0" AnchorPane.leftAnchor="45.0" AnchorPane.topAnchor="130.0">
+               <columns>
+                  <TableColumn fx:id="clmDeviceId" prefWidth="75.0" text="Id" />
+                  <TableColumn fx:id="clmDeviceName" prefWidth="494.0" text="Name" />
+               </columns>
+            </TableView>
+         </children>
+      </AnchorPane>
+   </center>
+</BorderPane>

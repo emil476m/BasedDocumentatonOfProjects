@@ -7,11 +7,16 @@ public class ModelsHandler {
 
      private LoginModel loginModel;
      private CEOModel ceoModel;
+     private TechnicianModel technicianModel;
+
+     private ProjectManagerModel projectManagerModel;
 
     private ModelsHandler() throws Exception
     {
         loginModel = new LoginModel();
         ceoModel = new CEOModel();
+        technicianModel = new TechnicianModel();
+        projectManagerModel = new ProjectManagerModel();
     }
 
     public static ModelsHandler getInstance() throws Exception {
@@ -30,4 +35,8 @@ public class ModelsHandler {
     public CEOModel getCeoModel() {
         return ceoModel;
     }
+
+    public TechnicianModel getTechnicianModel(){return technicianModel;}
+
+    public ProjectManagerModel getProjectManagerModel(){return projectManagerModel;}
 }

@@ -1,7 +1,10 @@
 package GUI.Controllers;
 
 import BE.UserTypes.CEO;
+import BE.UserTypes.ProjectManager;
+import BE.UserTypes.Technician;
 import GUI.Models.ModelsHandler;
+import GUI.Util.AlertOpener;
 import GUI.Util.ExceptionHandler;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -39,17 +42,36 @@ public class LoginViewController extends BaseController{
     private void login()
     {
         try {
-            getModelsHandler().getLoginModel().loginAction(txtUsername.getText(),pfPasswordField.getText());
-            if(getModelsHandler().getLoginModel().getUser().getClass().getSimpleName().equals(CEO.class.getSimpleName()))
+            try
+            {
+                getModelsHandler().getLoginModel().loginAction(txtUsername.getText(),pfPasswordField.getText());
+            } catch (SQLException e) {
+                ExceptionHandler.displayError(e);
+            }
+            if(getModelsHandler().getLoginModel().getUser() == null)
+            {
+                AlertOpener.confirm("Login failed","Username or password was incorrect please try again.");
+            }
+            else if(getModelsHandler().getLoginModel().getUser().getClass().getSimpleName().equals(CEO.class.getSimpleName()))
             {
                 openCEO();
                 Stage stage = (Stage) btnLogin.getScene().getWindow();
                 stage.close();
             }
-        } catch (SQLException e) {
-            ExceptionHandler.displayError(e);
+            else if(getModelsHandler().getLoginModel().getUser().getClass().getSimpleName().equals(Technician.class.getSimpleName()))
+            {
+                openTechnician();
+                Stage stage = (Stage) btnLogin.getScene().getWindow();
+                stage.close();
+            }
+            else if (getModelsHandler().getLoginModel().getUser().getClass().getSimpleName().equals(ProjectManager.class.getSimpleName()))
+            {
+                openProjectManager();
+                Stage stage = (Stage) btnLogin.getScene().getWindow();
+                stage.close();
+            }
         } catch (IOException e) {
-            throw new RuntimeException(e);
+            ExceptionHandler.displayError(new IOException("Failed to open new window", e));
         }
     }
 
@@ -69,6 +91,48 @@ public class LoginViewController extends BaseController{
 
         stage.setScene(new Scene(root));
         stage.setTitle("WUAV Documentation CEO");
+        stage.initStyle(StageStyle.UNDECORATED);
+        stage.getIcons().add(new Image("/GUI/Images/WUAV.png"));
+        stage.show();
+    }
+
+    private void openTechnician() throws IOException {
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/GUI/Views/TechnicianView.fxml"));
+
+        Parent root = loader.load();
+        Stage stage = new Stage();
+
+        BaseController controller = loader.getController();
+        try {
+            controller.setModel(ModelsHandler.getInstance());
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+        controller.setup();
+
+        stage.setScene(new Scene(root));
+        stage.setTitle("WUAV Documentation Technician");
+        stage.initStyle(StageStyle.UNDECORATED);
+        stage.getIcons().add(new Image("/GUI/Images/WUAV.png"));
+        stage.show();
+    }
+
+    private void openProjectManager() throws IOException {
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/GUI/Views/ProjectManagerView.fxml"));
+
+        Parent root = loader.load();
+        Stage stage = new Stage();
+
+        BaseController controller = loader.getController();
+        try {
+            controller.setModel(ModelsHandler.getInstance());
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+        controller.setup();
+
+        stage.setScene(new Scene(root));
+        stage.setTitle("WUAV Documentation ProjectManager");
         stage.initStyle(StageStyle.UNDECORATED);
         stage.getIcons().add(new Image("/GUI/Images/WUAV.png"));
         stage.show();

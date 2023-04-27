@@ -19,13 +19,12 @@ public class LoginDAO_DB implements ILoginDAO {
 
     @Override
     public User loginUser(String username, String password) throws SQLException {
-       String sql = "SELECT * FROM [User] WHERE UserName=?";
-       String Usertype = "SELECT * FROM [UserType] WHERE Id=?";
+       String sql = "SELECT * FROM [User] INNER JOIN [UserType] ON [User].UserType = [UserType].ID WHERE UserName=? AND IsDeleted=?";
        User user = null;
-       User finalUser = null;
         try(Connection conn = dbConnector.getConnection(); PreparedStatement statement = conn.prepareStatement(sql))
         {
             statement.setString(1,username);
+            statement.setString(2,"false");
             statement.execute();
             ResultSet rs = statement.getResultSet();
             while (rs.next())
@@ -37,45 +36,41 @@ public class LoginDAO_DB implements ILoginDAO {
                 String name = rs.getString("Name");
                 int userType = rs.getInt("UserType");
                 String isDeleted = rs.getString("IsDeleted");
-                if(isDeleted.equals("false"))
+                String type = rs.getString("Type");
+                if(type.equals(CEO.class.getSimpleName()))
                 {
-                    user = new User(id, passWord, userName, eMail, name, userType, Boolean.valueOf(isDeleted));
+                    user = new CEO(id, passWord, userName, eMail, name, userType, Boolean.valueOf(isDeleted));
                 }
-            }
-            PreparedStatement userType = conn.prepareStatement(Usertype);
-            userType.setInt(1,user.getUserType());
-            userType.execute();
-
-            ResultSet rs2 = userType.getResultSet();
-            while (rs2.next())
-            {
-                if(rs2.getString("Type").equals(CEO.class.getSimpleName()))
+                else if(type.equals(ProjectManager.class.getSimpleName()))
                 {
-                    finalUser = new CEO(user.getUserID(),user.getPassWord(),user.getUserName(),user.getMail(),user.getName(),user.getUserType(),user.getDeleted());
+                    user = new ProjectManager(id, passWord, userName, eMail, name, userType, Boolean.valueOf(isDeleted));
                 }
-                else if(rs.getString("Type").equals(ProjectManager.class.getSimpleName()))
+                else if (type.equals(Technician.class.getSimpleName()))
                 {
-                    finalUser = new ProjectManager(user.getUserID(),user.getPassWord(),user.getUserName(),user.getMail(),user.getName(),user.getUserType(),user.getDeleted());
+                    user = new Technician(id, passWord, userName, eMail, name, userType, Boolean.valueOf(isDeleted));
                 }
-                else if(rs.getString("Type").equals(SalesPerson.class.getSimpleName()))
+                else if (type.equals(SalesPerson.class.getSimpleName()))
                 {
-                    finalUser = new SalesPerson(user.getUserID(),user.getPassWord(),user.getUserName(),user.getMail(),user.getName(),user.getUserType(),user.getDeleted());
-                }
-                else if(rs2.getString("Type").equals(Technician.class.getSimpleName()))
-                {
-                    finalUser = new Technician(user.getUserID(),user.getPassWord(),user.getUserName(),user.getMail(),user.getName(),user.getUserType(),user.getDeleted());
+                    user = new SalesPerson(id, passWord, userName, eMail, name, userType, Boolean.valueOf(isDeleted));
                 }
             }
 
-            if(BCrypt.checkpw(password,finalUser.getPassWord()))
+            if(user == null)
             {
-                return finalUser;
+                return null;
+            }
+
+            if(BCrypt.checkpw(password,user.getPassWord()))
+            {
+                return user;
+            }
+            else
+            {
+                return null;
             }
 
         } catch (SQLException e) {
-            e.printStackTrace();
             throw new SQLException("Failed to find a user",e);
         }
-        return null;
     }
 }

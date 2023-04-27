@@ -10,17 +10,25 @@ public class Project {
     private String projectDescription;
     private int projectCreatorId;
     private boolean projectIsDeleted;
+    private int lastEditedBy;
+    private boolean canBeEditedByTech;
+    private LocalDate lastEdited;
+    private int costumerType;
 
-    public Project(String costumerName, LocalDate projectDate, String projectLocation, String projectDescription, int projectCreatorId, boolean projectIsDeleted) {
+    public Project(String costumerName, LocalDate projectDate, String projectLocation, String projectDescription, int projectCreatorId, boolean projectIsDeleted, int lastEditedBy, boolean canBeEditedByTech, LocalDate lastEdited, int costumerType) {
         this.costumerName = costumerName;
         this.projectDate = projectDate;
         this.projectLocation = projectLocation;
         this.projectDescription = projectDescription;
         this.projectCreatorId = projectCreatorId;
         this.projectIsDeleted = projectIsDeleted;
+        this.canBeEditedByTech = canBeEditedByTech;
+        this.lastEdited = lastEdited;
+        this.lastEditedBy = lastEditedBy;
+        this.costumerType = costumerType;
     }
 
-    public Project(int projectId, String costumerName, LocalDate projectDate, String projectLocation, String projectDescription, int projectCreatorId, boolean projectIsDeleted) {
+    public Project(int projectId, String costumerName, LocalDate projectDate, String projectLocation, String projectDescription, int projectCreatorId, boolean projectIsDeleted, int lastEditedBy, boolean canBeEditedByTech, LocalDate lastEdited, int costumerType) {
         this.projectId = projectId;
         this.costumerName = costumerName;
         this.projectDate = projectDate;
@@ -28,6 +36,10 @@ public class Project {
         this.projectDescription = projectDescription;
         this.projectCreatorId = projectCreatorId;
         this.projectIsDeleted = projectIsDeleted;
+        this.canBeEditedByTech = canBeEditedByTech;
+        this.lastEdited = lastEdited;
+        this.lastEditedBy = lastEditedBy;
+        this.costumerType = costumerType;
     }
 
     public int getProjectId() {
@@ -81,4 +93,12 @@ public class Project {
     public void setProjectIsDeleted(boolean projectIsDeleted) {
         this.projectIsDeleted = projectIsDeleted;
     }
+
+    public int getLastEditedBy() {return lastEditedBy;}
+
+    public boolean isCanBeEditedByTech() {return canBeEditedByTech;}
+
+    public LocalDate getLastEdited() {return lastEdited;}
+
+    public int getCostumerType() {return costumerType;}
 }
