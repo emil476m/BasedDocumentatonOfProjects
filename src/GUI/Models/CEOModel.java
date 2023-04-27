@@ -16,13 +16,15 @@ public class CEOModel {
     private ICEOManager ceoManager;
 
     private List<User> allUsers;
-    private ObservableList projectsObservableList;
+    private List<Project> allProjects;
+    private ObservableList<Project> projectsObservableList;
     private ObservableList<User> userObservableList;
 
     private ObservableList<DeviceType> deviceTypeObservableList;
     public CEOModel() throws IOException {
         ceoManager = new CEOManager();
         allUsers = new ArrayList<>();
+        allProjects = new ArrayList<>();
         projectsObservableList = FXCollections.observableArrayList();
         userObservableList = FXCollections.observableArrayList();
         deviceTypeObservableList = FXCollections.observableArrayList();
@@ -43,11 +45,17 @@ public class CEOModel {
 
     public void getAllProjects() throws Exception {
         List<Project> projects = ceoManager.getAllProjects();
+        projectsObservableList.clear();
+        allProjects.clear();
         projectsObservableList.addAll(projects);
+        allProjects.addAll(projects);
     }
 
     public void getAllUsers() throws Exception {
         List<User> users = ceoManager.getAllUsers();
+        allUsers.clear();
+        userObservableList.clear();
+        allUsers.addAll(users);
         userObservableList.addAll(users);
     }
 
@@ -92,5 +100,20 @@ public class CEOModel {
 
     public User getUserFromId(int id) throws Exception {
         return ceoManager.getUserFromId(id);
+    }
+
+    public void updateProject(Project updateProject, Project oldProject) throws Exception {
+        projectsObservableList.remove(oldProject);
+        allProjects.remove(oldProject);
+        ceoManager.updateProject(updateProject);
+        projectsObservableList.add(updateProject);
+        allProjects.add(updateProject);
+    }
+
+    public void deleteProject(Project project) throws Exception {
+        projectsObservableList.remove(project);
+        allProjects.remove(project);
+        project.setProjectIsDeleted(true);
+        ceoManager.updateProject(project);
     }
 }

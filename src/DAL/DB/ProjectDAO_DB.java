@@ -6,10 +6,7 @@ import DAL.DatabaseConnector;
 import DAL.Interface.IProjectDAO;
 
 import java.io.IOException;
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
+import java.sql.*;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
@@ -92,6 +89,32 @@ public class ProjectDAO_DB implements IProjectDAO {
         catch (SQLException e)
         {
             throw new SQLException("Failed to retrive all your installations");
+        }
+    }
+
+    @Override
+    public void updateProject(Project project) throws Exception {
+        String sql = "UPDATE [Project] SET CostumerName = ?, ProjectDate = ?, ProjectLocation = ?, ProjectDescription = ?, ProjectCreator = ?, IsDeleted = ?, LastEditedBy = ?, LastEdited = ?, CanBeEditedByTech = ?, CostumerType = ? WHERE Id = ?;";
+        try (Connection connection = dbConnector.getConnection();
+             PreparedStatement statement = connection.prepareStatement(sql)) {
+
+            statement.setString(1, project.getCostumerName());
+            statement.setDate(2, Date.valueOf(project.getProjectDate()));
+            statement.setString(3, project.getProjectLocation());
+            statement.setString(4, project.getProjectDescription());
+            statement.setInt(5, project.getProjectCreatorId());
+            statement.setString(6, String.valueOf(project.getProjectIsDeleted()));
+            statement.setInt(7, project.getLastEditedBy());
+            statement.setDate(8, Date.valueOf(project.getLastEdited()));
+            statement.setString(9, String.valueOf(project.getCanBeEditedByTech()));
+            statement.setInt(10, project.getLastEditedBy());
+            statement.setInt(11, project.getProjectId());
+            //Run the specified SQL Statement
+            statement.executeUpdate();
+        }
+        catch (SQLException e) {
+            e.printStackTrace();
+            throw new Exception("Failed to update or delete Project", e);
         }
     }
 

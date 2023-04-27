@@ -234,7 +234,7 @@ public class CEOController extends BaseController{
             System.out.println("Not yet implemented");
         }
         else if (tbvInstallationlist.isVisible()){
-            System.out.println("Not yet implemented");
+            getModelsHandler().getCeoModel().deleteProject(tbvInstallationlist.getSelectionModel().getSelectedItem());
         }
     }
 

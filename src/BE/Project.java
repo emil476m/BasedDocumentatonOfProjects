@@ -96,7 +96,7 @@ public class Project {
 
     public int getLastEditedBy() {return lastEditedBy;}
 
-    public boolean isCanBeEditedByTech() {return canBeEditedByTech;}
+    public boolean getCanBeEditedByTech() {return canBeEditedByTech;}
 
     public LocalDate getLastEdited() {return lastEdited;}
 

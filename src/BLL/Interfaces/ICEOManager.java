@@ -20,4 +20,6 @@ public interface ICEOManager {
     boolean checkUserName(String userName) throws Exception;
 
     User getUserFromId(int userId) throws Exception;
+
+    void updateProject(Project project) throws Exception;
 }

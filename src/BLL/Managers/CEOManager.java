@@ -58,4 +58,9 @@ public class CEOManager implements ICEOManager {
     public User getUserFromId(int userId) throws Exception{
         return userDatabaseAccess.getUserFromId(userId);
     }
+
+    @Override
+    public void updateProject(Project project) throws Exception{
+        projectDatabaseAccess.updateProject(project);
+    }
 }
