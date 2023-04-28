@@ -71,6 +71,7 @@ public class LoginViewController extends BaseController{
                 stage.close();
             }
         } catch (IOException e) {
+            e.printStackTrace();
             ExceptionHandler.displayError(new IOException("Failed to open new window", e));
         }
     }

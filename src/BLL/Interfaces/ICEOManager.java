@@ -22,4 +22,8 @@ public interface ICEOManager {
     User getUserFromId(int userId) throws Exception;
 
     void updateProject(Project project) throws Exception;
+
+    void updateDeviceType(DeviceType deviceType) throws Exception;
+
+    DeviceType createDeviceType(DeviceType deviceType) throws Exception;
 }

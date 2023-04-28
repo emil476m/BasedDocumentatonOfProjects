@@ -17,6 +17,7 @@ public class CEOModel {
 
     private List<User> allUsers;
     private List<Project> allProjects;
+    private List<DeviceType> allDeviceTypes;
     private ObservableList<Project> projectsObservableList;
     private ObservableList<User> userObservableList;
 
@@ -25,6 +26,7 @@ public class CEOModel {
         ceoManager = new CEOManager();
         allUsers = new ArrayList<>();
         allProjects = new ArrayList<>();
+        allDeviceTypes = new ArrayList<>();
         projectsObservableList = FXCollections.observableArrayList();
         userObservableList = FXCollections.observableArrayList();
         deviceTypeObservableList = FXCollections.observableArrayList();
@@ -61,7 +63,10 @@ public class CEOModel {
 
     public void getAllDeviceTypes() throws Exception {
         List<DeviceType> deviceTypes = ceoManager.getAllDeviceTypes();
+        allDeviceTypes.clear();
+        deviceTypeObservableList.clear();
         deviceTypeObservableList.addAll(deviceTypes);
+        allDeviceTypes.addAll(deviceTypes);
     }
 
     public void createUser(User user) throws Exception{
@@ -115,5 +120,18 @@ public class CEOModel {
         allProjects.remove(project);
         project.setProjectIsDeleted(true);
         ceoManager.updateProject(project);
+    }
+
+    public void deleteDeviceType(DeviceType deviceType) throws Exception {
+        deviceTypeObservableList.remove(deviceType);
+        allDeviceTypes.remove(deviceType);
+        deviceType.setIsDeleted(true);
+        ceoManager.updateDeviceType(deviceType);
+    }
+
+    public void createDeviceType(DeviceType deviceType) throws Exception {
+        DeviceType deviceType1 = ceoManager.createDeviceType(deviceType);
+        deviceTypeObservableList.add(deviceType1);
+        allDeviceTypes.add(deviceType1);
     }
 }

@@ -181,7 +181,6 @@ public class CEOController extends BaseController{
 
     public void handleShowUsers(ActionEvent actionEvent) {
         toggleViews(true, false, false);
-
     }
 
     public void handleCreate(ActionEvent actionEvent) {
@@ -198,6 +197,33 @@ public class CEOController extends BaseController{
 
     public void handleOpen(ActionEvent actionEvent) {
         openSelectedItemType();
+    }
+
+    private void createDeviceType() {
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/GUI/Views/createDeviceTypeView.fxml"));
+
+        Parent root = null;
+
+        try {
+            root = loader.load();
+        } catch (IOException e) {
+            ExceptionHandler.displayError(new Exception("Failed to open create DeviceType", e));
+        }
+
+        Stage stage = new Stage();
+        stage.setTitle("");
+        stage.setScene(new Scene(root));
+        stage.initModality(Modality.APPLICATION_MODAL);
+        stage.initStyle(StageStyle.UNDECORATED);
+        stage.getIcons().add(new Image("GUI/Images/WUAV.png"));
+
+        createDeviceTypeController controller = loader.getController();
+        controller.setModel(getModelsHandler());
+
+        //checks if user wants to create a new user or edit existing user.
+        controller.setup();
+
+        stage.showAndWait();
     }
 
     private void openSelectedItemType(){
@@ -220,7 +246,7 @@ public class CEOController extends BaseController{
             openUserInfo();
         }
         else if (tbvDevicelist.isVisible()){
-            System.out.println("Not yet implemented");
+            createDeviceType();
         }
         else if (tbvInstallationlist.isVisible()){
             System.out.println("Not yet implemented");
@@ -232,7 +258,7 @@ public class CEOController extends BaseController{
             getModelsHandler().getCeoModel().deleteUser(tbvUserlist.getSelectionModel().getSelectedItem());
         }
         else if (tbvDevicelist.isVisible()){
-            System.out.println("Not yet implemented");
+            getModelsHandler().getCeoModel().deleteDeviceType(tbvDevicelist.getSelectionModel().getSelectedItem());
         }
         else if (tbvInstallationlist.isVisible()){
             getModelsHandler().getCeoModel().deleteProject(tbvInstallationlist.getSelectionModel().getSelectedItem());

@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.text.Text?>
+
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="154.0" prefWidth="306.0" stylesheets="@../Css/CEOViewCss.css" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="GUI.Controllers.createDeviceTypeController">
+   <top>
+      <AnchorPane prefHeight="180.0" prefWidth="306.0" BorderPane.alignment="CENTER">
+         <children>
+            <Button fx:id="btnExit" layoutX="25.0" layoutY="96.0" mnemonicParsing="false" onAction="#handleExit" prefHeight="34.0" prefWidth="107.0" text="Exit" />
+            <Button layoutX="174.0" layoutY="96.0" mnemonicParsing="false" onAction="#handleCreateDeviceType" prefHeight="34.0" prefWidth="107.0" text="Create" />
+            <Text fill="WHITE" layoutX="94.0" layoutY="33.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Create DeviceType" wrappingWidth="117.13671875" />
+            <TextField fx:id="txtfDeviceTypeName" layoutX="78.0" layoutY="54.0" promptText="Enter DeviceType name" />
+         </children>
+      </AnchorPane>
+   </top>
+</BorderPane>

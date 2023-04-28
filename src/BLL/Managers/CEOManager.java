@@ -63,4 +63,14 @@ public class CEOManager implements ICEOManager {
     public void updateProject(Project project) throws Exception{
         projectDatabaseAccess.updateProject(project);
     }
+
+    @Override
+    public void updateDeviceType(DeviceType deviceType) throws Exception {
+        deviceDatabaseAccess.updateDeviceType(deviceType);
+    }
+
+    @Override
+    public DeviceType createDeviceType(DeviceType deviceType) throws Exception {
+        return deviceDatabaseAccess.createDeviceType(deviceType);
+    }
 }
