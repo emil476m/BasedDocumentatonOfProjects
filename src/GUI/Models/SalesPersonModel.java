@@ -12,8 +12,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
-public class TechnicianModel {
-
+public class SalesPersonModel {
     private ObservableList<Project> projectsObservableList;
     private ObservableList<Project> myProjectsObservableList;
 
@@ -22,7 +21,7 @@ public class TechnicianModel {
     private List<DeviceType> allDeviceTypes;
 
     ITechnicianManager technicianManager;
-    public TechnicianModel() throws IOException {
+    public SalesPersonModel() throws IOException {
         technicianManager = new TechnicianManager();
         allDeviceTypes = new ArrayList<>();
         projectsObservableList = FXCollections.observableArrayList();

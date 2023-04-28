@@ -1,6 +1,6 @@
 package GUI.Controllers;
 
-import BE.Project;
+import GUI.Controllers.BaseController;
 import GUI.Models.ModelsHandler;
 import GUI.Util.AlertOpener;
 import GUI.Util.ExceptionHandler;
@@ -20,31 +20,40 @@ import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 
 import java.io.IOException;
-import java.time.LocalDate;
 
-public class TechnicianViewController extends BaseController{
-    public Button btnShowDevices;
-    public BorderPane borderPaneTechnician;
-    public TableView tbvDevicelist;
-    public TableColumn clmDeviceId;
-    public TableColumn clmDeviceName;
+public class SalesPersonController extends BaseController {
+    @FXML
+    private BorderPane borderPaneTechnician;
+    @FXML
+    private Button btnLogout;
+    @FXML
+    private Button btnShowInstallations;
+    @FXML
+    private Button btnShowDevices;
+    @FXML
+    private Button btnOpen;
     @FXML
     private Text txtViewName;
     @FXML
-    private TableColumn<Project, Integer> clmINSId,clmINSId1;
+    private TableView tbvInstallationlist;
     @FXML
-    private TableColumn<Project, String> clmCostumerName,clmINSAddress,clmCostumerName1,clmINSAddress1;
+    private TableColumn clmINSId;
     @FXML
-    private TableColumn<Project, LocalDate> clmINSDate,clmINSDate1;
+    private TableColumn clmCostumerName;
     @FXML
-    private TableView tbvMyInstallationlist, tbvInstallationlist;
-
+    private TableColumn clmINSAddress;
     @FXML
-    private Button btnShowInstallations,btnshowMyInstallations, btnLogout;
+    private TableColumn clmINSDate;
+    @FXML
+    private TableView tbvDevicelist;
+    @FXML
+    private TableColumn clmDeviceId;
+    @FXML
+    private TableColumn clmDeviceName;
 
     @Override
     public void setup() {
-        toggleViews(true,false, false);
+        toggleViews(true, false);
         try {
             setUpTableViews();
         } catch (Exception e) {
@@ -53,12 +62,9 @@ public class TechnicianViewController extends BaseController{
         }
     }
 
-    public void handleShowMyInstallations(ActionEvent actionEvent) {
-        toggleViews(false,true, false);
-    }
 
     public void handleShowInstallations(ActionEvent actionEvent) {
-        toggleViews(true,false, false);
+        toggleViews(true, false);
     }
 
     public void handleCreate(ActionEvent actionEvent) throws IOException {
@@ -80,9 +86,6 @@ public class TechnicianViewController extends BaseController{
         stage.initStyle(StageStyle.UNDECORATED);
         stage.getIcons().add(new Image("/GUI/Images/WUAV.png"));
         stage.show();
-    }
-
-    public void handleDelete(ActionEvent actionEvent) {
     }
 
     public void handleOpen(ActionEvent actionEvent) {
@@ -123,54 +126,40 @@ public class TechnicianViewController extends BaseController{
 
 
     private void setUpTableViews() throws Exception {
-        getModelsHandler().getTechnicianModel().getAllProjects();
-        getModelsHandler().getTechnicianModel().getAllMyProjects(getModelsHandler().getLoginModel().getUser());
-        getModelsHandler().getTechnicianModel().getAllDeviceTypes();
+        getModelsHandler().getSalesPersonModel().getAllProjects();;
+        getModelsHandler().getSalesPersonModel().getAllDeviceTypes();
 
         //Project tableview
-        tbvInstallationlist.setItems(getModelsHandler().getTechnicianModel().getProjectsObservableList());
+        tbvInstallationlist.setItems(getModelsHandler().getSalesPersonModel().getProjectsObservableList());
         clmINSId.setCellValueFactory(new PropertyValueFactory<>("projectId"));
         clmCostumerName.setCellValueFactory(new PropertyValueFactory<>("costumerName"));
         clmINSAddress.setCellValueFactory(new PropertyValueFactory<>("projectLocation"));
         clmINSDate.setCellValueFactory(new PropertyValueFactory<>("projectDate"));
 
-        //My Projects tableview
-        tbvMyInstallationlist.setItems(getModelsHandler().getTechnicianModel().getMyProjectsObservableList());
-        clmINSId1.setCellValueFactory(new PropertyValueFactory<>("projectId"));
-        clmCostumerName1.setCellValueFactory(new PropertyValueFactory<>("costumerName"));
-        clmINSAddress1.setCellValueFactory(new PropertyValueFactory<>("projectLocation"));
-        clmINSDate1.setCellValueFactory(new PropertyValueFactory<>("projectDate"));
 
         //Device tableview
-        tbvDevicelist.setItems(getModelsHandler().getTechnicianModel().getDeviceTypeObservableList());
+        tbvDevicelist.setItems(getModelsHandler().getSalesPersonModel().getDeviceTypeObservableList());
         clmDeviceId.setCellValueFactory(new PropertyValueFactory<>("id"));
         clmDeviceName.setCellValueFactory(new PropertyValueFactory<>("type"));
     }
 
-    private void toggleViews(boolean installations, boolean myInstallations, boolean devices){
+    private void toggleViews(boolean installations, boolean devices){
         if (installations == true){
             tbvInstallationlist.setVisible(true);
             txtViewName.setText("Installations:");
             btnShowInstallations.setDisable(true);
+            btnOpen.setVisible(true);
         }
         else {
             btnShowInstallations.setDisable(false);
             tbvInstallationlist.setVisible(false);
         }
 
-        if (myInstallations == true){
-            tbvMyInstallationlist.setVisible(true);
-            txtViewName.setText("My Installations:");
-            btnshowMyInstallations.setDisable(true);
-        }
-        else {
-            btnshowMyInstallations.setDisable(false);
-            tbvMyInstallationlist.setVisible(false);
-        }
         if (devices == true){
             tbvDevicelist.setVisible(true);
             txtViewName.setText("DeviceTypes:");
             btnShowDevices.setDisable(true);
+            btnOpen.setVisible(false);
         }
         else {
             btnShowDevices.setDisable(false);
@@ -179,6 +168,6 @@ public class TechnicianViewController extends BaseController{
     }
 
     public void handleShowDevices(ActionEvent actionEvent) {
-        toggleViews(false,false, true);
+        toggleViews(false, true);
     }
 }

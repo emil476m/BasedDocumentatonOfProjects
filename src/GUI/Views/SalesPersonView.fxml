@@ -10,7 +10,7 @@
 <?import javafx.scene.layout.Pane?>
 <?import javafx.scene.text.Text?>
 
-<BorderPane fx:id="borderPaneTechnician" prefHeight="606.0" prefWidth="869.0" styleClass="root" stylesheets="/GUI/Css/TechnicianViewCss.css" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="GUI.Controllers.TechnicianViewController">
+<BorderPane fx:id="borderPaneTechnician" prefHeight="606.0" prefWidth="869.0" styleClass="root" stylesheets="/GUI/Css/TechnicianViewCss.css" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="GUI.Controllers.SalesPersonController">
    <left>
       <Pane prefHeight="606.0" prefWidth="204.0" BorderPane.alignment="CENTER">
          <children>
@@ -20,7 +20,6 @@
                </image>
             </ImageView>
             <Button fx:id="btnLogout" layoutX="33.0" layoutY="546.0" mnemonicParsing="false" onAction="#handleLogout" prefHeight="30.0" prefWidth="140.0" text="Logout" />
-            <Button fx:id="btnshowMyInstallations" layoutX="33.0" layoutY="273.0" mnemonicParsing="false" onAction="#handleShowMyInstallations" prefHeight="30.0" prefWidth="140.0" text="My Installations" />
             <Button fx:id="btnShowInstallations" layoutX="33.0" layoutY="185.0" mnemonicParsing="false" onAction="#handleShowInstallations" prefHeight="30.0" prefWidth="140.0" text="Installations" />
             <Button fx:id="btnShowDevices" layoutX="32.0" layoutY="358.0" mnemonicParsing="false" onAction="#handleShowDevices" prefHeight="30.0" prefWidth="140.0" text="Devices" />
          </children>
@@ -29,8 +28,6 @@
    <center>
       <AnchorPane prefHeight="200.0" prefWidth="200.0" styleClass="anchor-pane" BorderPane.alignment="CENTER">
          <children>
-            <Button fx:id="btnCreate" layoutX="95.0" layoutY="544.0" mnemonicParsing="false" onAction="#handleCreate" prefHeight="30.0" prefWidth="140.0" styleClass="buttonothertext" text="Create" />
-            <Button fx:id="btnDelete" layoutX="275.0" layoutY="544.0" mnemonicParsing="false" onAction="#handleDelete" prefHeight="30.0" prefWidth="140.0" styleClass="buttonothertext" text="Delete" />
             <Button fx:id="btnOpen" layoutX="448.0" layoutY="544.0" mnemonicParsing="false" onAction="#handleOpen" prefHeight="30.0" prefWidth="140.0" styleClass="buttonothertext" text="Open" />
             <Text fx:id="txtViewName" layoutX="55.0" layoutY="91.0" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="text" text="Installations" wrappingWidth="179.336669921875" />
             <TableView fx:id="tbvInstallationlist" layoutX="55.0" layoutY="138.0" prefHeight="365.0" prefWidth="570.0" AnchorPane.leftAnchor="45.0" AnchorPane.topAnchor="130.0">
@@ -39,14 +36,6 @@
                   <TableColumn fx:id="clmCostumerName" prefWidth="184.0" text="Costumer Name" />
                   <TableColumn fx:id="clmINSAddress" minWidth="0.0" prefWidth="177.60003662109375" text="Address" />
                   <TableColumn fx:id="clmINSDate" maxWidth="254.39999999999998" minWidth="0.0" prefWidth="132.79998779296875" text="Date" />
-               </columns>
-            </TableView>
-            <TableView fx:id="tbvMyInstallationlist" prefHeight="365.0" prefWidth="570.0" AnchorPane.leftAnchor="45.0" AnchorPane.topAnchor="130.0">
-               <columns>
-                  <TableColumn fx:id="clmINSId1" prefWidth="75.0" text="Id" />
-                  <TableColumn fx:id="clmCostumerName1" prefWidth="184.0" text="Costumer Name" />
-                  <TableColumn fx:id="clmINSAddress1" minWidth="0.0" prefWidth="177.60003662109375" text="Address" />
-                  <TableColumn fx:id="clmINSDate1" maxWidth="254.39999999999998" minWidth="0.0" prefWidth="132.79998779296875" text="Date" />
                </columns>
             </TableView>
             <TableView fx:id="tbvDevicelist" prefHeight="365.0" prefWidth="570.0" AnchorPane.leftAnchor="45.0" AnchorPane.topAnchor="130.0">

@@ -2,6 +2,7 @@ package GUI.Controllers;
 
 import BE.UserTypes.CEO;
 import BE.UserTypes.ProjectManager;
+import BE.UserTypes.SalesPerson;
 import BE.UserTypes.Technician;
 import GUI.Models.ModelsHandler;
 import GUI.Util.AlertOpener;
@@ -70,6 +71,13 @@ public class LoginViewController extends BaseController{
                 Stage stage = (Stage) btnLogin.getScene().getWindow();
                 stage.close();
             }
+            else if (getModelsHandler().getLoginModel().getUser().getClass().getSimpleName().equals(SalesPerson.class.getSimpleName()))
+            {
+                openSalesPerson();
+                Stage stage = (Stage) btnLogin.getScene().getWindow();
+                stage.close();
+            }
+
         } catch (IOException e) {
             e.printStackTrace();
             ExceptionHandler.displayError(new IOException("Failed to open new window", e));
@@ -134,6 +142,27 @@ public class LoginViewController extends BaseController{
 
         stage.setScene(new Scene(root));
         stage.setTitle("WUAV Documentation ProjectManager");
+        stage.initStyle(StageStyle.UNDECORATED);
+        stage.getIcons().add(new Image("/GUI/Images/WUAV.png"));
+        stage.show();
+    }
+
+    private void openSalesPerson() throws IOException {
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/GUI/Views/SalesPersonView.fxml"));
+
+        Parent root = loader.load();
+        Stage stage = new Stage();
+
+        BaseController controller = loader.getController();
+        try {
+            controller.setModel(ModelsHandler.getInstance());
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+        controller.setup();
+
+        stage.setScene(new Scene(root));
+        stage.setTitle("WUAV Documentation SalesPerson");
         stage.initStyle(StageStyle.UNDECORATED);
         stage.getIcons().add(new Image("/GUI/Images/WUAV.png"));
         stage.show();
