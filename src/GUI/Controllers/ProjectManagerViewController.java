@@ -2,14 +2,22 @@ package GUI.Controllers;
 
 import BE.DeviceType;
 import BE.Project;
+import GUI.Models.ModelsHandler;
+import GUI.Util.AlertOpener;
 import GUI.Util.ExceptionHandler;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.image.Image;
 import javafx.scene.text.Text;
+import javafx.stage.Stage;
+import javafx.stage.StageStyle;
 
 import java.time.LocalDate;
 
@@ -17,7 +25,7 @@ import java.time.LocalDate;
 public class ProjectManagerViewController extends BaseController{
 
     @FXML
-    private Button btnShowDevices,btnshowInstallations;
+    private Button btnShowDevices,btnshowInstallations, btnLogout;
 
     @FXML
     private TableView tbvInstallationlist,tbvDevicelist;
@@ -55,6 +63,36 @@ public class ProjectManagerViewController extends BaseController{
     }
 
     public void handleLogout(ActionEvent actionEvent) {
+        try{
+            String title = "Error Message";
+            String contextText = "Are you sure want to logout?";
+            if (AlertOpener.confirm(title, contextText)){
+                // Link your login form and show it
+                FXMLLoader loader = new FXMLLoader(getClass().getResource("/GUI/Views/LoginView.fxml"));
+                Parent root = loader.load();
+
+                Stage stage1 = new Stage();
+                Scene scene = new Scene(root);
+
+                BaseController controller = loader.getController();
+                getModelsHandler().shutdownModelsHandelder();
+                controller.setModel(ModelsHandler.getInstance());
+                controller.setup();
+
+                stage1.setTitle("ProjectLog");
+                stage1.initStyle(StageStyle.UNDECORATED);
+                stage1.getIcons().add(new Image("GUI/Images/WUAV.png"));
+                stage1.setScene(scene);
+                stage1.show();
+
+                Stage stage = (Stage) btnLogout.getScene().getWindow();
+                stage.close();
+            }
+
+        } catch (Exception e) {
+            e.printStackTrace();
+            ExceptionHandler.displayError(new Exception("Failed to logout", e));
+        }
     }
 
     public void handleCreate(ActionEvent actionEvent) {

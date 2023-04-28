@@ -8,8 +8,8 @@ public class ModelsHandler {
      private LoginModel loginModel;
      private CEOModel ceoModel;
      private TechnicianModel technicianModel;
-
      private ProjectManagerModel projectManagerModel;
+     private DocumentationModel documentationModel;
 
     private ModelsHandler() throws Exception
     {
@@ -17,6 +17,7 @@ public class ModelsHandler {
         ceoModel = new CEOModel();
         technicianModel = new TechnicianModel();
         projectManagerModel = new ProjectManagerModel();
+        documentationModel = new DocumentationModel();
     }
 
     public static ModelsHandler getInstance() throws Exception {
@@ -39,4 +40,11 @@ public class ModelsHandler {
     public TechnicianModel getTechnicianModel(){return technicianModel;}
 
     public ProjectManagerModel getProjectManagerModel(){return projectManagerModel;}
+
+    public DocumentationModel getDocumentationModel(){return documentationModel;}
+
+    public void shutdownModelsHandelder()
+    {
+        instance = null;
+    }
 }

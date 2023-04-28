@@ -1,9 +1,11 @@
 package DAL.DB;
 
+import BE.Device;
 import BE.Project;
 import BE.UserTypes.User;
 import DAL.DatabaseConnector;
 import DAL.Interface.IProjectDAO;
+import com.microsoft.sqlserver.jdbc.SQLServerException;
 
 import java.io.IOException;
 import java.sql.*;
@@ -40,8 +42,10 @@ public class ProjectDAO_DB implements IProjectDAO {
                 String canBeEditedByTech = resultSet.getString("CanBeEditedByTech");
                 LocalDate lastEdited = resultSet.getDate("LastEdited").toLocalDate();
                 int costumerType = resultSet.getInt("CostumerType");
+                String address = resultSet.getString("ProjectAddress");
+                String zipCode = resultSet.getString("ProjectZipCode");
 
-                Project project = new Project(id, costumerName, projectDate, projectLocation, projectDescription, projectCreator, Boolean.valueOf(isDeleted),editedBy,Boolean.parseBoolean(canBeEditedByTech),lastEdited,costumerType);
+                Project project = new Project(id, costumerName, projectDate, projectLocation, projectDescription, projectCreator, Boolean.valueOf(isDeleted),editedBy,Boolean.parseBoolean(canBeEditedByTech),lastEdited,costumerType, address, zipCode);
                 projectList.add(project);
 
             }
@@ -79,9 +83,11 @@ public class ProjectDAO_DB implements IProjectDAO {
                 String canBeEditedByTech = rs.getString("CanBeEditedByTech");
                 LocalDate lastEdited = rs.getDate("LastEdited").toLocalDate();
                 int costumerType = rs.getInt("CostumerType");
+                String address = rs.getString("ProjectAddress");
+                String zipCode = rs.getString("ProjectZipCode");
 
 
-                Project project = new Project(id, costumerName, projectDate, projectLocation, projectDescription, projectCreator, Boolean.valueOf(isDeleted),editedBy,Boolean.parseBoolean(canBeEditedByTech),lastEdited,costumerType);
+                Project project = new Project(id, costumerName, projectDate, projectLocation, projectDescription, projectCreator, Boolean.valueOf(isDeleted),editedBy,Boolean.parseBoolean(canBeEditedByTech),lastEdited,costumerType, address, zipCode);
                 projects.add(project);
             }
             return projects;
@@ -94,7 +100,7 @@ public class ProjectDAO_DB implements IProjectDAO {
 
     @Override
     public void updateProject(Project project) throws Exception {
-        String sql = "UPDATE [Project] SET CostumerName = ?, ProjectDate = ?, ProjectLocation = ?, ProjectDescription = ?, ProjectCreator = ?, IsDeleted = ?, LastEditedBy = ?, LastEdited = ?, CanBeEditedByTech = ?, CostumerType = ? WHERE Id = ?;";
+        String sql = "UPDATE [Project] SET CostumerName = ?, ProjectDate = ?, ProjectLocation = ?, ProjectDescription = ?, ProjectCreator = ?, IsDeleted = ?, LastEditedBy = ?, LastEdited = ?, CanBeEditedByTech = ?, CostumerType = ?, ProjectAddress = ?, ProjectZipCode = ? WHERE Id = ?;";
         try (Connection connection = dbConnector.getConnection();
              PreparedStatement statement = connection.prepareStatement(sql)) {
 
@@ -108,7 +114,9 @@ public class ProjectDAO_DB implements IProjectDAO {
             statement.setDate(8, Date.valueOf(project.getLastEdited()));
             statement.setString(9, String.valueOf(project.getCanBeEditedByTech()));
             statement.setInt(10, project.getLastEditedBy());
-            statement.setInt(11, project.getProjectId());
+            statement.setString(11, project.getAddress());
+            statement.setString(12,project.getZipCode());
+            statement.setInt(13,project.getProjectId());
             //Run the specified SQL Statement
             statement.executeUpdate();
         }
@@ -117,5 +125,77 @@ public class ProjectDAO_DB implements IProjectDAO {
             throw new Exception("Failed to update or delete Project", e);
         }
     }
+
+    @Override
+    public Project createProject(Project project, List<Device> devices) throws SQLException {
+        String projectTableString = "INSERT INTO Project (CostumerName,ProjectDate,ProjectLocation,ProjectDescription,ProjectCreator,IsDeleted,LastEditedBy,LastEdited,CanBeEditedByTech,CostumerType,ProjectAddress,ProjectZipCode) VALUES (?,?,?,?,?,?,?,?,?,?,?,?);";
+        String deviceTable = "INSERT INTO Device (DeviceUsername,DevicePassword,DeviceType) VALUES(?,?,?);";
+        String deviceForProject = "INSERT INTO DeviceForProject (DeviceId,ProjectId)";
+        String workingOnProjectString ="INSERT INTO WorkingOnProject (ProjectId,UserId) VALUES(?;?)";
+        Project project1 = null;
+        try (Connection connection = dbConnector.getConnection();)
+        {
+            connection.setAutoCommit(false);
+            PreparedStatement projectTable = connection.prepareStatement(projectTableString, Statement.RETURN_GENERATED_KEYS);
+            projectTable.setString(1, project.getCostumerName());
+            projectTable.setDate(2, Date.valueOf(project.getProjectDate()));
+            projectTable.setString(3, project.getProjectLocation());
+            projectTable.setString(4, project.getProjectDescription());
+            projectTable.setInt(5, project.getProjectCreatorId());
+            projectTable.setString(6, String.valueOf(project.getProjectIsDeleted()));
+            projectTable.setInt(7, project.getLastEditedBy());
+            projectTable.setDate(8, Date.valueOf(project.getLastEdited()));
+            projectTable.setString(9, String.valueOf(project.getCanBeEditedByTech()));
+            projectTable.setInt(10, project.getLastEditedBy());
+            projectTable.setString(11, project.getAddress());
+            projectTable.setString(12,project.getZipCode());
+            projectTable.executeUpdate();
+
+            ResultSet rs = projectTable.getGeneratedKeys();
+            while (rs.next())
+            {
+                int id = rs.getInt(1);
+                project1 = new Project(id,project.getCostumerName(),project.getProjectDate(),project.getProjectLocation(),project.getProjectDescription(),project.getProjectCreatorId(),project.getProjectIsDeleted(),project.getLastEditedBy(),project.getCanBeEditedByTech(),project.getLastEdited(),project.getCostumerType(),project.getAddress(),project.getZipCode());
+            }
+            if(!devices.isEmpty()) {
+                PreparedStatement deviceT = connection.prepareStatement(deviceTable);
+                for (Device d : devices) {
+                    deviceT.setString(1, d.getDeviceUserName());
+                    deviceT.setString(2, d.getDevicePassWord());
+                    deviceT.setInt(3, d.getDeviceTypeId());
+                    deviceT.addBatch();
+                }
+                deviceT.executeBatch();
+                ResultSet rs2 = deviceT.getResultSet();
+                List<Device> deviceList = new ArrayList<>();
+                for (Device d : devices) {
+                    while (rs2.next()) {
+                        int id = rs2.getInt("Id");
+                        Device device = new Device(id, d.getDeviceTypeId(), d.getDeviceUserName(), d.getDevicePassWord());
+                        deviceList.add(device);
+                    }
+
+                }
+
+                PreparedStatement deviceForP = connection.prepareStatement(deviceForProject);
+                for (Device dev : deviceList) {
+                    deviceForP.setInt(1, dev.getDeviceId());
+                    deviceForP.setInt(2, project1.getProjectId());
+                    deviceForP.addBatch();
+                }
+                deviceForP.executeBatch();
+            }
+            PreparedStatement workingON = connection.prepareStatement(workingOnProjectString);
+            workingON.setInt(1, project1.getProjectId());
+            workingON.setInt(2, project1.getProjectCreatorId());
+            workingON.executeUpdate();
+            connection.commit();
+            return project1;
+        }
+        catch (SQLException e) {
+            throw new SQLException("Failed to create project in database", e);
+        }
+    }
+
 
 }

@@ -2,8 +2,7 @@ package GUI.Controllers;
 
 import BE.Project;
 import GUI.Models.ModelsHandler;
-import GUI.Models.TechnicianModel;
-import GUI.Util.ExceptionHandler;
+import GUI.Util.AlertOpener;
 import GUI.Util.ExceptionHandler;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -35,7 +34,7 @@ public class TechnicianViewController extends BaseController{
     private TableView tbvMyInstallationlist, tbvInstallationlist;
 
     @FXML
-    private Button btnShowInstallations,btnshowMyInstallations;
+    private Button btnShowInstallations,btnshowMyInstallations, btnLogout;
 
     @Override
     public void setup() {
@@ -84,6 +83,36 @@ public class TechnicianViewController extends BaseController{
     }
 
     public void handleLogout(ActionEvent actionEvent) {
+        try{
+            String title = "Error Message";
+            String contextText = "Are you sure want to logout?";
+            if (AlertOpener.confirm(title, contextText)){
+                // Link your login form and show it
+                FXMLLoader loader = new FXMLLoader(getClass().getResource("/GUI/Views/LoginView.fxml"));
+                Parent root = loader.load();
+
+                Stage stage1 = new Stage();
+                Scene scene = new Scene(root);
+
+                BaseController controller = loader.getController();
+                getModelsHandler().shutdownModelsHandelder();
+                controller.setModel(ModelsHandler.getInstance());
+                controller.setup();
+
+                stage1.setTitle("ProjectLog");
+                stage1.initStyle(StageStyle.UNDECORATED);
+                stage1.getIcons().add(new Image("GUI/Images/WUAV.png"));
+                stage1.setScene(scene);
+                stage1.show();
+
+                Stage stage = (Stage) btnLogout.getScene().getWindow();
+                stage.close();
+            }
+
+        } catch (Exception e) {
+            e.printStackTrace();
+            ExceptionHandler.displayError(new Exception("Failed to logout", e));
+        }
     }
 
 

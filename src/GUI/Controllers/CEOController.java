@@ -151,6 +151,7 @@ public class CEOController extends BaseController{
                 Scene scene = new Scene(root);
 
                 BaseController controller = loader.getController();
+                getModelsHandler().shutdownModelsHandelder();
                 controller.setModel(ModelsHandler.getInstance());
                 controller.setup();
 

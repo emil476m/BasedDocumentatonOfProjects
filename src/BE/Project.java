@@ -14,8 +14,10 @@ public class Project {
     private boolean canBeEditedByTech;
     private LocalDate lastEdited;
     private int costumerType;
+    private String address;
+    private String zipCode;
 
-    public Project(String costumerName, LocalDate projectDate, String projectLocation, String projectDescription, int projectCreatorId, boolean projectIsDeleted, int lastEditedBy, boolean canBeEditedByTech, LocalDate lastEdited, int costumerType) {
+    public Project(String costumerName, LocalDate projectDate, String projectLocation, String projectDescription, int projectCreatorId, boolean projectIsDeleted, int lastEditedBy, boolean canBeEditedByTech, LocalDate lastEdited, int costumerType, String address, String zipCode) {
         this.costumerName = costumerName;
         this.projectDate = projectDate;
         this.projectLocation = projectLocation;
@@ -26,9 +28,11 @@ public class Project {
         this.lastEdited = lastEdited;
         this.lastEditedBy = lastEditedBy;
         this.costumerType = costumerType;
+        this.address = address;
+        this.zipCode = zipCode;
     }
 
-    public Project(int projectId, String costumerName, LocalDate projectDate, String projectLocation, String projectDescription, int projectCreatorId, boolean projectIsDeleted, int lastEditedBy, boolean canBeEditedByTech, LocalDate lastEdited, int costumerType) {
+    public Project(int projectId, String costumerName, LocalDate projectDate, String projectLocation, String projectDescription, int projectCreatorId, boolean projectIsDeleted, int lastEditedBy, boolean canBeEditedByTech, LocalDate lastEdited, int costumerType, String address, String zipCode) {
         this.projectId = projectId;
         this.costumerName = costumerName;
         this.projectDate = projectDate;
@@ -40,6 +44,8 @@ public class Project {
         this.lastEdited = lastEdited;
         this.lastEditedBy = lastEditedBy;
         this.costumerType = costumerType;
+        this.address = address;
+        this.zipCode = zipCode;
     }
 
     public int getProjectId() {
@@ -101,4 +107,8 @@ public class Project {
     public LocalDate getLastEdited() {return lastEdited;}
 
     public int getCostumerType() {return costumerType;}
+
+    public String getAddress() {return address;}
+
+    public String getZipCode() {return zipCode;}
 }

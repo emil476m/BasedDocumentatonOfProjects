@@ -1,0 +1,78 @@
+.root
+{
+    -fx-background-color: #393939;;
+}
+
+.button
+{
+    -fx-background-color: #FC4C02;
+    -fx-text-fill: #F8F8F8;
+    -fx-background-radius:20px;
+}
+
+.buttonothertext
+{
+    -fx-background-color: #FC4C02;
+    -fx-text-fill: #393939;
+    -fx-background-radius:20px;
+}
+
+.button:focused
+{
+    -fx-border-color: transparent;
+}
+
+.text-area
+{
+    -fx-background-color: #ECF2F7;
+}
+
+.text-field
+{
+    -fx-background-color: #ECF2F7;
+}
+
+.text, .label
+{
+    -fx-font-size: 16;
+    -fx-text-fill: #393939;
+}
+
+.table-view
+{
+    -fx-background-color: transparent;
+    -fx-border-style: none;
+    -fx-border-width: 0px;
+}
+
+.list-view:focused
+{
+    -fx-border-color: transparent;
+}
+
+
+
+.list-view .column-header-background
+{
+    -fx-background-color:#FC4C02;
+    -fx-text-fill: #393939;
+    -fx-background-radius: 10px 10px 0px 0px;
+    -fx-background-insets: 0 0 0 0;
+    -fx-padding: 0 0 5px 0;
+}
+
+.list-view .column-header {
+    -fx-background-color: transparent;
+    -fx-text-background-color: #F8F8F8;
+}
+
+.anchor-pane
+{
+    -fx-background-color: #ECF2F7;
+}
+
+.menu-button
+{
+    -fx-background-color: transparent;
+    -fx-text-fill: #393939;
+}

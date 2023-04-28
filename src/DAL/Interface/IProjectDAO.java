@@ -1,8 +1,11 @@
 package DAL.Interface;
 
+import BE.Device;
 import BE.Project;
 import BE.UserTypes.User;
+import com.microsoft.sqlserver.jdbc.SQLServerException;
 
+import java.sql.SQLException;
 import java.util.List;
 
 public interface IProjectDAO {
@@ -11,4 +14,6 @@ public interface IProjectDAO {
     List<Project> getMyProjects(User user) throws Exception;
 
     void updateProject(Project project) throws Exception;
+
+    Project createProject(Project project, List<Device> devices) throws SQLException;
 }
