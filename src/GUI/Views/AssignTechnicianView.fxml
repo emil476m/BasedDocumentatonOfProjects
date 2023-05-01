@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.HBox?>
+
+<BorderPane fx:id="borderPaneEventCoordinatorList" onMouseClicked="#dragScreen" prefHeight="500.0" prefWidth="402.0" styleClass="border-pane" stylesheets="@../Css/CEOViewCss.css" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="GUI.Controllers.AssignTechnicianController">
+    <bottom>
+        <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0" spacing="50.0" BorderPane.alignment="CENTER">
+            <BorderPane.margin>
+                <Insets />
+            </BorderPane.margin>
+            <padding>
+                <Insets left="50.0" />
+            </padding>
+            <children>
+            <Button fx:id="btnExit" mnemonicParsing="false" onAction="#handleExit" prefHeight="50.0" styleClass="cdeu-button" text="Exit" />
+                <Button fx:id="btnConfirm" mnemonicParsing="false" onAction="#handleConfirm" prefHeight="50.0" styleClass="cdeu-button" text="Confirm">
+               <HBox.margin>
+                  <Insets right="50.0" />
+               </HBox.margin></Button>
+            </children>
+        </HBox>
+    </bottom>
+    <top>
+        <BorderPane prefHeight="150.0" prefWidth="1440.0" BorderPane.alignment="CENTER">
+            <top>
+                <AnchorPane prefHeight="50.0" styleClass="nav-bar-top" BorderPane.alignment="CENTER" />
+            </top>
+         <center>
+            <Label prefHeight="45.0" prefWidth="247.0" text="Select Event Coordinators for Event" BorderPane.alignment="CENTER" />
+         </center>
+        </BorderPane>
+    </top>
+    <center>
+        <AnchorPane prefHeight="774.0" prefWidth="494.0" BorderPane.alignment="CENTER">
+         <children>
+            <TableView fx:id="tbvUserList" layoutX="46.0" prefHeight="249.0" prefWidth="254.0" AnchorPane.leftAnchor="50.0" AnchorPane.rightAnchor="50.0">
+              <columns>
+                <TableColumn fx:id="tbcUserListId" prefWidth="75.0" text="Id" />
+                <TableColumn fx:id="tbcUserListName" prefWidth="224.0" text="Name" />
+              </columns>
+            </TableView>
+         </children>
+        </AnchorPane>
+    </center>
+</BorderPane>

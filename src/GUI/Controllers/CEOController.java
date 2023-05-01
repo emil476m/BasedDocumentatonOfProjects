@@ -233,10 +233,10 @@ public class CEOController extends BaseController{
             openUserInfo();
         }
         else if (tbvDevicelist.isVisible()){
-            System.out.println("Not yet implemented");
+
         }
         else if (tbvInstallationlist.isVisible()){
-            System.out.println("Not yet implemented");
+            openEditProjectWindow(tbvInstallationlist.getSelectionModel().getSelectedItem());
         }
     }
 
@@ -250,7 +250,7 @@ public class CEOController extends BaseController{
             createDeviceType();
         }
         else if (tbvInstallationlist.isVisible()){
-            System.out.println("Not yet implemented");
+            handleCreateProject();
         }
     }
 
@@ -301,5 +301,55 @@ public class CEOController extends BaseController{
         controller.setup();
 
         stage.showAndWait();
+    }
+
+    private void openEditProjectWindow(Project project) {
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/GUI/Views/DocumentationView.fxml"));
+
+            Parent root = loader.load();
+            Stage stage = new Stage();
+
+            DocumentationViewController controller = loader.getController();
+
+            controller.setModel(ModelsHandler.getInstance());
+
+            controller.setOpenedProject(project);
+            controller.setup();
+
+            stage.setScene(new Scene(root));
+            stage.setTitle("WUAV Documentation Documentation window");
+            stage.initStyle(StageStyle.UNDECORATED);
+            stage.getIcons().add(new Image("/GUI/Images/WUAV.png"));
+            stage.initModality(Modality.APPLICATION_MODAL);
+            stage.show();
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    public void handleCreateProject() {
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/GUI/Views/DocumentationView.fxml"));
+
+
+            Parent root = loader.load();
+            Stage stage = new Stage();
+
+            BaseController controller = loader.getController();
+
+            controller.setModel(ModelsHandler.getInstance());
+
+            controller.setup();
+
+            stage.setScene(new Scene(root));
+            stage.setTitle("WUAV Documentation Documentation window");
+            stage.initStyle(StageStyle.UNDECORATED);
+            stage.getIcons().add(new Image("/GUI/Images/WUAV.png"));
+            stage.initModality(Modality.APPLICATION_MODAL);
+            stage.show();
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
     }
 }

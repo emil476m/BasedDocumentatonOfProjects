@@ -26,4 +26,10 @@ public interface ICEOManager {
     void updateDeviceType(DeviceType deviceType) throws Exception;
 
     DeviceType createDeviceType(DeviceType deviceType) throws Exception;
+
+    List<Integer> getUsersWorkingOnProject(Project project) throws Exception;
+
+    void addUsersToWorkingOnProject(List<User> userListToBeAdded, Project project) throws Exception;
+
+    void deleteFromWorkingOnProject(User user, Project project) throws Exception;
 }

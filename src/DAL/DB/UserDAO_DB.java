@@ -1,5 +1,6 @@
 package DAL.DB;
 
+import BE.Project;
 import BE.UserTypes.*;
 import DAL.DBUtil.BCrypt;
 import DAL.DatabaseConnector;
@@ -196,6 +197,66 @@ public class UserDAO_DB implements IUserDAO {
         catch (SQLException e) {
             e.printStackTrace();
             throw new Exception("Failed to find user", e);
+        }
+    }
+
+    @Override
+    public List<Integer> getUsersWorkingOnProject(Project project) throws Exception {
+        String sql = "SELECT * FROM WorkingOnProject WHERE ProjectId = ?;";
+        try (Connection connection = dbConnector.getConnection();
+             PreparedStatement statement = connection.prepareStatement(sql)) {
+
+
+            List<Integer> userIdList = new ArrayList<>();
+
+            statement.setInt(1, project.getProjectId());
+
+            ResultSet resultSet = statement.executeQuery();
+
+            while (resultSet.next()) {
+                Integer id = resultSet.getInt("UserId");
+
+                userIdList.add(id);
+            }
+            return userIdList;
+        } catch (SQLException e) {
+            e.printStackTrace();
+            throw new Exception("Failed to retrieve User relations", e);
+        }
+    }
+
+    @Override
+    public void addUsersToWorkingOnProject(List<User> userListToBeAdded, Project project) throws Exception {
+        String sql = "INSERT INTO [WorkingOnProject] (ProjectId, UserId) VALUES (?,?);";
+        try(Connection connection = dbConnector.getConnection();
+            PreparedStatement statement = connection.prepareStatement(sql)){
+
+            for (User u: userListToBeAdded){
+                statement.setInt(1, project.getProjectId());
+                statement.setInt(2, u.getUserID());
+
+                statement.executeUpdate();
+            }
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+            throw new Exception("Failed to create User to Project relation", e);
+        }
+    }
+
+    @Override
+    public void deleteFromWorkingOnProject(User user, Project project) throws Exception {
+        String sql = "DELETE FROM WorkingOnProject WHERE UserId = ? AND ProjectId = ?;";
+        try (Connection connection = dbConnector.getConnection();
+             PreparedStatement statement = connection.prepareStatement(sql)) {
+            statement.setInt(1, user.getUserID());
+            statement.setInt(2, project.getProjectId());
+
+            statement.executeUpdate();
+        }
+        catch (SQLException e) {
+            e.printStackTrace();
+            throw new Exception("Failed to remove " + user.getClass().getSimpleName() + " from relation table", e);
         }
     }
 }

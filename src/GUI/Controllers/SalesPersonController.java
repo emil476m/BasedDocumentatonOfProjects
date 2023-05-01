@@ -1,5 +1,6 @@
 package GUI.Controllers;
 
+import BE.Project;
 import GUI.Controllers.BaseController;
 import GUI.Models.ModelsHandler;
 import GUI.Util.AlertOpener;
@@ -42,7 +43,7 @@ public class SalesPersonController extends BaseController {
     @FXML
     private TableColumn clmCostumerName;
     @FXML
-    private TableColumn clmINSAddress;
+    private TableColumn<Project, String> clmINSAddress;
     @FXML
     private TableColumn clmINSDate;
     @FXML
@@ -68,26 +69,7 @@ public class SalesPersonController extends BaseController {
         toggleViews(true, false);
     }
 
-    public void handleCreate(ActionEvent actionEvent) throws IOException {
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("/GUI/Views/DocumentationView.fxml"));
 
-        Parent root = loader.load();
-        Stage stage = new Stage();
-
-        BaseController controller = loader.getController();
-        try {
-            controller.setModel(ModelsHandler.getInstance());
-        } catch (Exception e) {
-            throw new RuntimeException(e);
-        }
-        controller.setup();
-
-        stage.setScene(new Scene(root));
-        stage.setTitle("WUAV Documentation Documentation window");
-        stage.initStyle(StageStyle.UNDECORATED);
-        stage.getIcons().add(new Image("/GUI/Images/WUAV.png"));
-        stage.show();
-    }
 
     public void handleOpen(ActionEvent actionEvent) {
     }
@@ -134,7 +116,7 @@ public class SalesPersonController extends BaseController {
         tbvInstallationlist.setItems(getModelsHandler().getSalesPersonModel().getProjectsObservableList());
         clmINSId.setCellValueFactory(new PropertyValueFactory<>("projectId"));
         clmCostumerName.setCellValueFactory(new PropertyValueFactory<>("costumerName"));
-        clmINSAddress.setCellValueFactory(new PropertyValueFactory<>("address"));
+        clmINSAddress.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getAddress() + " " + "(" + cellData.getValue().getZipCode() + ")"));
         clmINSDate.setCellValueFactory(new PropertyValueFactory<>("projectDate"));
 
 

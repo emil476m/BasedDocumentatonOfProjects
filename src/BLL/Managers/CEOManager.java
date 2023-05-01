@@ -73,4 +73,19 @@ public class CEOManager implements ICEOManager {
     public DeviceType createDeviceType(DeviceType deviceType) throws Exception {
         return deviceDatabaseAccess.createDeviceType(deviceType);
     }
+
+    @Override
+    public List<Integer> getUsersWorkingOnProject(Project project) throws Exception{
+        return userDatabaseAccess.getUsersWorkingOnProject(project);
+    }
+
+    @Override
+    public void addUsersToWorkingOnProject(List<User> userListToBeAdded, Project project) throws Exception{
+        userDatabaseAccess.addUsersToWorkingOnProject(userListToBeAdded, project);
+    }
+
+    @Override
+    public void deleteFromWorkingOnProject(User user, Project project) throws Exception{
+        userDatabaseAccess.deleteFromWorkingOnProject(user, project);
+    }
 }

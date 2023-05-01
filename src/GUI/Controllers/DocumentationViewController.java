@@ -1,17 +1,20 @@
 package GUI.Controllers;
 import BE.CostumerType;
 import BE.Project;
-import BE.UserTypes.CEO;
-import BE.UserTypes.ProjectManager;
-import BE.UserTypes.SalesPerson;
-import BE.UserTypes.Technician;
+import BE.UserTypes.*;
 import GUI.Util.AlertOpener;
 import GUI.Util.ExceptionHandler;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.*;
+import javafx.scene.image.Image;
+import javafx.stage.Modality;
 import javafx.stage.Stage;
+import javafx.stage.StageStyle;
 
 import java.io.IOException;
 import java.sql.SQLException;
@@ -21,6 +24,8 @@ import java.util.List;
 
 public class DocumentationViewController extends BaseController{
 
+    public ListView<User> lvTechniciansOnProject;
+    public Button btnRemoveTechnician;
     @FXML
     private Button btnAssignTech,btnOpenPaint,btnSave,btnSend,btnSaveToDevice,btnAddImage,btnAddDevice,btnRemove,btnReturn;
     @FXML
@@ -58,6 +63,8 @@ public class DocumentationViewController extends BaseController{
                 setupListViews();
             }
             checkCostumertype();
+
+            setUpTechniciansRemoveAddAndView();
         }
         catch (Exception e)
         {
@@ -305,6 +312,29 @@ public class DocumentationViewController extends BaseController{
     }
 
     public void handleAssignTech(ActionEvent actionEvent) {
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/GUI/Views/AssignTechnicianView.fxml"));
+        Parent root = null;
+
+        try {
+            root = loader.load();
+        } catch (IOException e) {
+            ExceptionHandler.displayError(new Exception("Failed to open Project technician List", e));
+        }
+
+        Stage stage = new Stage();
+        stage.setTitle("");
+        stage.setScene(new Scene(root));
+        stage.initModality(Modality.APPLICATION_MODAL);
+        stage.initStyle(StageStyle.UNDECORATED);
+        stage.getIcons().add(new Image("GUI/Images/WUAV.png"));
+
+        AssignTechnicianController controller = loader.getController();
+        controller.setModel(getModelsHandler());
+        controller.setOpenedEvent(opnedProject);
+
+        controller.setup();
+
+        stage.showAndWait();
     }
 
 
@@ -358,5 +388,25 @@ public class DocumentationViewController extends BaseController{
     public void setOpenedProject(Project project)
     {
         opnedProject = project;
+    }
+
+    private void setUpTechniciansRemoveAddAndView(){
+        try {
+            getModelsHandler().getCeoModel().getUserOnCurrentProject().addAll(getModelsHandler().getCeoModel().getUsersWorkingOnProject(opnedProject));
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+
+        lvTechniciansOnProject.setItems(getModelsHandler().getCeoModel().getUserOnCurrentProject());
+    }
+
+    public void handleRemoveTechnician(ActionEvent actionEvent) {
+        try {
+            if (lvTechniciansOnProject.getSelectionModel().getSelectedItem() != null) {
+                getModelsHandler().getCeoModel().deleteFromWorkingOnProject(lvTechniciansOnProject.getSelectionModel().getSelectedItem(), opnedProject);
+            }
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
     }
 }

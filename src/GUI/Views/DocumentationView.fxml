@@ -12,6 +12,7 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.layout.Pane?>
+<?import javafx.scene.text.Text?>
 
 <BorderPane fx:id="borderPaneCEO" prefHeight="606.0" prefWidth="1321.0" styleClass="root" stylesheets="/GUI/Css/DocumentationViewCss.css" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="GUI.Controllers.DocumentationViewController">
    <left>
@@ -42,13 +43,16 @@
             <TextField fx:id="txtZipCode" layoutX="354.0" layoutY="52.0" promptText="Zip-code" AnchorPane.leftAnchor="354.0" AnchorPane.topAnchor="52.0" />
             <TextField fx:id="txtCostumerType" layoutX="36.0" layoutY="93.0" promptText="Costumer type" AnchorPane.leftAnchor="36.0" AnchorPane.topAnchor="93.0" />
             <MenuButton fx:id="menuTypes" layoutX="186.0" layoutY="93.0" mnemonicParsing="false" text="Types" AnchorPane.leftAnchor="186.0" AnchorPane.topAnchor="93.0" />
-            <TextArea fx:id="txtaComments" layoutX="36.0" layoutY="133.0" prefHeight="304.0" prefWidth="478.0" promptText="Comments/Documentation" AnchorPane.leftAnchor="36.0" AnchorPane.topAnchor="133.0" />
+            <TextArea fx:id="txtaComments" layoutX="36.0" layoutY="133.0" prefHeight="208.0" prefWidth="478.0" promptText="Comments/Documentation" AnchorPane.leftAnchor="36.0" AnchorPane.topAnchor="133.0" />
             <ListView fx:id="lvImages" layoutX="661.0" layoutY="75.0" prefHeight="200.0" prefWidth="422.0" AnchorPane.leftAnchor="661.0" AnchorPane.topAnchor="75.0" />
             <ListView fx:id="lvDevices" layoutX="661.0" layoutY="316.0" prefHeight="200.0" prefWidth="424.0" AnchorPane.leftAnchor="661.0" AnchorPane.topAnchor="316.0" />
             <Label layoutX="661.0" layoutY="55.0" prefHeight="18.0" prefWidth="76.0" text="Images:" AnchorPane.leftAnchor="661.0" AnchorPane.topAnchor="55.0" />
             <Label layoutX="661.0" layoutY="294.0" text="Devices:" AnchorPane.leftAnchor="661.0" AnchorPane.topAnchor="294.0" />
             <TextField fx:id="txtLocation" layoutX="279.0" layoutY="93.0" promptText="Location" AnchorPane.leftAnchor="279.0" AnchorPane.topAnchor="93.0" />
             <DatePicker fx:id="dpDatePicker" layoutX="443.0" layoutY="93.0" promptText="Date" AnchorPane.leftAnchor="443.0" AnchorPane.topAnchor="93.0" />
+            <ListView fx:id="lvTechniciansOnProject" layoutX="36.0" layoutY="379.0" prefHeight="137.0" prefWidth="478.0" AnchorPane.leftAnchor="36.0" />
+            <Text layoutX="36.0" layoutY="369.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Technicians on Project:" wrappingWidth="139.13671875" />
+            <Button fx:id="btnRemoveTechnician" layoutX="36.0" layoutY="518.0" mnemonicParsing="false" onAction="#handleRemoveTechnician" text="Remove Technician" />
          </children>
       </AnchorPane>
    </center>

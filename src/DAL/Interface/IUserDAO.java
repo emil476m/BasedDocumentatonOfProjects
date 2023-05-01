@@ -1,5 +1,6 @@
 package DAL.Interface;
 
+import BE.Project;
 import BE.UserTypes.User;
 
 import java.util.List;
@@ -14,4 +15,10 @@ public interface IUserDAO {
     boolean checkUserName(String userName) throws Exception;
 
     User getUserFromId(int userId) throws Exception;
+
+    List<Integer> getUsersWorkingOnProject(Project project) throws Exception;
+
+    void addUsersToWorkingOnProject(List<User> userListToBeAdded, Project project) throws Exception;
+
+    void deleteFromWorkingOnProject(User user, Project project) throws Exception;
 }

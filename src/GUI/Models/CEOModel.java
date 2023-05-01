@@ -20,6 +20,7 @@ public class CEOModel {
     private List<DeviceType> allDeviceTypes;
     private ObservableList<Project> projectsObservableList;
     private ObservableList<User> userObservableList;
+    private ObservableList<User> userOnCurrentProject;
 
     private ObservableList<DeviceType> deviceTypeObservableList;
     public CEOModel() throws IOException {
@@ -30,11 +31,19 @@ public class CEOModel {
         projectsObservableList = FXCollections.observableArrayList();
         userObservableList = FXCollections.observableArrayList();
         deviceTypeObservableList = FXCollections.observableArrayList();
-
+        userOnCurrentProject = FXCollections.observableArrayList();
     }
 
     public ObservableList getProjectsObservableList() {
         return projectsObservableList;
+    }
+
+    public ObservableList<User> getUserOnCurrentProject() {
+        return userOnCurrentProject;
+    }
+
+    public List<User> getAllUsersList(){
+        return allUsers;
     }
 
     public ObservableList<User> getUserObservableList() {
@@ -133,5 +142,35 @@ public class CEOModel {
         DeviceType deviceType1 = ceoManager.createDeviceType(deviceType);
         deviceTypeObservableList.add(deviceType1);
         allDeviceTypes.add(deviceType1);
+    }
+
+
+    public List<User> getUsersWorkingOnProject(Project project) throws Exception{
+        List<Integer> allUsersId = ceoManager.getUsersWorkingOnProject(project);
+
+        List<User> allUsersOnProject = new ArrayList<>();
+
+        for (Integer i:allUsersId){
+            allUsersOnProject.add(getLocalUserFromId(i));
+        }
+        return allUsersOnProject;
+    }
+
+    public User getLocalUserFromId(int id){
+        for (User u: allUsers){
+            if (u.getUserID() == id)
+                return u;
+        }
+        return null;
+    }
+
+    public void addUsersWorkingOnProject(List<User> usersToBeAdded, Project project) throws Exception {
+        ceoManager.addUsersToWorkingOnProject(usersToBeAdded, project);
+        userOnCurrentProject.addAll(usersToBeAdded);
+    }
+
+    public void deleteFromWorkingOnProject(User user, Project project) throws Exception {
+        ceoManager.deleteFromWorkingOnProject(user, project);
+        userOnCurrentProject.remove(user);
     }
 }
