@@ -4,6 +4,7 @@ import BE.Project;
 import GUI.Models.ModelsHandler;
 import GUI.Util.AlertOpener;
 import GUI.Util.ExceptionHandler;
+import javafx.beans.property.SimpleStringProperty;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -16,6 +17,7 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.image.Image;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.text.Text;
+import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 
@@ -79,14 +81,56 @@ public class TechnicianViewController extends BaseController{
         stage.setTitle("WUAV Documentation Documentation window");
         stage.initStyle(StageStyle.UNDECORATED);
         stage.getIcons().add(new Image("/GUI/Images/WUAV.png"));
+        stage.initModality(Modality.APPLICATION_MODAL);
         stage.show();
     }
-
     public void handleDelete(ActionEvent actionEvent) {
     }
 
     public void handleOpen(ActionEvent actionEvent) {
+        if(tbvMyInstallationlist.isVisible())
+        {
+            Project project = (Project) tbvMyInstallationlist.getFocusModel().getFocusedItem();
+            try {
+                openEditWindow(project);
+            } catch (IOException e) {
+                ExceptionHandler.displayError(new RuntimeException("Failed to open installation", e));
+            }
+        }
+        else if (tbvInstallationlist.isVisible())
+        {
+            Project project = (Project)  tbvInstallationlist.getFocusModel().getFocusedItem();
+            try {
+                openEditWindow(project);
+            } catch (IOException e) {
+                ExceptionHandler.displayError(new RuntimeException("Failed to open installation", e));
+            }
+        }
     }
+
+    private void openEditWindow(Project project) throws IOException {
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/GUI/Views/DocumentationView.fxml"));
+
+        Parent root = loader.load();
+        Stage stage = new Stage();
+
+        DocumentationViewController controller = loader.getController();
+        try {
+            controller.setModel(ModelsHandler.getInstance());
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+        controller.setOpenedProject(project);
+        controller.setup();
+
+        stage.setScene(new Scene(root));
+        stage.setTitle("WUAV Documentation Documentation window");
+        stage.initStyle(StageStyle.UNDECORATED);
+        stage.getIcons().add(new Image("/GUI/Images/WUAV.png"));
+        stage.initModality(Modality.APPLICATION_MODAL);
+        stage.show();
+    }
+
 
     public void handleLogout(ActionEvent actionEvent) {
         try{
@@ -131,14 +175,14 @@ public class TechnicianViewController extends BaseController{
         tbvInstallationlist.setItems(getModelsHandler().getTechnicianModel().getProjectsObservableList());
         clmINSId.setCellValueFactory(new PropertyValueFactory<>("projectId"));
         clmCostumerName.setCellValueFactory(new PropertyValueFactory<>("costumerName"));
-        clmINSAddress.setCellValueFactory(new PropertyValueFactory<>("projectLocation"));
+        clmINSAddress.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getAddress() + " " + "(" + cellData.getValue().getZipCode() + ")"));
         clmINSDate.setCellValueFactory(new PropertyValueFactory<>("projectDate"));
 
         //My Projects tableview
         tbvMyInstallationlist.setItems(getModelsHandler().getTechnicianModel().getMyProjectsObservableList());
         clmINSId1.setCellValueFactory(new PropertyValueFactory<>("projectId"));
         clmCostumerName1.setCellValueFactory(new PropertyValueFactory<>("costumerName"));
-        clmINSAddress1.setCellValueFactory(new PropertyValueFactory<>("projectLocation"));
+        clmINSAddress1.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getAddress() + " " + "(" + cellData.getValue().getZipCode() + ")"));
         clmINSDate1.setCellValueFactory(new PropertyValueFactory<>("projectDate"));
 
         //Device tableview

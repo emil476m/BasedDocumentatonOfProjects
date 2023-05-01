@@ -171,7 +171,7 @@ public class ProjectDAO_DB implements IProjectDAO {
                 for (Device d : devices) {
                     while (rs2.next()) {
                         int id = rs2.getInt("Id");
-                        Device device = new Device(id, d.getDeviceTypeId(), d.getDeviceUserName(), d.getDevicePassWord());
+                        Device device = new Device(id, d.getDeviceTypeId(), d.getDeviceUserName(), d.getDevicePassWord(), d.getDeviceTypeString());
                         deviceList.add(device);
                     }
 
@@ -197,5 +197,58 @@ public class ProjectDAO_DB implements IProjectDAO {
         }
     }
 
+    @Override
+    public void UpdateProjectWithDevices(Project project, List<Device> newDevices) throws SQLException {
+        String projectTable = "UPDATE [Project] SET CostumerName = ?, ProjectDate = ?, ProjectLocation = ?, ProjectDescription = ?, ProjectCreator = ?, IsDeleted = ?, LastEditedBy = ?, LastEdited = ?, CanBeEditedByTech = ?, CostumerType = ?, ProjectAddress = ?, ProjectZipCode = ? WHERE Id = ?;";
+        String deviceTable = "INSERT INTO Device (DeviceUsername,DevicePassword,DeviceType) VALUES(?,?,?);";
+        String deviceForProject = "INSERT INTO DeviceForProject (DeviceId,ProjectId) VALUSE (?,?)";
+        try (Connection conn = dbConnector.getConnection()) {
+            PreparedStatement statement = conn.prepareStatement(projectTable);
+            conn.setAutoCommit(false);
+            statement.setString(1, project.getCostumerName());
+            statement.setDate(2, Date.valueOf(project.getProjectDate()));
+            statement.setString(3, project.getProjectLocation());
+            statement.setString(4, project.getProjectDescription());
+            statement.setInt(5, project.getProjectCreatorId());
+            statement.setString(6, String.valueOf(project.getProjectIsDeleted()));
+            statement.setInt(7, project.getLastEditedBy());
+            statement.setDate(8, Date.valueOf(project.getLastEdited()));
+            statement.setString(9, String.valueOf(project.getCanBeEditedByTech()));
+            statement.setInt(10, project.getLastEditedBy());
+            statement.setString(11, project.getAddress());
+            statement.setString(12, project.getZipCode());
+            statement.setInt(13, project.getProjectId());
+            //Run the specified SQL Statement
+            statement.executeUpdate();
 
+            PreparedStatement device = conn.prepareStatement(deviceTable);
+            for (Device d : newDevices) {
+                device.setString(1, d.getDeviceUserName());
+                device.setString(2, d.getDevicePassWord());
+                device.setInt(3, d.getDeviceTypeId());
+                device.addBatch();
+            }
+            device.executeBatch();
+            ResultSet rs1 = device.getResultSet();
+            List<Device> deviceList = new ArrayList<>();
+            for (Device d : newDevices) {
+                while (rs1.next()) {
+                    int id = rs1.getInt("Id");
+                    Device newDevice = new Device(id, d.getDeviceTypeId(), d.getDeviceUserName(), d.getDevicePassWord(), d.getDeviceTypeString());
+                    deviceList.add(newDevice);
+                }
+            }
+
+            PreparedStatement deviceForP = conn.prepareStatement(deviceForProject);
+            for (Device dev : deviceList) {
+                deviceForP.setInt(1, dev.getDeviceId());
+                deviceForP.setInt(2, project.getProjectId());
+                deviceForP.addBatch();
+            }
+            deviceForP.executeBatch();
+            conn.commit();
+        } catch(SQLException e){
+                throw new SQLException("failed to update project and devices",e);
+        }
+    }
 }

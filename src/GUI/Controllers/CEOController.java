@@ -6,6 +6,7 @@ import BE.UserTypes.User;
 import GUI.Models.ModelsHandler;
 import GUI.Util.AlertOpener;
 import GUI.Util.ExceptionHandler;
+import javafx.beans.property.SimpleStringProperty;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -123,7 +124,7 @@ public class CEOController extends BaseController{
         tbvInstallationlist.setItems(getModelsHandler().getCeoModel().getProjectsObservableList());
         clmINSId.setCellValueFactory(new PropertyValueFactory<>("projectId"));
         clmCostumerName.setCellValueFactory(new PropertyValueFactory<>("costumerName"));
-        clmINSAddress.setCellValueFactory(new PropertyValueFactory<>("projectLocation"));
+        clmINSAddress.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getAddress() + " " + "(" + cellData.getValue().getZipCode() + ")"));
         clmINSDate.setCellValueFactory(new PropertyValueFactory<>("projectDate"));
 
         //User tableview

@@ -1,8 +1,11 @@
 package DAL.DB;
 
+import BE.Device;
 import BE.DeviceType;
+import BE.Project;
 import DAL.DatabaseConnector;
 import DAL.Interface.IDeviceDAO;
+import com.microsoft.sqlserver.jdbc.SQLServerException;
 
 import java.io.IOException;
 import java.sql.*;
@@ -88,4 +91,35 @@ public class DeviceDAO_DB implements IDeviceDAO {
             throw new Exception("Failed to delete DeviceType", e);
         }
     }
+
+    @Override
+    public List<Device> getAllDevicesForProject(Project project) throws SQLException {
+        String sql = "SELECT * FROM Device\n" +
+                "INNER JOIN DeviceForProject ON Device.Id = DeviceForProject.DeviceId\n" +
+                "INNER JOIN [DeviceType] ON Device.DeviceType = [DeviceType].id\n" +
+                "WHERE ProjectId = ?;";
+        List<Device> devices = new ArrayList<>();
+        try(Connection conn = dbConnector.getConnection(); PreparedStatement statement = conn.prepareStatement(sql))
+        {
+         statement.setInt(1,project.getProjectId());
+         statement.execute();
+
+         ResultSet rs = statement.getResultSet();
+         while (rs.next())
+         {
+             int id = rs.getInt("Id");
+             String username = rs.getString("DeviceUsername");
+             String password = rs.getString("DevicePassword");
+             String deviceType = rs.getString("Type");
+             int deviceTypeId = rs.getInt("DeviceType");
+             Device device = new Device(id,deviceTypeId,username,password,deviceType);
+             devices.add(device);
+         }
+         return devices;
+        } catch (SQLException e) {
+            throw new SQLException("Failed to get devices for project from the database", e);
+        }
+    }
+
+
 }

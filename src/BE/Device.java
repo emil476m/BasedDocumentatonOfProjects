@@ -5,18 +5,21 @@ public class Device {
     private int deviceTypeId;
     private String deviceUserName;
     private String devicePassWord;
+    private String deviceTypeString;
 
-    public Device(int deviceId, int deviceTypeId, String deviceUserName, String devicePassWord) {
+    public Device(int deviceId, int deviceTypeId, String deviceUserName, String devicePassWord, String deviceTypeString) {
         this.deviceId = deviceId;
         this.deviceTypeId = deviceTypeId;
         this.deviceUserName = deviceUserName;
         this.devicePassWord = devicePassWord;
+        this.deviceTypeString = deviceTypeString;
     }
 
-    public Device(int deviceTypeId, String deviceUserName, String devicePassWord) {
+    public Device(int deviceTypeId, String deviceUserName, String devicePassWord, String deviceTypeString) {
         this.deviceTypeId = deviceTypeId;
         this.deviceUserName = deviceUserName;
         this.devicePassWord = devicePassWord;
+        this.deviceTypeString = deviceTypeString;
     }
 
     public int getDeviceId() {
@@ -45,5 +48,12 @@ public class Device {
 
     public void setDevicePassWord(String devicePassWord) {
         this.devicePassWord = devicePassWord;
+    }
+
+    public String getDeviceTypeString() {return deviceTypeString;}
+
+    @Override
+    public String toString() {
+        return deviceId + "\t" + "Username: " + deviceUserName + "\n\t" + "Password: " + devicePassWord + "\n\t" + "Type: " + deviceTypeString;
     }
 }

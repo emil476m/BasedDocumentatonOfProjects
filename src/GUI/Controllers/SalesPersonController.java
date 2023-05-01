@@ -4,6 +4,7 @@ import GUI.Controllers.BaseController;
 import GUI.Models.ModelsHandler;
 import GUI.Util.AlertOpener;
 import GUI.Util.ExceptionHandler;
+import javafx.beans.property.SimpleStringProperty;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -133,7 +134,7 @@ public class SalesPersonController extends BaseController {
         tbvInstallationlist.setItems(getModelsHandler().getSalesPersonModel().getProjectsObservableList());
         clmINSId.setCellValueFactory(new PropertyValueFactory<>("projectId"));
         clmCostumerName.setCellValueFactory(new PropertyValueFactory<>("costumerName"));
-        clmINSAddress.setCellValueFactory(new PropertyValueFactory<>("projectLocation"));
+        clmINSAddress.setCellValueFactory(new PropertyValueFactory<>("address"));
         clmINSDate.setCellValueFactory(new PropertyValueFactory<>("projectDate"));
 
 

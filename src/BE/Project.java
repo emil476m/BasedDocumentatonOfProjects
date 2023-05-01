@@ -104,6 +104,8 @@ public class Project {
 
     public boolean getCanBeEditedByTech() {return canBeEditedByTech;}
 
+    public void setCanBeEditedByTech(boolean canBeEditedByTech) {this.canBeEditedByTech = canBeEditedByTech;}
+
     public LocalDate getLastEdited() {return lastEdited;}
 
     public int getCostumerType() {return costumerType;}
