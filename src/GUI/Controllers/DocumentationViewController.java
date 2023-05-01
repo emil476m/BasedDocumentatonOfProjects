@@ -392,7 +392,8 @@ public class DocumentationViewController extends BaseController{
 
     private void setUpTechniciansRemoveAddAndView(){
         try {
-            getModelsHandler().getCeoModel().getUserOnCurrentProject().addAll(getModelsHandler().getCeoModel().getUsersWorkingOnProject(opnedProject));
+            if (opnedProject != null)
+                getModelsHandler().getCeoModel().getUserOnCurrentProject().addAll(getModelsHandler().getCeoModel().getUsersWorkingOnProject(opnedProject));
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
