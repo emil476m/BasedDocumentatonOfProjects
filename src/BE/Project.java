@@ -117,4 +117,23 @@ public class Project {
 
     public String getZipCode() {return zipCode;}
 
+    @Override
+    public String toString() {
+        return "Project{" +
+                "projectId=" + projectId +
+                ", costumerName='" + costumerName + '\'' +
+                ", projectDate=" + projectDate +
+                ", projectLocation='" + projectLocation + '\'' +
+                ", projectDescription='" + projectDescription + '\'' +
+                ", projectCreatorId=" + projectCreatorId +
+                ", projectIsDeleted=" + projectIsDeleted +
+                ", lastEditedBy=" + lastEditedBy +
+                ", canBeEditedByTech=" + canBeEditedByTech +
+                ", lastEdited=" + lastEdited +
+                ", costumerType=" + costumerType +
+                ", address='" + address + '\'' +
+                ", zipCode='" + zipCode + '\'' +
+                ", addressAndZipCode='" + addressAndZipCode + '\'' +
+                '}';
+    }
 }

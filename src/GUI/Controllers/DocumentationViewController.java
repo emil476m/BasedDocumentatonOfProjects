@@ -68,7 +68,7 @@ public class DocumentationViewController extends BaseController{
             }
 
 
-            //setUpTechniciansRemoveAddAndView();
+            setUpTechniciansRemoveAddAndView();
         }
         catch (Exception e)
         {
@@ -151,7 +151,6 @@ public class DocumentationViewController extends BaseController{
     private void generateMenuItems() throws Exception {
         getModelsHandler().getDocumentationModel().getAllCostumerTypes();
         costumerTypes = getModelsHandler().getDocumentationModel().getCostumerTypes();
-        System.out.println(costumerTypes.toString());
         for (CostumerType c:costumerTypes)
         {
             menuTypes.getItems().add(createMenuItem(c));
@@ -200,11 +199,9 @@ public class DocumentationViewController extends BaseController{
             {
                 txtLocation.setDisable(true);
                 txtLocation.setVisible(false);
-                System.out.println(findCostumertype(txtCostumerType.getText()));
             }
             else
             {
-                System.out.println(findCostumertype(txtCostumerType.getText()));
                 txtLocation.setDisable(false);
                 txtLocation.setVisible(true);
             }
@@ -289,16 +286,10 @@ public class DocumentationViewController extends BaseController{
             if(findCostumertype(txtCostumerType.getText()) != opnedProject.getCostumerType())
             {
                 costumerType = findCostumertype(txtCostumerType.getText());
-                System.out.println(costumerType);
-                System.out.println(findCostumertype(txtCostumerType.getText()));
-                System.out.println(findCostumerTypeFromId(costumerType));
             }
             else
             {
                 costumerType = opnedProject.getCostumerType();
-                System.out.println(costumerType);
-                System.out.println(findCostumertype(txtCostumerType.getText()));
-                System.out.println(findCostumerTypeFromId(costumerType));
             }
             String zipCode = txtZipCode.getText();
             String comment = txtaComments.getText();
@@ -414,10 +405,6 @@ public class DocumentationViewController extends BaseController{
             {
                 return c.getId();
             }
-            else
-            {
-                return 0;
-            }
         }
         return 0;
     }
@@ -460,7 +447,7 @@ public class DocumentationViewController extends BaseController{
                 getModelsHandler().getCeoModel().getUserOnCurrentProject().clear();
                 getModelsHandler().getCeoModel().getUserOnCurrentProject().addAll(getModelsHandler().getCeoModel().getUsersWorkingOnProject(opnedProject));
         } catch (Exception e) {
-            throw new RuntimeException(e);
+            ExceptionHandler.displayError(new RuntimeException("Failed to setup technician List", e));
         }
 
         lvTechniciansOnProject.setItems(getModelsHandler().getCeoModel().getUserOnCurrentProject());
@@ -472,7 +459,7 @@ public class DocumentationViewController extends BaseController{
                 getModelsHandler().getCeoModel().deleteFromWorkingOnProject(lvTechniciansOnProject.getSelectionModel().getSelectedItem(), opnedProject);
             }
         } catch (Exception e) {
-            throw new RuntimeException(e);
+            ExceptionHandler.displayError(new Exception("Failed to remove technician from List", e));
         }
     }
 }

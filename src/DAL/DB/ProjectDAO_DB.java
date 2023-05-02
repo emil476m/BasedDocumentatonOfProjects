@@ -214,7 +214,7 @@ public class ProjectDAO_DB implements IProjectDAO {
             statement.setInt(7, project.getLastEditedBy());
             statement.setDate(8, Date.valueOf(project.getLastEdited()));
             statement.setString(9, String.valueOf(project.getCanBeEditedByTech()));
-            statement.setInt(10, project.getLastEditedBy());
+            statement.setInt(10, project.getCostumerType());
             statement.setString(11, project.getAddress());
             statement.setString(12, project.getZipCode());
             statement.setInt(13, project.getProjectId());
