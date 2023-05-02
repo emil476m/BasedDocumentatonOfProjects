@@ -4,16 +4,20 @@ public class DeviceType {
     private int id;
     private String type;
 
+    private boolean isCustom;
+
     private boolean isDeleted;
 
-    public DeviceType(int id, String type, boolean isDeleted) {
+    public DeviceType(int id, String type, boolean isDeleted, boolean isCustom) {
         this.id = id;
         this.type = type;
         this.isDeleted = isDeleted;
+        this.isCustom = isCustom;
     }
 
-    public DeviceType(String type, boolean isDeleted) {
+    public DeviceType(String type, boolean isDeleted, boolean isCustom) {
         this.type = type;
+        this.isCustom = isCustom;
         this.isDeleted = isDeleted;
     }
 
@@ -35,5 +39,13 @@ public class DeviceType {
 
     public void setIsDeleted(boolean deleted) {
         isDeleted = deleted;
+    }
+
+    public boolean getIsCustom() {
+        return isCustom;
+    }
+
+    public void setIsCustom(boolean custom) {
+        isCustom = custom;
     }
 }

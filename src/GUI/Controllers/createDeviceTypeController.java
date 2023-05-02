@@ -22,7 +22,7 @@ public class createDeviceTypeController extends BaseController{
     private void handleCreateDeviceType(ActionEvent actionEvent) {
         if (!txtfDeviceTypeName.getText().isEmpty() && txtfDeviceTypeName != null){
             try {
-                DeviceType deviceType = new DeviceType(txtfDeviceTypeName.getText(), false);
+                DeviceType deviceType = new DeviceType(txtfDeviceTypeName.getText(), false, false);
                 getModelsHandler().getCeoModel().createDeviceType(deviceType);
                 handleExit();
             } catch (Exception e) {

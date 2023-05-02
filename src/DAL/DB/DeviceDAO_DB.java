@@ -34,7 +34,8 @@ public class DeviceDAO_DB implements IDeviceDAO {
                 int id = resultSet.getInt("Id");
                 String type = resultSet.getString("Type");
                 String isDeleted = resultSet.getString("IsDeleted");
-                deviceTypeList.add(new DeviceType(id, type, Boolean.parseBoolean(isDeleted)));
+                boolean isCustom = Boolean.valueOf(resultSet.getString("Custom"));
+                deviceTypeList.add(new DeviceType(id, type, Boolean.parseBoolean(isDeleted), isCustom));
             }
             return deviceTypeList;
         }
@@ -46,13 +47,14 @@ public class DeviceDAO_DB implements IDeviceDAO {
 
     @Override
     public DeviceType createDeviceType(DeviceType deviceType) throws Exception{
-        String sql = "INSERT INTO [DeviceType] (Type, IsDeleted) VALUES (?,?);";
+        String sql = "INSERT INTO [DeviceType] (Type, IsDeleted, Custom) VALUES (?,?,?);";
         try(Connection connection = dbConnector.getConnection();
             PreparedStatement statement = connection.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)){
 
 
             statement.setString(1, deviceType.getType());
             statement.setString(2, String.valueOf(deviceType.getIsDeleted()));
+            statement.setString(3, String.valueOf(deviceType.getIsCustom()));
 
             statement.executeUpdate();
 
@@ -64,7 +66,7 @@ public class DeviceDAO_DB implements IDeviceDAO {
                 id = rs.getInt(1);
             }
 
-            DeviceType deviceType1 = new DeviceType(id, deviceType.getType(), deviceType.getIsDeleted());
+            DeviceType deviceType1 = new DeviceType(id, deviceType.getType(), deviceType.getIsDeleted(), deviceType.getIsCustom());
 
             return deviceType1;
 
@@ -76,13 +78,14 @@ public class DeviceDAO_DB implements IDeviceDAO {
 
     @Override
     public void updateDeviceType(DeviceType deviceType) throws Exception {
-        String sql = "UPDATE [DeviceType] SET Type = ?, IsDeleted = ? WHERE Id = ?;";
+        String sql = "UPDATE [DeviceType] SET Type = ?, IsDeleted = ?, Custom = ? WHERE Id = ?;";
         try (Connection connection = dbConnector.getConnection();
              PreparedStatement statement = connection.prepareStatement(sql)) {
 
             statement.setString(1, deviceType.getType());
             statement.setString(2, String.valueOf(deviceType.getIsDeleted()));
-            statement.setInt(3, deviceType.getId());
+            statement.setString(3, String.valueOf(deviceType.getIsCustom()));
+            statement.setInt(4, deviceType.getId());
             //Run the specified SQL Statement
             statement.executeUpdate();
         }
