@@ -113,7 +113,7 @@ public class ProjectDAO_DB implements IProjectDAO {
             statement.setInt(7, project.getLastEditedBy());
             statement.setDate(8, Date.valueOf(project.getLastEdited()));
             statement.setString(9, String.valueOf(project.getCanBeEditedByTech()));
-            statement.setInt(10, project.getLastEditedBy());
+            statement.setInt(10, project.getCostumerType());
             statement.setString(11, project.getAddress());
             statement.setString(12,project.getZipCode());
             statement.setInt(13,project.getProjectId());
@@ -146,7 +146,7 @@ public class ProjectDAO_DB implements IProjectDAO {
             projectTable.setInt(7, project.getLastEditedBy());
             projectTable.setDate(8, Date.valueOf(project.getLastEdited()));
             projectTable.setString(9, String.valueOf(project.getCanBeEditedByTech()));
-            projectTable.setInt(10, project.getLastEditedBy());
+            projectTable.setInt(10, project.getCostumerType());
             projectTable.setString(11, project.getAddress());
             projectTable.setString(12,project.getZipCode());
             projectTable.executeUpdate();
@@ -220,32 +220,33 @@ public class ProjectDAO_DB implements IProjectDAO {
             statement.setInt(13, project.getProjectId());
             //Run the specified SQL Statement
             statement.executeUpdate();
-
-            PreparedStatement device = conn.prepareStatement(deviceTable);
-            for (Device d : newDevices) {
-                device.setString(1, d.getDeviceUserName());
-                device.setString(2, d.getDevicePassWord());
-                device.setInt(3, d.getDeviceTypeId());
-                device.addBatch();
-            }
-            device.executeBatch();
-            ResultSet rs1 = device.getResultSet();
-            List<Device> deviceList = new ArrayList<>();
-            for (Device d : newDevices) {
-                while (rs1.next()) {
-                    int id = rs1.getInt("Id");
-                    Device newDevice = new Device(id, d.getDeviceTypeId(), d.getDeviceUserName(), d.getDevicePassWord(), d.getDeviceTypeString());
-                    deviceList.add(newDevice);
+            if(newDevices == null) {
+                PreparedStatement device = conn.prepareStatement(deviceTable);
+                for (Device d : newDevices) {
+                    device.setString(1, d.getDeviceUserName());
+                    device.setString(2, d.getDevicePassWord());
+                    device.setInt(3, d.getDeviceTypeId());
+                    device.addBatch();
                 }
-            }
+                device.executeBatch();
+                ResultSet rs1 = device.getResultSet();
+                List<Device> deviceList = new ArrayList<>();
+                for (Device d : newDevices) {
+                    while (rs1.next()) {
+                        int id = rs1.getInt("Id");
+                        Device newDevice = new Device(id, d.getDeviceTypeId(), d.getDeviceUserName(), d.getDevicePassWord(), d.getDeviceTypeString());
+                        deviceList.add(newDevice);
+                    }
+                }
 
-            PreparedStatement deviceForP = conn.prepareStatement(deviceForProject);
-            for (Device dev : deviceList) {
-                deviceForP.setInt(1, dev.getDeviceId());
-                deviceForP.setInt(2, project.getProjectId());
-                deviceForP.addBatch();
+                PreparedStatement deviceForP = conn.prepareStatement(deviceForProject);
+                for (Device dev : deviceList) {
+                    deviceForP.setInt(1, dev.getDeviceId());
+                    deviceForP.setInt(2, project.getProjectId());
+                    deviceForP.addBatch();
+                }
+                deviceForP.executeBatch();
             }
-            deviceForP.executeBatch();
             conn.commit();
         } catch(SQLException e){
                 throw new SQLException("failed to update project and devices",e);

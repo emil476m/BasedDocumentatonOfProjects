@@ -25,7 +25,7 @@
             </ImageView>
             <Button fx:id="btnReturn" layoutX="27.0" layoutY="546.0" mnemonicParsing="false" onAction="#handleReturn" prefHeight="30.0" prefWidth="150.0" text="Return" />
             <Button fx:id="btnSaveToDevice" layoutX="27.0" layoutY="489.0" mnemonicParsing="false" onAction="#handleSaveToDevice" prefHeight="30.0" prefWidth="150.0" text="Save to this Device" />
-            <Button fx:id="btnSend" layoutX="27.0" layoutY="227.0" mnemonicParsing="false" onAction="#handleSendToProjectManager" prefHeight="30.0" prefWidth="150.0" text="Send to Project Manager" />
+            <Button fx:id="btnSend" layoutX="27.0" layoutY="227.0" mnemonicParsing="false" onAction="#handleSendToPMOrTech" prefHeight="30.0" prefWidth="150.0" text="Send to Project Manager" />
             <Button fx:id="btnSave" layoutX="27.0" layoutY="187.0" mnemonicParsing="false" onAction="#handleSave" prefHeight="30.0" prefWidth="150.0" text="Save" />
             <Button fx:id="btnOpenPaint" layoutX="27.0" layoutY="265.0" mnemonicParsing="false" onAction="#handleOpenPaint" prefHeight="30.0" prefWidth="150.0" text="Open Paint" />
             <Button fx:id="btnAssignTech" layoutX="27.0" layoutY="303.0" mnemonicParsing="false" onAction="#handleAssignTech" prefHeight="30.0" prefWidth="150.0" text="Assign Technician" />
@@ -43,7 +43,7 @@
             <TextField fx:id="txtZipCode" layoutX="354.0" layoutY="52.0" promptText="Zip-code" AnchorPane.leftAnchor="354.0" AnchorPane.topAnchor="52.0" />
             <TextField fx:id="txtCostumerType" layoutX="36.0" layoutY="93.0" promptText="Costumer type" AnchorPane.leftAnchor="36.0" AnchorPane.topAnchor="93.0" />
             <MenuButton fx:id="menuTypes" layoutX="186.0" layoutY="93.0" mnemonicParsing="false" text="Types" AnchorPane.leftAnchor="186.0" AnchorPane.topAnchor="93.0" />
-            <TextArea fx:id="txtaComments" layoutX="36.0" layoutY="133.0" prefHeight="208.0" prefWidth="478.0" promptText="Comments/Documentation" AnchorPane.leftAnchor="36.0" AnchorPane.topAnchor="133.0" />
+            <TextArea fx:id="txtaComments" layoutX="36.0" layoutY="133.0" prefHeight="208.0" prefWidth="478.0" promptText="Comments/Documentation" wrapText="true" AnchorPane.leftAnchor="36.0" AnchorPane.topAnchor="133.0" />
             <ListView fx:id="lvImages" layoutX="661.0" layoutY="75.0" prefHeight="200.0" prefWidth="422.0" AnchorPane.leftAnchor="661.0" AnchorPane.topAnchor="75.0" />
             <ListView fx:id="lvDevices" layoutX="661.0" layoutY="316.0" prefHeight="200.0" prefWidth="424.0" AnchorPane.leftAnchor="661.0" AnchorPane.topAnchor="316.0" />
             <Label layoutX="661.0" layoutY="55.0" prefHeight="18.0" prefWidth="76.0" text="Images:" AnchorPane.leftAnchor="661.0" AnchorPane.topAnchor="55.0" />

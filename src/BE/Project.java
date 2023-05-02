@@ -17,6 +17,8 @@ public class Project {
     private String address;
     private String zipCode;
 
+    private String addressAndZipCode;
+
     public Project(String costumerName, LocalDate projectDate, String projectLocation, String projectDescription, int projectCreatorId, boolean projectIsDeleted, int lastEditedBy, boolean canBeEditedByTech, LocalDate lastEdited, int costumerType, String address, String zipCode) {
         this.costumerName = costumerName;
         this.projectDate = projectDate;
@@ -30,6 +32,7 @@ public class Project {
         this.costumerType = costumerType;
         this.address = address;
         this.zipCode = zipCode;
+        this.addressAndZipCode = address + " " + "(" + zipCode + ")";
     }
 
     public Project(int projectId, String costumerName, LocalDate projectDate, String projectLocation, String projectDescription, int projectCreatorId, boolean projectIsDeleted, int lastEditedBy, boolean canBeEditedByTech, LocalDate lastEdited, int costumerType, String address, String zipCode) {
@@ -113,4 +116,5 @@ public class Project {
     public String getAddress() {return address;}
 
     public String getZipCode() {return zipCode;}
+
 }

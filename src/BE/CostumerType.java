@@ -12,4 +12,12 @@ public class CostumerType {
     public int getId() {return id;}
 
     public String getType() {return type;}
+
+    @Override
+    public String toString() {
+        return "CostumerType{" +
+                "id=" + id +
+                ", type='" + type + '\'' +
+                '}';
+    }
 }

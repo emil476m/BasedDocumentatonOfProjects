@@ -56,15 +56,19 @@ public class DocumentationViewController extends BaseController{
         try
         {
             generateMenuItems();
+            if(txtCostumerType.getText() != null)
+            {
+                checkCostumertype();
+            }
 
             if(opnedProject !=null)
             {
                 setTextFields();
                 setupListViews();
             }
-            checkCostumertype();
 
-            setUpTechniciansRemoveAddAndView();
+
+            //setUpTechniciansRemoveAddAndView();
         }
         catch (Exception e)
         {
@@ -147,6 +151,7 @@ public class DocumentationViewController extends BaseController{
     private void generateMenuItems() throws Exception {
         getModelsHandler().getDocumentationModel().getAllCostumerTypes();
         costumerTypes = getModelsHandler().getDocumentationModel().getCostumerTypes();
+        System.out.println(costumerTypes.toString());
         for (CostumerType c:costumerTypes)
         {
             menuTypes.getItems().add(createMenuItem(c));
@@ -187,13 +192,19 @@ public class DocumentationViewController extends BaseController{
     private void checkCostumertype()
     {
         txtCostumerType.textProperty().addListener((observable, oldValue, newValue) -> {
-            if(txtCostumerType.getText().equals("Consumer"))
+            if(txtCostumerType.getText() == null)
+            {
+                txtLocation.setEditable(false);
+            }
+            else if(txtCostumerType.getText().equals("Consumer"))
             {
                 txtLocation.setDisable(true);
                 txtLocation.setVisible(false);
+                System.out.println(findCostumertype(txtCostumerType.getText()));
             }
             else
             {
+                System.out.println(findCostumertype(txtCostumerType.getText()));
                 txtLocation.setDisable(false);
                 txtLocation.setVisible(true);
             }
@@ -220,7 +231,7 @@ public class DocumentationViewController extends BaseController{
     public void handleSaveToDevice(ActionEvent actionEvent) {
     }
 
-    public void handleSendToProjectManager(ActionEvent actionEvent) {
+    public void handleSendToPMOrTech(ActionEvent actionEvent) {
         createNewProject();
         if(getModelsHandler().getLoginModel().getUser().getClass().getSimpleName().equals(Technician.class.getSimpleName()))
         {
@@ -271,9 +282,66 @@ public class DocumentationViewController extends BaseController{
     private void saveProject()
     {
         try {
-            getModelsHandler().getDocumentationModel().saveproject(opnedProject, lvDevices.getItems());
+            String location = "";
+            int costumerType = 0;
+            String costumerName = txtCostumerName.getText();
+            String address = txtAddress.getText();
+            if(findCostumertype(txtCostumerType.getText()) != opnedProject.getCostumerType())
+            {
+                costumerType = findCostumertype(txtCostumerType.getText());
+                System.out.println(costumerType);
+                System.out.println(findCostumertype(txtCostumerType.getText()));
+                System.out.println(findCostumerTypeFromId(costumerType));
+            }
+            else
+            {
+                costumerType = opnedProject.getCostumerType();
+                System.out.println(costumerType);
+                System.out.println(findCostumertype(txtCostumerType.getText()));
+                System.out.println(findCostumerTypeFromId(costumerType));
+            }
+            String zipCode = txtZipCode.getText();
+            String comment = txtaComments.getText();
+            if(txtLocation.isDisable())
+            {
+                location = "";
+            }
+            else
+            {
+                location = txtLocation.getText();
+            }
+            LocalDate date = dpDatePicker.getValue();
+            Project project = new Project(opnedProject.getProjectId(), costumerName , date, location, comment, opnedProject.getProjectCreatorId(), opnedProject.getProjectIsDeleted(), opnedProject.getLastEditedBy(), opnedProject.getCanBeEditedByTech(), LocalDate.now(), costumerType, address, zipCode);
+            getModelsHandler().getDocumentationModel().saveproject(project, lvDevices.getItems());
+            updateTableviews(project, opnedProject);
+            AlertOpener.confirm("Has been saved", "Your changes have been saved.");
         } catch (Exception e) {
+            e.printStackTrace();
             ExceptionHandler.displayError(new RuntimeException("failed to update project", e));
+        }
+    }
+
+    private void updateTableviews(Project project, Project opnedProject)
+    {
+        if(getModelsHandler().getLoginModel().getUser().getClass().getSimpleName().equals(CEO.class.getSimpleName()))
+        {
+            getModelsHandler().getCeoModel().getProjectsObservableList().remove(opnedProject);
+            getModelsHandler().getCeoModel().getProjectsObservableList().add(project);
+        }
+        else if (getModelsHandler().getLoginModel().getUser().getClass().getSimpleName().equals(Technician.class.getSimpleName()))
+        {
+            if(getModelsHandler().getTechnicianModel().getMyProjectsObservableList().contains(project))
+            {
+                getModelsHandler().getTechnicianModel().getMyProjectsObservableList().remove(opnedProject);
+                getModelsHandler().getTechnicianModel().getMyProjectsObservableList().add(project);
+            }
+            getModelsHandler().getTechnicianModel().getProjectsObservableList().remove(opnedProject);
+            getModelsHandler().getTechnicianModel().getProjectsObservableList().add(project);
+        }
+        if(getModelsHandler().getLoginModel().getUser().getClass().getSimpleName().equals(ProjectManager.class.getSimpleName()))
+        {
+            getModelsHandler().getProjectManagerModel().getAllProjectsObservablelist().remove(opnedProject);
+            getModelsHandler().getProjectManagerModel().getAllProjectsObservablelist().add(project);
         }
     }
 
@@ -361,10 +429,6 @@ public class DocumentationViewController extends BaseController{
             if(c.getId() == id)
             {
                 return c.getType();
-            }
-            else
-            {
-                return null;
             }
         }
         return null;
