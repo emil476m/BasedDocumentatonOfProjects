@@ -15,6 +15,7 @@ import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.image.Image;
+import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.text.Text;
 import javafx.stage.Modality;
@@ -26,6 +27,8 @@ import java.io.IOException;
 import java.time.LocalDate;
 
 public class CEOController extends BaseController{
+    @FXML
+    private TextField txfSearch;
     @FXML
     private BorderPane borderPaneCEO;
     @FXML
@@ -84,6 +87,7 @@ public class CEOController extends BaseController{
     }
 
     private void toggleViews(boolean users, boolean projects, boolean devices){
+        txfSearch.clear();
         if (users == true){
             tbvUserlist.setVisible(true);
             txtViewName.setText("Users:");
@@ -350,6 +354,52 @@ public class CEOController extends BaseController{
             stage.show();
         } catch (Exception e) {
             throw new RuntimeException(e);
+        }
+    }
+
+    private void searchUser() {
+        String search = txfSearch.getText().toLowerCase();
+
+        if(search != null)
+            getModelsHandler().getCeoModel().searchUsers(search);
+        else if (search == null){
+            getModelsHandler().getCeoModel().clearSearch();
+        }
+    }
+
+    private void searchProject() {
+        String search = txfSearch.getText().toLowerCase();
+
+        if(search != null)
+            getModelsHandler().getCeoModel().searchProject(search);
+        else if (search == null){
+            getModelsHandler().getCeoModel().clearSearch();
+        }
+    }
+
+    private void searchDeviceType() {
+        String search = txfSearch.getText().toLowerCase();
+
+        if(search != null)
+            getModelsHandler().getCeoModel().searchDeviceTypes(search);
+        else if (search == null){
+            getModelsHandler().getCeoModel().clearSearch();
+        }
+    }
+
+    public void searchOnButtonPress(KeyEvent keyEvent) {
+        selectSearch();
+    }
+
+    private void selectSearch(){
+        if (tbvUserlist.isVisible()){
+            searchUser();
+        }
+        else if (tbvDevicelist.isVisible()){
+            searchDeviceType();
+        }
+        else if (tbvInstallationlist.isVisible()){
+            searchProject();
         }
     }
 }

@@ -25,6 +25,8 @@
 .text-field
 {
     -fx-background-color: #ECF2F7;
+    -fx-border-color: #444444;
+    -fx-border-radius:5px;
 }
 
 .text, .label

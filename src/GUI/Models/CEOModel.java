@@ -72,6 +72,12 @@ public class CEOModel {
 
     public void getAllDeviceTypes() throws Exception {
         List<DeviceType> deviceTypes = ceoManager.getAllDeviceTypes();
+        for (DeviceType d: deviceTypes){
+            if (d.getType().equals("Custom")) {
+                deviceTypes.remove(d);
+                break;
+            }
+        }
         allDeviceTypes.clear();
         deviceTypeObservableList.clear();
         deviceTypeObservableList.addAll(deviceTypes);
@@ -172,5 +178,72 @@ public class CEOModel {
     public void deleteFromWorkingOnProject(User user, Project project) throws Exception {
         ceoManager.deleteFromWorkingOnProject(user, project);
         userOnCurrentProject.remove(user);
+    }
+
+    /**
+     * Clears the search query of Users.
+     */
+    public void clearSearch() {
+        userObservableList.clear();
+        userObservableList.addAll(allUsers);
+        deviceTypeObservableList.clear();
+        deviceTypeObservableList.addAll(allDeviceTypes);
+        projectsObservableList.clear();
+        projectsObservableList.addAll(allProjects);
+    }
+
+    /**
+     * Searches for users with given query.
+     * @param query The query to search for.
+     */
+    public void searchUsers (String query) {
+        if (allUsers.isEmpty())
+            allUsers.addAll(userObservableList);
+        else
+            userObservableList.clear();
+
+        for (User m: allUsers)
+        {
+            boolean nameContains = m.getName().toLowerCase().contains(query);
+            if (nameContains)
+                userObservableList.add(m);
+        }
+    }
+
+    /**
+     * Searches for Project addresses with given query.
+     * @param query The query to search for.
+     */
+    public void searchProject (String query) {
+        if (allProjects.isEmpty())
+            allProjects.addAll(projectsObservableList);
+        else
+            projectsObservableList.clear();
+
+        for (Project m: allProjects)
+        {
+            boolean containsAddress = (m.getAddress()+m.getZipCode()).toLowerCase().contains(query);
+            boolean containsName = m.getCostumerName().toLowerCase().contains(query);
+            if (containsAddress || containsName)
+                projectsObservableList.add(m);
+        }
+    }
+
+    /**
+     * Searches for users with given query.
+     * @param query The query to search for.
+     */
+    public void searchDeviceTypes (String query) {
+        if (allDeviceTypes.isEmpty())
+            allDeviceTypes.addAll(deviceTypeObservableList);
+        else
+            deviceTypeObservableList.clear();
+
+        for (DeviceType d: allDeviceTypes)
+        {
+            boolean nameContains = d.getType().toLowerCase().contains(query);
+            if (nameContains)
+                deviceTypeObservableList.add(d);
+        }
     }
 }

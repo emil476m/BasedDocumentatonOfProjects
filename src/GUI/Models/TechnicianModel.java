@@ -52,6 +52,12 @@ public class TechnicianModel {
 
     public void getAllDeviceTypes() throws Exception {
         List<DeviceType> deviceTypes = technicianManager.getAllDeviceTypes();
+        for (DeviceType d: deviceTypes){
+            if (d.getType().equals("Custom")) {
+                deviceTypes.remove(d);
+                break;
+            }
+        }
         allDeviceTypes.clear();
         deviceTypeObservableList.clear();
         deviceTypeObservableList.addAll(deviceTypes);
