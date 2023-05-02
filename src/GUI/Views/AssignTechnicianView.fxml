@@ -9,9 +9,9 @@
 <?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.layout.HBox?>
 
-<BorderPane fx:id="borderPaneEventCoordinatorList" onMouseClicked="#dragScreen" prefHeight="500.0" prefWidth="402.0" styleClass="border-pane" stylesheets="@../Css/CEOViewCss.css" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="GUI.Controllers.AssignTechnicianController">
+<BorderPane fx:id="borderPaneEventCoordinatorList" onMouseClicked="#dragScreen" prefHeight="370.0" prefWidth="402.0" styleClass="border-pane" stylesheets="@../Css/TechnicianListView.css" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="GUI.Controllers.AssignTechnicianController">
     <bottom>
-        <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0" spacing="50.0" BorderPane.alignment="CENTER">
+        <HBox alignment="CENTER" prefHeight="78.0" prefWidth="402.0" spacing="50.0" BorderPane.alignment="CENTER">
             <BorderPane.margin>
                 <Insets />
             </BorderPane.margin>
@@ -28,22 +28,22 @@
         </HBox>
     </bottom>
     <top>
-        <BorderPane prefHeight="150.0" prefWidth="1440.0" BorderPane.alignment="CENTER">
+        <BorderPane prefHeight="59.0" prefWidth="402.0" BorderPane.alignment="CENTER">
             <top>
                 <AnchorPane prefHeight="50.0" styleClass="nav-bar-top" BorderPane.alignment="CENTER" />
             </top>
          <center>
-            <Label prefHeight="45.0" prefWidth="247.0" text="Select Event Coordinators for Event" BorderPane.alignment="CENTER" />
+            <Label prefHeight="45.0" prefWidth="247.0" text="Select Technicians for Project" BorderPane.alignment="CENTER" />
          </center>
         </BorderPane>
     </top>
     <center>
-        <AnchorPane prefHeight="774.0" prefWidth="494.0" BorderPane.alignment="CENTER">
+        <AnchorPane prefHeight="277.0" prefWidth="402.0" BorderPane.alignment="CENTER">
          <children>
-            <TableView fx:id="tbvUserList" layoutX="46.0" prefHeight="249.0" prefWidth="254.0" AnchorPane.leftAnchor="50.0" AnchorPane.rightAnchor="50.0">
+            <TableView fx:id="tbvUserList" layoutX="46.0" prefHeight="235.0" prefWidth="302.0" AnchorPane.leftAnchor="50.0" AnchorPane.rightAnchor="50.0">
               <columns>
-                <TableColumn fx:id="tbcUserListId" prefWidth="75.0" text="Id" />
-                <TableColumn fx:id="tbcUserListName" prefWidth="224.0" text="Name" />
+                <TableColumn fx:id="tbcUserListId" prefWidth="75.0" resizable="false" text="Id" />
+                <TableColumn fx:id="tbcUserListName" prefWidth="226.0" resizable="false" text="Name" />
               </columns>
             </TableView>
          </children>

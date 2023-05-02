@@ -35,24 +35,24 @@
             <Text fx:id="txtViewName" layoutX="55.0" layoutY="91.0" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="text" text="Installations" wrappingWidth="179.336669921875" />
             <TableView fx:id="tbvInstallationlist" layoutX="55.0" layoutY="138.0" prefHeight="365.0" prefWidth="570.0" AnchorPane.leftAnchor="45.0" AnchorPane.topAnchor="130.0">
                <columns>
-                  <TableColumn fx:id="clmINSId" prefWidth="75.0" text="Id" />
-                  <TableColumn fx:id="clmCostumerName" prefWidth="184.0" text="Costumer Name" />
-                  <TableColumn fx:id="clmINSAddress" minWidth="0.0" prefWidth="177.60003662109375" text="Address" />
-                  <TableColumn fx:id="clmINSDate" maxWidth="254.39999999999998" minWidth="0.0" prefWidth="132.79998779296875" text="Date" />
+                  <TableColumn fx:id="clmINSId" prefWidth="75.0" resizable="false" text="Id" />
+                  <TableColumn fx:id="clmCostumerName" prefWidth="184.0" resizable="false" text="Costumer Name" />
+                  <TableColumn fx:id="clmINSAddress" minWidth="0.0" prefWidth="177.60003662109375" resizable="false" text="Address" />
+                  <TableColumn fx:id="clmINSDate" maxWidth="254.39999999999998" minWidth="0.0" prefWidth="132.79998779296875" resizable="false" text="Date" />
                </columns>
             </TableView>
             <TableView fx:id="tbvMyInstallationlist" prefHeight="365.0" prefWidth="570.0" AnchorPane.leftAnchor="45.0" AnchorPane.topAnchor="130.0">
                <columns>
-                  <TableColumn fx:id="clmINSId1" prefWidth="75.0" text="Id" />
-                  <TableColumn fx:id="clmCostumerName1" prefWidth="184.0" text="Costumer Name" />
-                  <TableColumn fx:id="clmINSAddress1" minWidth="0.0" prefWidth="177.60003662109375" text="Address" />
-                  <TableColumn fx:id="clmINSDate1" maxWidth="254.39999999999998" minWidth="0.0" prefWidth="132.79998779296875" text="Date" />
+                  <TableColumn fx:id="clmINSId1" prefWidth="75.0" resizable="false" text="Id" />
+                  <TableColumn fx:id="clmCostumerName1" prefWidth="184.0" resizable="false" text="Costumer Name" />
+                  <TableColumn fx:id="clmINSAddress1" minWidth="0.0" prefWidth="177.60003662109375" resizable="false" text="Address" />
+                  <TableColumn fx:id="clmINSDate1" maxWidth="254.39999999999998" minWidth="0.0" prefWidth="132.79998779296875" resizable="false" text="Date" />
                </columns>
             </TableView>
             <TableView fx:id="tbvDevicelist" prefHeight="365.0" prefWidth="570.0" AnchorPane.leftAnchor="45.0" AnchorPane.topAnchor="130.0">
                <columns>
-                  <TableColumn fx:id="clmDeviceId" prefWidth="75.0" text="Id" />
-                  <TableColumn fx:id="clmDeviceName" prefWidth="494.0" text="Name" />
+                  <TableColumn fx:id="clmDeviceId" prefWidth="75.0" resizable="false" text="Id" />
+                  <TableColumn fx:id="clmDeviceName" prefWidth="494.0" resizable="false" text="Name" />
                </columns>
             </TableView>
          </children>
