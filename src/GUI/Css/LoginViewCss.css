@@ -1,6 +1,10 @@
+@import url('https://fonts.googleapis.com/css2?family=Russo+One&display=swap');
+
+
 .root
 {
-    -fx-background-color: #393939;
+    -fx-background-color: #393939;;
+    -fx-font-family: 'Russo One', sans-serif;
 }
 
 .button
