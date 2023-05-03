@@ -51,7 +51,7 @@
             <TextField fx:id="txtLocation" layoutX="279.0" layoutY="93.0" promptText="Location" AnchorPane.leftAnchor="279.0" AnchorPane.topAnchor="93.0" />
             <DatePicker fx:id="dpDatePicker" layoutX="443.0" layoutY="93.0" promptText="Date" AnchorPane.leftAnchor="443.0" AnchorPane.topAnchor="93.0" />
             <ListView fx:id="lvTechniciansOnProject" layoutX="36.0" layoutY="379.0" prefHeight="137.0" prefWidth="478.0" AnchorPane.leftAnchor="36.0" />
-            <Text layoutX="36.0" layoutY="369.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Technicians on Project:" wrappingWidth="139.13671875" />
+            <Text fx:id="txtTech" layoutX="36.0" layoutY="369.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Technicians on Project:" wrappingWidth="139.13671875" />
             <Button fx:id="btnRemoveTechnician" layoutX="36.0" layoutY="518.0" mnemonicParsing="false" onAction="#handleRemoveTechnician" text="Remove Technician" />
          </children>
       </AnchorPane>

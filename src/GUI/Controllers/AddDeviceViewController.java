@@ -19,7 +19,7 @@ public class AddDeviceViewController extends BaseController{
     @FXML
     private MenuButton menuType;
     @FXML
-    private Button btnCancle;
+    private Button btnCancle, btnAddDevice;
 
     List<DeviceType> deviceTypes;
 
@@ -124,6 +124,8 @@ public class AddDeviceViewController extends BaseController{
             }
             try {
                 getModelsHandler().getDocumentationModel().addDeviceToList(device,deviceType);
+                Stage stage = (Stage) btnAddDevice.getScene().getWindow();
+                stage.close();
             } catch (Exception e) {
                 ExceptionHandler.displayError(new Exception("Failed to add device please try again", e));
             }

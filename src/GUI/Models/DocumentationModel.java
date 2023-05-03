@@ -61,9 +61,13 @@ public class DocumentationModel {
         return devices;
     }
 
-    public void saveproject(Project project, ObservableList devices) throws Exception {
+    public void saveproject(Project project, ObservableList<Device> devices) throws Exception {
         List<Device> devicesOnProject = documentationManager.devicesForProject(project);
-        List<Device> newDevices = devices;
+        List<Device> newDevices = new ArrayList<>();
+        for (Device dev: devices)
+        {
+            newDevices.add(dev);
+        }
         for (Device d: devicesOnProject) {
             Iterator ndi = newDevices.iterator();
             while (ndi.hasNext())
@@ -75,7 +79,7 @@ public class DocumentationModel {
                 }
             }
         }
-        documentationManager.createProject(project,newDevices);
+        documentationManager.updateProjectAndDevices(project,devices);
     }
 
     public void getAllDeviceFromDB() throws Exception {

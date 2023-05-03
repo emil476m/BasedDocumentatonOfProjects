@@ -14,6 +14,7 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.image.Image;
+import javafx.scene.text.Text;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
@@ -26,8 +27,10 @@ import java.util.List;
 
 public class DocumentationViewController extends BaseController{
 
-    public ListView<User> lvTechniciansOnProject;
-    public Button btnRemoveTechnician;
+    @FXML
+    private ListView<User> lvTechniciansOnProject;
+    @FXML
+    private Button btnRemoveTechnician;
     @FXML
     private Button btnAssignTech,btnOpenPaint,btnSave,btnSend,btnSaveToDevice,btnAddImage,btnAddDevice,btnRemove,btnReturn;
     @FXML
@@ -40,6 +43,8 @@ public class DocumentationViewController extends BaseController{
     private DatePicker dpDatePicker;
     @FXML
     private ListView lvDevices;
+    @FXML
+    private Text txtTech;
 
     private List<CostumerType> costumerTypes;
 
@@ -106,6 +111,10 @@ public class DocumentationViewController extends BaseController{
             btnAssignTech.setDisable(true);
             btnAssignTech.setVisible(false);
             txtCostumerType.setEditable(false);
+            lvTechniciansOnProject.setVisible(false);
+            txtTech.setVisible(false);
+            btnRemoveTechnician.setDisable(true);
+            btnRemoveTechnician.setVisible(false);
             if(opnedProject != null)
             {
                 if (!opnedProject.getCanBeEditedByTech()) {
@@ -145,6 +154,10 @@ public class DocumentationViewController extends BaseController{
             btnAddImage.setDisable(true);
             btnRemove.setDisable(true);
             btnOpenPaint.setDisable(true);
+            lvTechniciansOnProject.setVisible(false);
+            txtTech.setVisible(false);
+            btnRemoveTechnician.setDisable(true);
+            btnRemoveTechnician.setVisible(false);
         }
         else if(getModelsHandler().getLoginModel().getUser().getClass().getSimpleName().equals(CEO.class.getSimpleName())||getModelsHandler().getLoginModel().getUser().getClass().getSimpleName().equals(ProjectManager.class.getSimpleName())){
                 txtCostumerType.setEditable(false);
@@ -271,13 +284,14 @@ public class DocumentationViewController extends BaseController{
 
     public void handleSave(ActionEvent actionEvent)
     {
-        if(opnedProject != null)
-        {
-            saveProject();
-        }
-        else
+        if(opnedProject == null)
         {
             createNewProject();
+
+        }
+        else if (opnedProject != null)
+        {
+            saveProject();
         }
     }
 
