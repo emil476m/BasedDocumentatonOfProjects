@@ -362,7 +362,7 @@ public class DocumentationViewController extends BaseController{
 
     private void createNewProject()
     {
-        if(checkTextField() && !txtaComments.getText().isEmpty())
+        if(checkTextField() && !txtaComments.getText().isEmpty() && dpDatePicker.getValue() != null)
         {
             String costumerName = txtCostumerName.getText();
             String location = "";
