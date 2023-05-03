@@ -2,6 +2,7 @@ package GUI.Controllers;
 import BE.CostumerType;
 import BE.Project;
 import BE.UserTypes.*;
+import GUI.Models.ModelsHandler;
 import GUI.Util.AlertOpener;
 import GUI.Util.ExceptionHandler;
 import javafx.event.ActionEvent;
@@ -65,10 +66,9 @@ public class DocumentationViewController extends BaseController{
             {
                 setTextFields();
                 setupListViews();
+                setUpTechniciansRemoveAddAndView();
             }
 
-
-            setUpTechniciansRemoveAddAndView();
         }
         catch (Exception e)
         {
@@ -103,25 +103,27 @@ public class DocumentationViewController extends BaseController{
             btnAssignTech.setDisable(true);
             btnAssignTech.setVisible(false);
             txtCostumerType.setEditable(false);
-            if(!opnedProject.getCanBeEditedByTech())
+            if(opnedProject != null)
             {
-                btnAssignTech.setDisable(true);
-                btnAssignTech.setVisible(false);
-                txtAddress.setEditable(false);
-                txtaComments.setEditable(false);
-                txtCostumerName.setEditable(false);
-                txtLocation.setEditable(false);
-                txtZipCode.setEditable(false);
-                menuTypes.setDisable(true);
-                txtCostumerType.setEditable(false);
-                dpDatePicker.setEditable(false);
-                dpDatePicker.setDisable(true);
-                btnSave.setDisable(true);
-                btnAddDevice.setDisable(true);
-                btnSend.setDisable(true);
-                btnAddImage.setDisable(true);
-                btnRemove.setDisable(true);
-                btnOpenPaint.setDisable(true);
+                if (!opnedProject.getCanBeEditedByTech()) {
+                    btnAssignTech.setDisable(true);
+                    btnAssignTech.setVisible(false);
+                    txtAddress.setEditable(false);
+                    txtaComments.setEditable(false);
+                    txtCostumerName.setEditable(false);
+                    txtLocation.setEditable(false);
+                    txtZipCode.setEditable(false);
+                    menuTypes.setDisable(true);
+                    txtCostumerType.setEditable(false);
+                    dpDatePicker.setEditable(false);
+                    dpDatePicker.setDisable(true);
+                    btnSave.setDisable(true);
+                    btnAddDevice.setDisable(true);
+                    btnSend.setDisable(true);
+                    btnAddImage.setDisable(true);
+                    btnRemove.setDisable(true);
+                    btnOpenPaint.setDisable(true);
+                }
             }
         } else if (getModelsHandler().getLoginModel().getUser().getClass().getSimpleName().equals(SalesPerson.class.getSimpleName())){
             btnAssignTech.setDisable(true);
@@ -266,13 +268,13 @@ public class DocumentationViewController extends BaseController{
 
     public void handleSave(ActionEvent actionEvent)
     {
-        if(opnedProject == null)
+        if(opnedProject != null)
         {
-            createNewProject();
+            saveProject();
         }
         else
         {
-            saveProject();
+            createNewProject();
         }
     }
 
@@ -338,30 +340,37 @@ public class DocumentationViewController extends BaseController{
 
     private void createNewProject()
     {
-        if(opnedProject == null)
+        if(checkTextField() && !txtaComments.getText().isEmpty())
         {
-            if(checkTextField() && !txtaComments.getText().isEmpty() && txtLocation.isDisable())
+            String costumerName = txtCostumerName.getText();
+            String location = "";
+            if(txtLocation.isDisable())
             {
-                String costumerName = txtCostumerName.getText();
-                String location = "";
-                LocalDate date = dpDatePicker.getValue();
-                String address = txtAddress.getText();
-                String zipcode = txtZipCode.getText();
-                int creator = getModelsHandler().getLoginModel().getUser().getUserID();
-                int costumerType = findCostumertype(txtCostumerType.getText());
-                boolean isDeleted = false;
-                String comment = txtaComments.getText();
-                Project project = new Project(costumerName,date,location,comment,creator,isDeleted,creator,true,date,costumerType,address,zipcode);
-                try {
-                    getModelsHandler().getDocumentationModel().saveNewProject(project, lvDevices.getItems());
-                    getModelsHandler().getTechnicianModel().getProjectsObservableList().add(project);
-                    getModelsHandler().getTechnicianModel().getMyProjectsObservableList().add(project);
-                } catch (SQLException e) {
-                    e.printStackTrace();
-                    ExceptionHandler.displayError(new SQLException("Failed to save project in Database"));
-                } catch (Exception e) {
-                    throw new RuntimeException(e);
-                }
+                location = "";
+            }
+            else
+            {
+                location = txtLocation.getText();
+            }
+            LocalDate date = dpDatePicker.getValue();
+            String address = txtAddress.getText();
+            String zipcode = txtZipCode.getText();
+            int creator = getModelsHandler().getLoginModel().getUser().getUserID();
+            int costumerType = findCostumertype(txtCostumerType.getText());
+            boolean isDeleted = false;
+            String comment = txtaComments.getText();
+            Project project = new Project(costumerName, date, location, comment, creator, isDeleted, creator, true, date, costumerType, address, zipcode);
+            try {
+                getModelsHandler().getDocumentationModel().saveNewProject(project, lvDevices.getItems());
+                getModelsHandler().getTechnicianModel().getProjectsObservableList().add(project);
+                getModelsHandler().getTechnicianModel().getMyProjectsObservableList().add(project);
+                AlertOpener.confirm("Has been saved", "Your changes have been saved.");
+            } catch (SQLException e) {
+                e.printStackTrace();
+                ExceptionHandler.displayError(new SQLException("Failed to save project in Database"));
+            } catch (Exception e) {
+                e.printStackTrace();
+                throw new RuntimeException(e);
             }
         }
     }
@@ -461,5 +470,26 @@ public class DocumentationViewController extends BaseController{
         } catch (Exception e) {
             ExceptionHandler.displayError(new Exception("Failed to remove technician from List", e));
         }
+    }
+
+    public void handleAddDevice(ActionEvent actionEvent) throws IOException {
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/GUI/Views/AddDeviceView.fxml"));
+
+        Parent root = loader.load();
+        Stage stage = new Stage();
+
+        BaseController controller = loader.getController();
+        try {
+            controller.setModel(ModelsHandler.getInstance());
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+        controller.setup();
+
+        stage.setScene(new Scene(root));
+        stage.setTitle("WUAV Documentation Add device");
+        stage.initStyle(StageStyle.UNDECORATED);
+        stage.getIcons().add(new Image("/GUI/Images/WUAV.png"));
+        stage.showAndWait();
     }
 }

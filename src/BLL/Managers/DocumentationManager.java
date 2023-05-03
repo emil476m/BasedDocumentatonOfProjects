@@ -2,6 +2,7 @@ package BLL.Managers;
 
 import BE.CostumerType;
 import BE.Device;
+import BE.DeviceType;
 import BE.Project;
 import BLL.Interfaces.IDocumentationManager;
 import DAL.DB.CostumerTypeDAO_DB;
@@ -48,5 +49,15 @@ public class DocumentationManager implements IDocumentationManager {
     @Override
     public void updateProjectAndDevices(Project project, List<Device> newDevices) throws SQLException {
         projectDAO.UpdateProjectWithDevices(project,newDevices);
+    }
+
+    @Override
+    public List<DeviceType> getAllDeviceTypes() throws Exception {
+        return deviceDAO.getAllDeviceTypes();
+    }
+
+    @Override
+    public DeviceType createCustomDeviceType(DeviceType deviceType) throws Exception {
+        return deviceDAO.createDeviceType(deviceType);
     }
 }

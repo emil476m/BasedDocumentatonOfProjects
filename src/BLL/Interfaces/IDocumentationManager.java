@@ -2,6 +2,7 @@ package BLL.Interfaces;
 
 import BE.CostumerType;
 import BE.Device;
+import BE.DeviceType;
 import BE.Project;
 
 import java.sql.SQLException;
@@ -17,4 +18,8 @@ public interface IDocumentationManager {
     List<Device> devicesForProject(Project project) throws Exception;
 
     void updateProjectAndDevices(Project project, List<Device> newDevices) throws SQLException;
+
+    List<DeviceType> getAllDeviceTypes() throws Exception;
+
+    DeviceType createCustomDeviceType(DeviceType deviceType) throws Exception;
 }

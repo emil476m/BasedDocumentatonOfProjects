@@ -69,7 +69,7 @@ public class TechnicianViewController extends BaseController{
         Parent root = loader.load();
         Stage stage = new Stage();
 
-        BaseController controller = loader.getController();
+        DocumentationViewController controller = loader.getController();
         try {
             controller.setModel(ModelsHandler.getInstance());
         } catch (Exception e) {

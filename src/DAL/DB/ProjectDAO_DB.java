@@ -127,13 +127,11 @@ public class ProjectDAO_DB implements IProjectDAO {
     }
 
     @Override
-    public Project createProject(Project project, List<Device> devices) throws SQLException {
+    public Project createProject(Project project, List<Device> device) throws SQLException {
         String projectTableString = "INSERT INTO Project (CostumerName,ProjectDate,ProjectLocation,ProjectDescription,ProjectCreator,IsDeleted,LastEditedBy,LastEdited,CanBeEditedByTech,CostumerType,ProjectAddress,ProjectZipCode) VALUES (?,?,?,?,?,?,?,?,?,?,?,?);";
-        String deviceTable = "INSERT INTO Device (DeviceUsername,DevicePassword,DeviceType) VALUES(?,?,?);";
-        String deviceForProject = "INSERT INTO DeviceForProject (DeviceId,ProjectId)";
-        String workingOnProjectString ="INSERT INTO WorkingOnProject (ProjectId,UserId) VALUES(?;?)";
+        String workingOnProjectString ="INSERT INTO WorkingOnProject (ProjectId,UserId) VALUES (?,?);";
         Project project1 = null;
-        try (Connection connection = dbConnector.getConnection();)
+        try (Connection connection = dbConnector.getConnection())
         {
             connection.setAutoCommit(false);
             PreparedStatement projectTable = connection.prepareStatement(projectTableString, Statement.RETURN_GENERATED_KEYS);
@@ -157,43 +155,52 @@ public class ProjectDAO_DB implements IProjectDAO {
                 int id = rs.getInt(1);
                 project1 = new Project(id,project.getCostumerName(),project.getProjectDate(),project.getProjectLocation(),project.getProjectDescription(),project.getProjectCreatorId(),project.getProjectIsDeleted(),project.getLastEditedBy(),project.getCanBeEditedByTech(),project.getLastEdited(),project.getCostumerType(),project.getAddress(),project.getZipCode());
             }
-            if(!devices.isEmpty()) {
-                PreparedStatement deviceT = connection.prepareStatement(deviceTable);
-                for (Device d : devices) {
-                    deviceT.setString(1, d.getDeviceUserName());
-                    deviceT.setString(2, d.getDevicePassWord());
-                    deviceT.setInt(3, d.getDeviceTypeId());
-                    deviceT.addBatch();
-                }
-                deviceT.executeBatch();
-                ResultSet rs2 = deviceT.getResultSet();
-                List<Device> deviceList = new ArrayList<>();
-                for (Device d : devices) {
-                    while (rs2.next()) {
-                        int id = rs2.getInt("Id");
-                        Device device = new Device(id, d.getDeviceTypeId(), d.getDeviceUserName(), d.getDevicePassWord(), d.getDeviceTypeString());
-                        deviceList.add(device);
-                    }
-
-                }
-
-                PreparedStatement deviceForP = connection.prepareStatement(deviceForProject);
-                for (Device dev : deviceList) {
-                    deviceForP.setInt(1, dev.getDeviceId());
-                    deviceForP.setInt(2, project1.getProjectId());
-                    deviceForP.addBatch();
-                }
-                deviceForP.executeBatch();
-            }
-            PreparedStatement workingON = connection.prepareStatement(workingOnProjectString);
-            workingON.setInt(1, project1.getProjectId());
-            workingON.setInt(2, project1.getProjectCreatorId());
-            workingON.executeUpdate();
+            PreparedStatement workingOn = connection.prepareStatement(workingOnProjectString);
+            workingOn.setInt(1, project1.getProjectId());
+            workingOn.setInt(2, project1.getProjectCreatorId());
+            workingOn.executeUpdate();
             connection.commit();
+            if(!device.isEmpty())
+            {
+                //createDeviceForProject(project1, device);
+            }
             return project1;
         }
         catch (SQLException e) {
+            e.printStackTrace();
             throw new SQLException("Failed to create project in database", e);
+        }
+    }
+
+    private void createDeviceForProject(Project project, List<Device> devices) throws SQLServerException {
+        String deviceTable = "INSERT INTO Device (DeviceUsername, DevicePassword, DeviceType) VALUES(?,?,?);";
+        String deviceForProject = "INSERT INTO DeviceForProject (DeviceId,ProjectId) VALUES(?,?);";
+        List<Device> devicesForP = devices;
+        try(Connection conn = dbConnector.getConnection())
+        {
+         PreparedStatement deviceTab = conn.prepareStatement(deviceTable);
+            for (Device d: devicesForP)
+            {
+                deviceTab.setString(1, d.getDeviceUserName());
+                deviceTab.setString(2, d.getDevicePassWord());
+                deviceTab.setInt(3, d.getDeviceTypeId());
+                deviceTab.addBatch();
+            }
+            deviceTab.executeBatch();
+            ResultSet rs1 = deviceTab.getResultSet();
+            List<Device> devicesToAdd = new ArrayList<>();
+            for (Device dev: devicesForP) {
+                while (rs1.next())
+                {
+                    int id = rs1.getInt("Id");
+                    Device device = new Device(id, dev.getDeviceTypeId(),dev.getDeviceUserName(), dev.getDevicePassWord(), dev.getDeviceTypeString());
+                    devicesToAdd.add(device);
+                }
+            }
+
+
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
         }
     }
 
@@ -220,34 +227,11 @@ public class ProjectDAO_DB implements IProjectDAO {
             statement.setInt(13, project.getProjectId());
             //Run the specified SQL Statement
             statement.executeUpdate();
-            if(newDevices == null) {
-                PreparedStatement device = conn.prepareStatement(deviceTable);
-                for (Device d : newDevices) {
-                    device.setString(1, d.getDeviceUserName());
-                    device.setString(2, d.getDevicePassWord());
-                    device.setInt(3, d.getDeviceTypeId());
-                    device.addBatch();
-                }
-                device.executeBatch();
-                ResultSet rs1 = device.getResultSet();
-                List<Device> deviceList = new ArrayList<>();
-                for (Device d : newDevices) {
-                    while (rs1.next()) {
-                        int id = rs1.getInt("Id");
-                        Device newDevice = new Device(id, d.getDeviceTypeId(), d.getDeviceUserName(), d.getDevicePassWord(), d.getDeviceTypeString());
-                        deviceList.add(newDevice);
-                    }
-                }
-
-                PreparedStatement deviceForP = conn.prepareStatement(deviceForProject);
-                for (Device dev : deviceList) {
-                    deviceForP.setInt(1, dev.getDeviceId());
-                    deviceForP.setInt(2, project.getProjectId());
-                    deviceForP.addBatch();
-                }
-                deviceForP.executeBatch();
-            }
             conn.commit();
+            if(!newDevices.isEmpty())
+            {
+                createDeviceForProject(project, newDevices);
+            }
         } catch(SQLException e){
                 throw new SQLException("failed to update project and devices",e);
         }

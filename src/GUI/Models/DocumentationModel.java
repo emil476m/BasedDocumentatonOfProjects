@@ -2,6 +2,7 @@ package GUI.Models;
 
 import BE.CostumerType;
 import BE.Device;
+import BE.DeviceType;
 import BE.Project;
 import BLL.Interfaces.IDocumentationManager;
 import BLL.Managers.DocumentationManager;
@@ -21,12 +22,14 @@ public class DocumentationModel {
 
 
     List<CostumerType> costumerTypes;
+    List<DeviceType> deviceTypes;
 
 
     public DocumentationModel() throws IOException {
         documentationManager = new DocumentationManager();
         costumerTypes = new ArrayList<>();
         devices = FXCollections.observableArrayList();
+        deviceTypes = new ArrayList<>();
     }
 
     public void getAllCostumerTypes() throws Exception {
@@ -68,5 +71,19 @@ public class DocumentationModel {
             }
         }
         documentationManager.updateProjectAndDevices(project,newDevices);
+    }
+
+    public void getAllDeviceFromDB() throws Exception {
+        deviceTypes = documentationManager.getAllDeviceTypes();
+    }
+
+    public List<DeviceType> getDeviceTypes() {return deviceTypes;}
+
+    public void addDeviceToList(Device device, DeviceType deviceType) throws Exception {
+        if(!deviceTypes.contains(deviceType))
+        {
+            documentationManager.createCustomDeviceType(deviceType);
+        }
+        devices.add(device);
     }
 }

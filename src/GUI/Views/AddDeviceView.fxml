@@ -6,8 +6,7 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.BorderPane?>
 
-
-<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="303.0" prefWidth="603.0" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1">
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="303.0" prefWidth="603.0" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="GUI.Controllers.AddDeviceViewController">
    <center>
       <AnchorPane prefHeight="328.0" prefWidth="600.0" BorderPane.alignment="CENTER">
          <children>
@@ -15,9 +14,9 @@
             <MenuButton fx:id="menuType" layoutX="219.0" layoutY="86.0" mnemonicParsing="false" text="Types" AnchorPane.leftAnchor="219.0" AnchorPane.topAnchor="86.0" />
             <TextField fx:id="txtUsername" layoutX="70.0" layoutY="134.0" promptText="Device username" AnchorPane.leftAnchor="70.0" AnchorPane.topAnchor="134.0" />
             <TextField fx:id="txtPassword" layoutX="70.0" layoutY="175.0" promptText="Device password" AnchorPane.leftAnchor="70.0" AnchorPane.topAnchor="175.0" />
-            <TextField fx:id="txtCDeviceType" layoutX="341.0" layoutY="139.0" promptText="Costume device type" AnchorPane.leftAnchor="341.0" AnchorPane.topAnchor="139.0" />
-            <Button fx:id="btnAddDevice" layoutX="210.0" layoutY="251.0" mnemonicParsing="false" text="Add Device" AnchorPane.leftAnchor="210.0" AnchorPane.topAnchor="251.0" />
-            <Button fx:id="btnCancle" layoutX="302.0" layoutY="251.0" mnemonicParsing="false" text="Cancle" AnchorPane.leftAnchor="302.0" AnchorPane.topAnchor="251.0" />
+            <TextField fx:id="txtCDeviceType" layoutX="341.0" layoutY="139.0" promptText="Custom device type" AnchorPane.leftAnchor="341.0" AnchorPane.topAnchor="139.0" />
+            <Button fx:id="btnAddDevice" layoutX="210.0" layoutY="251.0" mnemonicParsing="false" text="Add Device" AnchorPane.leftAnchor="210.0" AnchorPane.topAnchor="251.0" onAction="#handleAddDevice" />
+            <Button fx:id="btnCancle" layoutX="302.0" layoutY="251.0" mnemonicParsing="false" onAction="#handleCancle" text="Cancle" AnchorPane.leftAnchor="302.0" AnchorPane.topAnchor="251.0" />
          </children>
       </AnchorPane>
    </center>
