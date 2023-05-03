@@ -14,8 +14,10 @@ import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
+import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.image.Image;
+import javafx.scene.input.KeyEvent;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
@@ -26,6 +28,7 @@ import java.time.LocalDate;
 
 public class ProjectManagerViewController extends BaseController{
 
+    public TextField txfSearch;
     @FXML
     private Button btnShowDevices,btnshowInstallations, btnLogout;
 
@@ -138,7 +141,7 @@ public class ProjectManagerViewController extends BaseController{
     }
 
     private void toggleViews(boolean projects, boolean devices){
-
+        txfSearch.clear();
         if (projects == true){
             tbvInstallationlist.setVisible(true);
             txtViewName.setText("Installations:");
@@ -176,5 +179,38 @@ public class ProjectManagerViewController extends BaseController{
         tbvDevicelist.setItems(getModelsHandler().getProjectManagerModel().getDeviceTypesObservablelist());
         clmDeviceId.setCellValueFactory(new PropertyValueFactory<>("id"));
         clmDeviceName.setCellValueFactory(new PropertyValueFactory<>("type"));
+    }
+
+    public void searchOnButtonPress(KeyEvent keyEvent) {
+        selectSearch();
+    }
+
+    private void searchProject() {
+        String search = txfSearch.getText().toLowerCase();
+
+        if(search != null)
+            getModelsHandler().getProjectManagerModel().searchProject(search);
+        else if (search == null){
+            getModelsHandler().getProjectManagerModel().clearSearch();
+        }
+    }
+
+    private void searchDeviceType() {
+        String search = txfSearch.getText().toLowerCase();
+
+        if(search != null)
+            getModelsHandler().getProjectManagerModel().searchDeviceTypes(search);
+        else if (search == null){
+            getModelsHandler().getProjectManagerModel().clearSearch();
+        }
+    }
+
+    private void selectSearch(){
+        if (tbvDevicelist.isVisible()){
+            searchDeviceType();
+        }
+        else if (tbvInstallationlist.isVisible()){
+            searchProject();
+        }
     }
 }

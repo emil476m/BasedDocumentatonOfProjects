@@ -14,8 +14,10 @@ import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
+import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.image.Image;
+import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
@@ -24,6 +26,7 @@ import javafx.stage.StageStyle;
 import java.io.IOException;
 
 public class SalesPersonController extends BaseController {
+    public TextField txfSearch;
     @FXML
     private BorderPane borderPaneTechnician;
     @FXML
@@ -127,6 +130,7 @@ public class SalesPersonController extends BaseController {
     }
 
     private void toggleViews(boolean installations, boolean devices){
+        txfSearch.clear();
         if (installations == true){
             tbvInstallationlist.setVisible(true);
             txtViewName.setText("Installations:");
@@ -152,5 +156,38 @@ public class SalesPersonController extends BaseController {
 
     public void handleShowDevices(ActionEvent actionEvent) {
         toggleViews(false, true);
+    }
+
+    public void searchOnButtonPress(KeyEvent keyEvent) {
+        selectSearch();
+    }
+
+    private void searchProject() {
+        String search = txfSearch.getText().toLowerCase();
+
+        if(search != null)
+            getModelsHandler().getSalesPersonModel().searchProject(search);
+        else if (search == null){
+            getModelsHandler().getSalesPersonModel().clearSearch();
+        }
+    }
+
+    private void searchDeviceType() {
+        String search = txfSearch.getText().toLowerCase();
+
+        if(search != null)
+            getModelsHandler().getSalesPersonModel().searchDeviceTypes(search);
+        else if (search == null){
+            getModelsHandler().getSalesPersonModel().clearSearch();
+        }
+    }
+
+    private void selectSearch(){
+        if (tbvDevicelist.isVisible()){
+            searchDeviceType();
+        }
+        else if (tbvInstallationlist.isVisible()){
+            searchProject();
+        }
     }
 }

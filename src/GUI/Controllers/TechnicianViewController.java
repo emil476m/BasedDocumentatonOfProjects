@@ -13,8 +13,10 @@ import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
+import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.image.Image;
+import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.text.Text;
 import javafx.stage.Modality;
@@ -25,11 +27,22 @@ import java.io.IOException;
 import java.time.LocalDate;
 
 public class TechnicianViewController extends BaseController{
-    public Button btnShowDevices;
-    public BorderPane borderPaneTechnician;
-    public TableView tbvDevicelist;
-    public TableColumn clmDeviceId;
-    public TableColumn clmDeviceName;
+    @FXML
+    private Button btnShowDevices;
+    @FXML
+    private BorderPane borderPaneTechnician;
+    @FXML
+    private TableView tbvDevicelist;
+    @FXML
+    private TableColumn clmDeviceId;
+    @FXML
+    private TableColumn clmDeviceName;
+    @FXML
+    private TextField txfSearch;
+    @FXML
+    private Button btnCreate;
+    @FXML
+    private Button btnOpen;
     @FXML
     private Text txtViewName;
     @FXML
@@ -83,8 +96,6 @@ public class TechnicianViewController extends BaseController{
         stage.getIcons().add(new Image("/GUI/Images/WUAV.png"));
         stage.initModality(Modality.APPLICATION_MODAL);
         stage.show();
-    }
-    public void handleDelete(ActionEvent actionEvent) {
     }
 
     public void handleOpen(ActionEvent actionEvent) {
@@ -192,6 +203,7 @@ public class TechnicianViewController extends BaseController{
     }
 
     private void toggleViews(boolean installations, boolean myInstallations, boolean devices){
+        txfSearch.clear();
         if (installations == true){
             tbvInstallationlist.setVisible(true);
             txtViewName.setText("Installations:");
@@ -215,14 +227,64 @@ public class TechnicianViewController extends BaseController{
             tbvDevicelist.setVisible(true);
             txtViewName.setText("DeviceTypes:");
             btnShowDevices.setDisable(true);
+            btnCreate.setVisible(false);
+            btnOpen.setVisible(false);
         }
         else {
             btnShowDevices.setDisable(false);
             tbvDevicelist.setVisible(false);
+            btnCreate.setVisible(true);
+            btnOpen.setVisible(true);
         }
     }
 
     public void handleShowDevices(ActionEvent actionEvent) {
         toggleViews(false,false, true);
+    }
+
+    private void searchMyProject() {
+        String search = txfSearch.getText().toLowerCase();
+
+        if(search != null)
+            getModelsHandler().getTechnicianModel().searchMyProject(search);
+        else if (search == null){
+            getModelsHandler().getTechnicianModel().clearSearch();
+        }
+    }
+
+    private void searchProject() {
+        String search = txfSearch.getText().toLowerCase();
+
+        if(search != null)
+            getModelsHandler().getTechnicianModel().searchProject(search);
+        else if (search == null){
+            getModelsHandler().getTechnicianModel().clearSearch();
+        }
+    }
+
+    private void searchDeviceType() {
+        String search = txfSearch.getText().toLowerCase();
+
+        if(search != null)
+            getModelsHandler().getTechnicianModel().searchDeviceTypes(search);
+        else if (search == null){
+            getModelsHandler().getTechnicianModel().clearSearch();
+        }
+    }
+
+    public void searchOnButtonPress(KeyEvent keyEvent) {
+        selectSearch();
+    }
+
+    private void selectSearch(){
+        if (tbvMyInstallationlist.isVisible()){
+            searchMyProject();
+        }
+        else if (tbvDevicelist.isVisible()){
+            searchDeviceType();
+        }
+        else if (tbvInstallationlist.isVisible()){
+            searchProject();
+        }
     }
 }
