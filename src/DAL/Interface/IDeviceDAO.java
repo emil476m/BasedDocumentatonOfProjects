@@ -14,4 +14,6 @@ public interface IDeviceDAO {
     void updateDeviceType(DeviceType deviceType) throws Exception;
 
     List<Device> getAllDevicesForProject(Project project) throws Exception;
+
+    boolean checkIfDeviceTypeNameIsDuplicate(DeviceType deviceType) throws Exception;
 }

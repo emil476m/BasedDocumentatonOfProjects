@@ -32,4 +32,6 @@ public interface ICEOManager {
     void addUsersToWorkingOnProject(List<User> userListToBeAdded, Project project) throws Exception;
 
     void deleteFromWorkingOnProject(User user, Project project) throws Exception;
+
+    boolean checkIfDeviceTypeNameIsDuplicate(DeviceType deviceType) throws Exception;
 }

@@ -1,6 +1,7 @@
 package GUI.Controllers;
 
 import BE.DeviceType;
+import GUI.Util.AlertOpener;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
@@ -23,8 +24,13 @@ public class createDeviceTypeController extends BaseController{
         if (!txtfDeviceTypeName.getText().isEmpty() && txtfDeviceTypeName != null){
             try {
                 DeviceType deviceType = new DeviceType(txtfDeviceTypeName.getText(), false, false);
-                getModelsHandler().getCeoModel().createDeviceType(deviceType);
-                handleExit();
+                if (!getModelsHandler().getCeoModel().checkIfDeviceTypeNameIsDuplicate(deviceType)){
+                    getModelsHandler().getCeoModel().createDeviceType(deviceType);
+                    handleExit();
+                }
+                else {
+                    AlertOpener.validationError("The DeviceType type already exist in the database");
+                }
             } catch (Exception e) {
                 throw new RuntimeException(e);
             }

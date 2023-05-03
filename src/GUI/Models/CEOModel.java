@@ -246,4 +246,9 @@ public class CEOModel {
                 deviceTypeObservableList.add(d);
         }
     }
+
+
+    public boolean checkIfDeviceTypeNameIsDuplicate(DeviceType deviceType) throws Exception {
+        return ceoManager.checkIfDeviceTypeNameIsDuplicate(deviceType);
+    }
 }

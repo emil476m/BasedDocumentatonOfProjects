@@ -88,4 +88,9 @@ public class CEOManager implements ICEOManager {
     public void deleteFromWorkingOnProject(User user, Project project) throws Exception{
         userDatabaseAccess.deleteFromWorkingOnProject(user, project);
     }
+
+    @Override
+    public boolean checkIfDeviceTypeNameIsDuplicate(DeviceType deviceType) throws Exception {
+        return deviceDatabaseAccess.checkIfDeviceTypeNameIsDuplicate(deviceType);
+    }
 }

@@ -5,7 +5,6 @@ import BE.DeviceType;
 import BE.Project;
 import DAL.DatabaseConnector;
 import DAL.Interface.IDeviceDAO;
-import com.microsoft.sqlserver.jdbc.SQLServerException;
 
 import java.io.IOException;
 import java.sql.*;
@@ -124,5 +123,25 @@ public class DeviceDAO_DB implements IDeviceDAO {
         }
     }
 
+    @Override
+    public boolean checkIfDeviceTypeNameIsDuplicate(DeviceType deviceType) throws Exception {
+        String sql = "SELECT * FROM DeviceType WHERE Type LIKE '%" + deviceType.getType() + "%';";
 
+        try (Connection connection = dbConnector.getConnection();
+             PreparedStatement statement = connection.prepareStatement(sql)) {
+
+            ResultSet resultSet = statement.executeQuery();
+
+            while (resultSet.next()) {
+                String type = resultSet.getString("Type");
+                if (type.equals(deviceType.getType()))
+                    return true;
+            }
+            return false;
+        }
+        catch (SQLException e) {
+            e.printStackTrace();
+            throw new Exception("Failed to Check DeviceTypes", e);
+        }
+    }
 }
