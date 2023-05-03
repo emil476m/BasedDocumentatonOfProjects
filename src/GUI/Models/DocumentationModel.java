@@ -13,6 +13,7 @@ import java.io.File;
 import java.io.IOException;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
 public class DocumentationModel {
@@ -41,8 +42,8 @@ public class DocumentationModel {
         return costumerTypes;
     }
 
-    public void saveNewProject(Project project, List<Device> devices) throws SQLException {
-        documentationManager.createProject(project, devices);
+    public Project saveNewProject(Project project, List<Device> devices) throws SQLException {
+       return documentationManager.createProject(project, devices);
     }
 
     public void sentToProjectManager(Project project) throws Exception {
@@ -63,14 +64,18 @@ public class DocumentationModel {
     public void saveproject(Project project, ObservableList devices) throws Exception {
         List<Device> devicesOnProject = documentationManager.devicesForProject(project);
         List<Device> newDevices = devices;
-        for (Device d: devicesOnProject)
-        {
-            if(newDevices.contains(d))
+        for (Device d: devicesOnProject) {
+            Iterator ndi = newDevices.iterator();
+            while (ndi.hasNext())
             {
-                newDevices.remove(d);
+                Device nd = (Device) ndi.next();
+                if(d.getDeviceId() == nd.getDeviceId())
+                {
+                    ndi.remove();
+                }
             }
         }
-        documentationManager.updateProjectAndDevices(project,newDevices);
+        documentationManager.createProject(project,newDevices);
     }
 
     public void getAllDeviceFromDB() throws Exception {
@@ -80,10 +85,14 @@ public class DocumentationModel {
     public List<DeviceType> getDeviceTypes() {return deviceTypes;}
 
     public void addDeviceToList(Device device, DeviceType deviceType) throws Exception {
-        if(!deviceTypes.contains(deviceType))
+        for (DeviceType dt: deviceTypes)
         {
-            documentationManager.createCustomDeviceType(deviceType);
+            if(dt.getType().equals(deviceType.getType()))
+            {
+                documentationManager.createCustomDeviceType(deviceType);
+            }
         }
+
         devices.add(device);
     }
 }

@@ -162,7 +162,7 @@ public class ProjectDAO_DB implements IProjectDAO {
             connection.commit();
             if(!device.isEmpty())
             {
-                //createDeviceForProject(project1, device);
+                createDeviceForProject(project1, device);
             }
             return project1;
         }
@@ -176,29 +176,33 @@ public class ProjectDAO_DB implements IProjectDAO {
         String deviceTable = "INSERT INTO Device (DeviceUsername, DevicePassword, DeviceType) VALUES(?,?,?);";
         String deviceForProject = "INSERT INTO DeviceForProject (DeviceId,ProjectId) VALUES(?,?);";
         List<Device> devicesForP = devices;
+        List<Device> devicesToAdd = new ArrayList<>();
         try(Connection conn = dbConnector.getConnection())
         {
-         PreparedStatement deviceTab = conn.prepareStatement(deviceTable);
-            for (Device d: devicesForP)
-            {
+         PreparedStatement deviceTab = conn.prepareStatement(deviceTable, Statement.RETURN_GENERATED_KEYS);
+         conn.setAutoCommit(false);
+            for (Device d: devicesForP) {
                 deviceTab.setString(1, d.getDeviceUserName());
                 deviceTab.setString(2, d.getDevicePassWord());
                 deviceTab.setInt(3, d.getDeviceTypeId());
-                deviceTab.addBatch();
-            }
-            deviceTab.executeBatch();
-            ResultSet rs1 = deviceTab.getResultSet();
-            List<Device> devicesToAdd = new ArrayList<>();
-            for (Device dev: devicesForP) {
+                deviceTab.executeUpdate();
+                ResultSet rs1 = deviceTab.getGeneratedKeys();
                 while (rs1.next())
                 {
-                    int id = rs1.getInt("Id");
-                    Device device = new Device(id, dev.getDeviceTypeId(),dev.getDeviceUserName(), dev.getDevicePassWord(), dev.getDeviceTypeString());
+                    int id = rs1.getInt(1);
+                    Device device = new Device(id, d.getDeviceTypeId(), d.getDeviceUserName(),d.getDevicePassWord(),d.getDeviceTypeString());
                     devicesToAdd.add(device);
                 }
             }
-
-
+            PreparedStatement devsForProject = conn.prepareStatement(deviceForProject);
+            for (Device dev: devicesToAdd)
+            {
+                devsForProject.setInt(1,dev.getDeviceId());
+                devsForProject.setInt(2,project.getProjectId());
+                devsForProject.addBatch();
+            }
+            devsForProject.executeBatch();
+            conn.commit();
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }

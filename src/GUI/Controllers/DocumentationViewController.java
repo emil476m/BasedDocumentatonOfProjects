@@ -5,6 +5,7 @@ import BE.UserTypes.*;
 import GUI.Models.ModelsHandler;
 import GUI.Util.AlertOpener;
 import GUI.Util.ExceptionHandler;
+import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 
@@ -57,6 +58,7 @@ public class DocumentationViewController extends BaseController{
         try
         {
             generateMenuItems();
+            setupListViews();
             if(txtCostumerType.getText() != null)
             {
                 checkCostumertype();
@@ -64,9 +66,7 @@ public class DocumentationViewController extends BaseController{
 
             if(opnedProject !=null)
             {
-                setTextFields();
-                setupListViews();
-                setUpTechniciansRemoveAddAndView();
+                setTextFields();setUpTechniciansRemoveAddAndView();
             }
 
         }
@@ -79,7 +79,10 @@ public class DocumentationViewController extends BaseController{
 
     private void setupListViews() {
         try {
-            getModelsHandler().getDocumentationModel().getAllDevicesForProject(opnedProject);
+            if(opnedProject != null)
+            {
+                getModelsHandler().getDocumentationModel().getAllDevicesForProject(opnedProject);
+            }
             lvDevices.setItems(getModelsHandler().getDocumentationModel().getDevices());
         } catch (Exception e) {
             throw new RuntimeException(e);
@@ -338,6 +341,25 @@ public class DocumentationViewController extends BaseController{
         }
     }
 
+    private void updateTableViewsNewProject(Project project, ObservableList devices) throws SQLException {
+        if(getModelsHandler().getLoginModel().getUser().getClass().getSimpleName().equals(CEO.class.getSimpleName()))
+        {
+            getModelsHandler().getCeoModel().getProjectsObservableList().add(getModelsHandler().getDocumentationModel().saveNewProject(project,devices));
+        }
+        else if (getModelsHandler().getLoginModel().getUser().getClass().getSimpleName().equals(Technician.class.getSimpleName()))
+        {
+            if(getModelsHandler().getTechnicianModel().getMyProjectsObservableList().contains(project))
+            {
+                getModelsHandler().getTechnicianModel().getMyProjectsObservableList().add(getModelsHandler().getDocumentationModel().saveNewProject(project,devices));
+            }
+            getModelsHandler().getTechnicianModel().getProjectsObservableList().add(getModelsHandler().getDocumentationModel().saveNewProject(project,devices));
+        }
+        if(getModelsHandler().getLoginModel().getUser().getClass().getSimpleName().equals(ProjectManager.class.getSimpleName()))
+        {
+            getModelsHandler().getProjectManagerModel().getAllProjectsObservablelist().add(getModelsHandler().getDocumentationModel().saveNewProject(project,devices));
+        }
+    }
+
     private void createNewProject()
     {
         if(checkTextField() && !txtaComments.getText().isEmpty())
@@ -361,16 +383,12 @@ public class DocumentationViewController extends BaseController{
             String comment = txtaComments.getText();
             Project project = new Project(costumerName, date, location, comment, creator, isDeleted, creator, true, date, costumerType, address, zipcode);
             try {
-                getModelsHandler().getDocumentationModel().saveNewProject(project, lvDevices.getItems());
-                getModelsHandler().getTechnicianModel().getProjectsObservableList().add(project);
-                getModelsHandler().getTechnicianModel().getMyProjectsObservableList().add(project);
+                updateTableViewsNewProject(project, lvDevices.getItems());
                 AlertOpener.confirm("Has been saved", "Your changes have been saved.");
             } catch (SQLException e) {
-                e.printStackTrace();
                 ExceptionHandler.displayError(new SQLException("Failed to save project in Database"));
             } catch (Exception e) {
-                e.printStackTrace();
-                throw new RuntimeException(e);
+                ExceptionHandler.displayError(new RuntimeException("Failed to create new project"));
             }
         }
     }
