@@ -129,6 +129,7 @@ public class ProjectDAO_DB implements IProjectDAO {
     @Override
     public Project createProject(Project project, List<Device> device) throws SQLException {
         String projectTableString = "INSERT INTO Project (CostumerName,ProjectDate,ProjectLocation,ProjectDescription,ProjectCreator,IsDeleted,LastEditedBy,LastEdited,CanBeEditedByTech,CostumerType,ProjectAddress,ProjectZipCode) VALUES (?,?,?,?,?,?,?,?,?,?,?,?);";
+        String checkUser = "SELECT UserType FROM [User] WHERE Id = ?;";
         String workingOnProjectString ="INSERT INTO WorkingOnProject (ProjectId,UserId) VALUES (?,?);";
         Project project1 = null;
         try (Connection connection = dbConnector.getConnection())
@@ -155,10 +156,27 @@ public class ProjectDAO_DB implements IProjectDAO {
                 int id = rs.getInt(1);
                 project1 = new Project(id,project.getCostumerName(),project.getProjectDate(),project.getProjectLocation(),project.getProjectDescription(),project.getProjectCreatorId(),project.getProjectIsDeleted(),project.getLastEditedBy(),project.getCanBeEditedByTech(),project.getLastEdited(),project.getCostumerType(),project.getAddress(),project.getZipCode());
             }
-            PreparedStatement workingOn = connection.prepareStatement(workingOnProjectString);
-            workingOn.setInt(1, project1.getProjectId());
-            workingOn.setInt(2, project1.getProjectCreatorId());
-            workingOn.executeUpdate();
+            boolean addToWorkingOn = false;
+            PreparedStatement userCheck = connection.prepareStatement(checkUser);
+            userCheck.setInt(1, project.getProjectCreatorId());
+
+            ResultSet userRS = userCheck.executeQuery();
+            while (userRS.next()) {
+                int userType = userRS.getInt("UserType");
+                if (userType == 3)
+                    addToWorkingOn = true;
+                else
+                    addToWorkingOn = false;
+                System.out.println("This is userType: " +userType);
+                System.out.println("This is boolean: " + addToWorkingOn);
+            }
+
+            if (addToWorkingOn) {
+                PreparedStatement workingOn = connection.prepareStatement(workingOnProjectString);
+                workingOn.setInt(1, project1.getProjectId());
+                workingOn.setInt(2, project1.getProjectCreatorId());
+                workingOn.executeUpdate();
+            }
             connection.commit();
             if(!device.isEmpty())
             {
