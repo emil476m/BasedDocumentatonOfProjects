@@ -22,4 +22,6 @@ public interface IDocumentationManager {
     List<DeviceType> getAllDeviceTypes() throws Exception;
 
     DeviceType createCustomDeviceType(DeviceType deviceType) throws Exception;
+
+    List<Integer> getUsersWorkingOnProject(Project project) throws Exception;
 }

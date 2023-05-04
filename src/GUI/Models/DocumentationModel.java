@@ -4,6 +4,7 @@ import BE.CostumerType;
 import BE.Device;
 import BE.DeviceType;
 import BE.Project;
+import BE.UserTypes.User;
 import BLL.Interfaces.IDocumentationManager;
 import BLL.Managers.DocumentationManager;
 import javafx.collections.FXCollections;
@@ -99,4 +100,10 @@ public class DocumentationModel {
 
         devices.add(device);
     }
+
+    public List<Integer> getUsersWorkingOnProject(Project project) throws Exception{
+        List<Integer> allUsersId = documentationManager.getUsersWorkingOnProject(project);
+        return allUsersId;
+    }
+
 }

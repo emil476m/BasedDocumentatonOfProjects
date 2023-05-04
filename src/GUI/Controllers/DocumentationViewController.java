@@ -56,7 +56,11 @@ public class DocumentationViewController extends BaseController{
 
     @Override
     public void setup() {
-        checkAccesslevel();
+        try {
+            checkAccesslevel();
+        } catch (Exception e) {
+            ExceptionHandler.displayError(new RuntimeException("failed to check access level" , e));
+        }
         costumerTypes = new ArrayList<>();
         textFields = new ArrayList<>();
         addTextFields();
@@ -71,7 +75,8 @@ public class DocumentationViewController extends BaseController{
 
             if(opnedProject !=null)
             {
-                setTextFields();setUpTechniciansRemoveAddAndView();
+                setTextFields();
+                setUpTechniciansRemoveAddAndView();
             }
 
         }
@@ -105,9 +110,8 @@ public class DocumentationViewController extends BaseController{
         textFields.add(txtLocation);
     }
 
-    private void checkAccesslevel()
-    {
-        if(getModelsHandler().getLoginModel().getUser().getClass().getSimpleName().equals(Technician.class.getSimpleName()))
+    private void checkAccesslevel() throws Exception {
+        if(getModelsHandler().getLoginModel().getUser().getClass().getSimpleName().equals(Technician.class.getSimpleName()) && checkIfUserCanEdit())
         {
             btnAssignTech.setDisable(true);
             btnAssignTech.setVisible(false);
@@ -138,27 +142,13 @@ public class DocumentationViewController extends BaseController{
                     btnOpenPaint.setDisable(true);
                 }
             }
-        } else if (getModelsHandler().getLoginModel().getUser().getClass().getSimpleName().equals(SalesPerson.class.getSimpleName())){
-            btnAssignTech.setDisable(true);
-            btnAssignTech.setVisible(false);
-            txtAddress.setEditable(false);
-            txtaComments.setEditable(false);
-            txtCostumerName.setEditable(false);
-            txtLocation.setEditable(false);
-            txtZipCode.setEditable(false);
-            menuTypes.setDisable(true);
-            txtCostumerType.setEditable(false);
-            dpDatePicker.setEditable(false);
-            btnSave.setDisable(true);
-            btnAddDevice.setDisable(true);
-            btnSend.setDisable(true);
-            btnAddImage.setDisable(true);
-            btnRemove.setDisable(true);
-            btnOpenPaint.setDisable(true);
-            lvTechniciansOnProject.setVisible(false);
-            txtTech.setVisible(false);
-            btnRemoveTechnician.setDisable(true);
-            btnRemoveTechnician.setVisible(false);
+        }
+        if(getModelsHandler().getLoginModel().getUser().getClass().getSimpleName().equals(Technician.class.getSimpleName()) && !checkIfUserCanEdit())
+        {
+            nonEditAccess();
+        }
+        else if (getModelsHandler().getLoginModel().getUser().getClass().getSimpleName().equals(SalesPerson.class.getSimpleName())){
+           nonEditAccess();
         }
         else if(getModelsHandler().getLoginModel().getUser().getClass().getSimpleName().equals(CEO.class.getSimpleName())||getModelsHandler().getLoginModel().getUser().getClass().getSimpleName().equals(ProjectManager.class.getSimpleName())){
                 txtCostumerType.setEditable(false);
@@ -166,6 +156,29 @@ public class DocumentationViewController extends BaseController{
         }
     }
 
+    private void nonEditAccess()
+    {
+        btnAssignTech.setDisable(true);
+        btnAssignTech.setVisible(false);
+        txtAddress.setEditable(false);
+        txtaComments.setEditable(false);
+        txtCostumerName.setEditable(false);
+        txtLocation.setEditable(false);
+        txtZipCode.setEditable(false);
+        menuTypes.setDisable(true);
+        txtCostumerType.setEditable(false);
+        dpDatePicker.setEditable(false);
+        btnSave.setDisable(true);
+        btnAddDevice.setDisable(true);
+        btnSend.setDisable(true);
+        btnAddImage.setDisable(true);
+        btnRemove.setDisable(true);
+        btnOpenPaint.setDisable(true);
+        lvTechniciansOnProject.setVisible(false);
+        txtTech.setVisible(false);
+        btnRemoveTechnician.setDisable(true);
+        btnRemoveTechnician.setVisible(false);
+    }
 
     private void generateMenuItems() throws Exception {
         getModelsHandler().getDocumentationModel().getAllCostumerTypes();
@@ -493,6 +506,18 @@ public class DocumentationViewController extends BaseController{
         }
 
         lvTechniciansOnProject.setItems(getModelsHandler().getCeoModel().getUserOnCurrentProject());
+    }
+
+    private boolean checkIfUserCanEdit() throws Exception {
+       List<Integer> userIds = getModelsHandler().getDocumentationModel().getUsersWorkingOnProject(opnedProject);
+        for (Integer i: userIds)
+        {
+            if(i == getModelsHandler().getLoginModel().getUser().getUserID())
+            {
+                return true;
+            }
+        }
+        return false;
     }
 
     public void handleRemoveTechnician(ActionEvent actionEvent) {

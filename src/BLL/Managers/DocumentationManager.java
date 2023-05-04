@@ -8,9 +8,11 @@ import BLL.Interfaces.IDocumentationManager;
 import DAL.DB.CostumerTypeDAO_DB;
 import DAL.DB.DeviceDAO_DB;
 import DAL.DB.ProjectDAO_DB;
+import DAL.DB.UserDAO_DB;
 import DAL.Interface.ICostumerTypeDAO;
 import DAL.Interface.IDeviceDAO;
 import DAL.Interface.IProjectDAO;
+import DAL.Interface.IUserDAO;
 
 import java.io.IOException;
 import java.sql.SQLException;
@@ -20,11 +22,13 @@ public class DocumentationManager implements IDocumentationManager {
     private ICostumerTypeDAO costumerTypeDAO;
     private IProjectDAO projectDAO;
     private IDeviceDAO deviceDAO;
+    private IUserDAO userDAO;
 
     public DocumentationManager() throws IOException {
         costumerTypeDAO = new CostumerTypeDAO_DB();
         projectDAO = new ProjectDAO_DB();
         deviceDAO = new DeviceDAO_DB();
+        userDAO = new UserDAO_DB();
     }
     @Override
     public List<CostumerType> getAllCostumerTypes() throws Exception {
@@ -59,5 +63,10 @@ public class DocumentationManager implements IDocumentationManager {
     @Override
     public DeviceType createCustomDeviceType(DeviceType deviceType) throws Exception {
         return deviceDAO.createDeviceType(deviceType);
+    }
+
+    @Override
+    public List<Integer> getUsersWorkingOnProject(Project project) throws Exception{
+        return userDAO.getUsersWorkingOnProject(project);
     }
 }
