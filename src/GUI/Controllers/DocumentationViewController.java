@@ -84,6 +84,7 @@ public class DocumentationViewController extends BaseController{
 
     private void setupListViews() {
         try {
+            getModelsHandler().getDocumentationModel().getDevices().clear();
             if(opnedProject != null)
             {
                 getModelsHandler().getDocumentationModel().getAllDevicesForProject(opnedProject);
