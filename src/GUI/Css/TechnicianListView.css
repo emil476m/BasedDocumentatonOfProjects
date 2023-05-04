@@ -5,6 +5,8 @@
 {
     -fx-background-color: #393939;;
     -fx-font-family: 'Russo One', sans-serif;
+    -fx-border-color: #000000;
+    -fx-border-width: 3px;
 }
 
 .button
@@ -29,6 +31,8 @@
 .text-field
 {
     -fx-background-color: #ECF2F7;
+    -fx-border-color: #444444;
+    -fx-border-radius:5px;
 }
 
 .text, .label

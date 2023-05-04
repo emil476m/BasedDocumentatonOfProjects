@@ -5,6 +5,8 @@
 {
     -fx-background-color: #393939;;
     -fx-font-family: 'Russo One', sans-serif;
+    -fx-border-color: #000000;
+    -fx-border-width: 3px;
 }
 
 .button

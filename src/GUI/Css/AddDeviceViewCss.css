@@ -5,6 +5,8 @@
 {
     -fx-background-color: #393939;;
     -fx-font-family: 'Russo One', sans-serif;
+    -fx-border-color: #000000;
+    -fx-border-width: 3px;
 }
 
 .button
@@ -25,8 +27,16 @@
     -fx-background-radius:20px;
 }
 
-.menu-item{
+.menu-item .label
+{
+    -fx-text-fill: #393939;
+}
+
+.menu-item:focused{
     -fx-background-color: #444444;
+}
+
+.menu-item:focused .label{
     -fx-text-fill: #F8F8F8;
 }
 
