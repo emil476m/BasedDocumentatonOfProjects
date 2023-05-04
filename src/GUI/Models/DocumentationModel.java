@@ -51,8 +51,8 @@ public class DocumentationModel {
     }
 
     public void getAllDevicesForProject(Project project) throws Exception {
-        List<Device> deviceList = documentationManager.devicesForProject(project);
         devices.clear();
+        List<Device> deviceList = documentationManager.devicesForProject(project);
         devices.addAll(deviceList);
     }
 
@@ -79,7 +79,7 @@ public class DocumentationModel {
                 }
             }
         }
-        documentationManager.updateProjectAndDevices(project,devices);
+        documentationManager.updateProjectAndDevices(project,newDevices);
     }
 
     public void getAllDeviceFromDB() throws Exception {
