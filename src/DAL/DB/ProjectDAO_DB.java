@@ -312,7 +312,6 @@ public class ProjectDAO_DB implements IProjectDAO {
                     return true;
                 }
             }
-            System.out.println("Does not match");
             return false;
         }
         catch (SQLException e)
