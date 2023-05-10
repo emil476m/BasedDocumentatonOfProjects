@@ -14,7 +14,7 @@ public class AlertOpener {
      */
     public static boolean confirm(String header, String content) {
         Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
-        alert.setTitle("Confirm Delete");
+        alert.setTitle("Confirm");
         alert.setHeaderText(header);
         alert.setContentText(content);
 

@@ -21,6 +21,9 @@ import javafx.stage.StageStyle;
 
 import java.io.IOException;
 import java.sql.SQLException;
+import java.sql.Time;
+import java.sql.Timestamp;
+import java.time.Instant;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
@@ -111,7 +114,7 @@ public class DocumentationViewController extends BaseController{
     }
 
     private void checkAccesslevel() throws Exception {
-        if(getModelsHandler().getLoginModel().getUser().getClass().getSimpleName().equals(Technician.class.getSimpleName()) && checkIfUserCanEdit())
+        if(getModelsHandler().getLoginModel().getUser().getClass().getSimpleName().equals(Technician.class.getSimpleName()))
         {
             btnAssignTech.setDisable(true);
             btnAssignTech.setVisible(false);
@@ -141,12 +144,13 @@ public class DocumentationViewController extends BaseController{
                     btnRemove.setDisable(true);
                     btnOpenPaint.setDisable(true);
                 }
+                if(!checkIfUserCanEdit() && opnedProject != null)
+                {
+                    nonEditAccess();
+                }
             }
         }
-        if(getModelsHandler().getLoginModel().getUser().getClass().getSimpleName().equals(Technician.class.getSimpleName()) && !checkIfUserCanEdit())
-        {
-            nonEditAccess();
-        }
+
         else if (getModelsHandler().getLoginModel().getUser().getClass().getSimpleName().equals(SalesPerson.class.getSimpleName())){
            nonEditAccess();
         }
@@ -290,12 +294,11 @@ public class DocumentationViewController extends BaseController{
     {
         if(opnedProject != null)
         {
-            try
-            {
-                    Project project = opnedProject;
-                    project.setCanBeEditedByTech(canEdit);
-                    updateProjectList(project);
-                    getModelsHandler().getDocumentationModel().sentToProjectManager(project);
+            try {
+                Project project = opnedProject;
+                project.setCanBeEditedByTech(canEdit);
+                updateProjectList(project);
+                getModelsHandler().getDocumentationModel().sentToProjectManager(project);
             }
             catch (Exception e) {
                 ExceptionHandler.displayError(new RuntimeException("Failed to send installation to project manager", e));
@@ -392,37 +395,60 @@ public class DocumentationViewController extends BaseController{
                 location = txtLocation.getText();
             }
             LocalDate date = dpDatePicker.getValue();
-            Project project = new Project(opnedProject.getProjectId(), costumerName , date, location, comment, opnedProject.getProjectCreatorId(), opnedProject.getProjectIsDeleted(), opnedProject.getLastEditedBy(), opnedProject.getCanBeEditedByTech(), LocalDate.now(), costumerType, address, zipCode);
-            getModelsHandler().getDocumentationModel().saveproject(project, lvDevices.getItems());
-            updateTableviews(project, opnedProject);
-            AlertOpener.confirm("Has been saved", "Your changes have been saved.");
+
+            if (getModelsHandler().getDocumentationModel().lastProjectEditMatch(opnedProject)){
+                Project project = new Project(opnedProject.getProjectId(), costumerName , date, location, comment, opnedProject.getProjectCreatorId(), opnedProject.getProjectIsDeleted(), opnedProject.getLastEditedBy(), opnedProject.getCanBeEditedByTech(), Timestamp.from(Instant.now()), costumerType, address, zipCode);
+                getModelsHandler().getDocumentationModel().saveproject(project, lvDevices.getItems());
+                updateTableviews(project);
+                AlertOpener.confirm("Has been saved", "Your changes have been saved.");
+            }
+            else {
+                if (AlertOpener.confirm("Project is not up to date!!", "Please copy your changes and press ok to reload the project")){
+                    opnedProject = getModelsHandler().getDocumentationModel().getProjectFromId(opnedProject);
+                    setup();
+                }
+            }
+
         } catch (Exception e) {
             e.printStackTrace();
             ExceptionHandler.displayError(new RuntimeException("failed to update project", e));
         }
     }
 
-    private void updateTableviews(Project project, Project opnedProject)
+    private void updateTableviews(Project project)
     {
         if(getModelsHandler().getLoginModel().getUser().getClass().getSimpleName().equals(CEO.class.getSimpleName()))
         {
-            getModelsHandler().getCeoModel().getProjectsObservableList().remove(opnedProject);
-            getModelsHandler().getCeoModel().getProjectsObservableList().add(project);
+            for (Project p1 :getModelsHandler().getCeoModel().getProjectsObservableList()){
+                if (p1.getProjectId() == project.getProjectId()){
+                    getModelsHandler().getCeoModel().getProjectsObservableList().remove(p1);
+                    getModelsHandler().getCeoModel().getProjectsObservableList().add(project);
+                }
+            }
         }
         else if (getModelsHandler().getLoginModel().getUser().getClass().getSimpleName().equals(Technician.class.getSimpleName()))
         {
-            if(getModelsHandler().getTechnicianModel().getMyProjectsObservableList().contains(project))
-            {
-                getModelsHandler().getTechnicianModel().getMyProjectsObservableList().remove(opnedProject);
-                getModelsHandler().getTechnicianModel().getMyProjectsObservableList().add(project);
+            for (Project p1 :getModelsHandler().getTechnicianModel().getProjectsObservableList()){
+                if (p1.getProjectId() == project.getProjectId()){
+                    getModelsHandler().getTechnicianModel().getProjectsObservableList().remove(p1);
+                    getModelsHandler().getTechnicianModel().getProjectsObservableList().add(project);
+
+                    if(getModelsHandler().getTechnicianModel().getMyProjectsObservableList().contains(project))
+                    {
+                        getModelsHandler().getTechnicianModel().getProjectsObservableList().remove(p1);
+                        getModelsHandler().getTechnicianModel().getProjectsObservableList().add(project);
+                    }
+                }
             }
-            getModelsHandler().getTechnicianModel().getProjectsObservableList().remove(opnedProject);
-            getModelsHandler().getTechnicianModel().getProjectsObservableList().add(project);
         }
-        if(getModelsHandler().getLoginModel().getUser().getClass().getSimpleName().equals(ProjectManager.class.getSimpleName()))
+       else if(getModelsHandler().getLoginModel().getUser().getClass().getSimpleName().equals(ProjectManager.class.getSimpleName()))
         {
-            getModelsHandler().getProjectManagerModel().getAllProjectsObservablelist().remove(opnedProject);
-            getModelsHandler().getProjectManagerModel().getAllProjectsObservablelist().add(project);
+            for (Project p1 :getModelsHandler().getProjectManagerModel().getAllProjectsObservablelist()){
+                if (p1.getProjectId() == project.getProjectId()){
+                    getModelsHandler().getProjectManagerModel().getAllProjectsObservablelist().remove(p1);
+                    getModelsHandler().getProjectManagerModel().getAllProjectsObservablelist().add(project);
+                }
+            }
         }
     }
 
@@ -471,7 +497,7 @@ public class DocumentationViewController extends BaseController{
             int costumerType = findCostumertype(txtCostumerType.getText());
             boolean isDeleted = false;
             String comment = txtaComments.getText();
-            Project project = new Project(costumerName, date, location, comment, creator, isDeleted, creator, true, date, costumerType, address, zipcode);
+            Project project = new Project(costumerName, date, location, comment, creator, isDeleted, creator, true, Timestamp.from(Instant.now()), costumerType, address, zipcode);
             try {
                 updateTableViewsNewProject(project, lvDevices.getItems());
                 AlertOpener.confirm("Has been saved", "Your changes have been saved.");
@@ -577,7 +603,12 @@ public class DocumentationViewController extends BaseController{
 
     public void setOpenedProject(Project project)
     {
-        opnedProject = project;
+
+        try {
+            opnedProject = getModelsHandler().getDocumentationModel().getProjectFromId(project);
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
     }
 
     private void setUpTechniciansRemoveAddAndView(){

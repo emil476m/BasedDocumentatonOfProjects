@@ -69,4 +69,14 @@ public class DocumentationManager implements IDocumentationManager {
     public List<Integer> getUsersWorkingOnProject(Project project) throws Exception{
         return userDAO.getUsersWorkingOnProject(project);
     }
+
+    @Override
+    public boolean lastProjectEditMatch(Project project) throws Exception {
+        return projectDAO.lastProjectEditMatch(project);
+    }
+
+    @Override
+    public Project getProjectFromId(Project project) throws Exception {
+        return projectDAO.getProjectFromId(project);
+    }
 }

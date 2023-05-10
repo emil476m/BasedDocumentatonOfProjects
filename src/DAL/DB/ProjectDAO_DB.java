@@ -40,7 +40,7 @@ public class ProjectDAO_DB implements IProjectDAO {
                 String isDeleted = resultSet.getString("IsDeleted");
                 int editedBy = resultSet.getInt("LastEditedBy");
                 String canBeEditedByTech = resultSet.getString("CanBeEditedByTech");
-                LocalDate lastEdited = resultSet.getDate("LastEdited").toLocalDate();
+                Timestamp lastEdited = resultSet.getTimestamp("LastEdited");
                 int costumerType = resultSet.getInt("CostumerType");
                 String address = resultSet.getString("ProjectAddress");
                 String zipCode = resultSet.getString("ProjectZipCode");
@@ -81,7 +81,7 @@ public class ProjectDAO_DB implements IProjectDAO {
                 String isDeleted = rs.getString("IsDeleted");
                 int editedBy = rs.getInt("LastEditedBy");
                 String canBeEditedByTech = rs.getString("CanBeEditedByTech");
-                LocalDate lastEdited = rs.getDate("LastEdited").toLocalDate();
+                Timestamp lastEdited = rs.getTimestamp("LastEdited");
                 int costumerType = rs.getInt("CostumerType");
                 String address = rs.getString("ProjectAddress");
                 String zipCode = rs.getString("ProjectZipCode");
@@ -111,7 +111,7 @@ public class ProjectDAO_DB implements IProjectDAO {
             statement.setInt(5, project.getProjectCreatorId());
             statement.setString(6, String.valueOf(project.getProjectIsDeleted()));
             statement.setInt(7, project.getLastEditedBy());
-            statement.setDate(8, Date.valueOf(project.getLastEdited()));
+            statement.setTimestamp(8, project.getLastEdited());
             statement.setString(9, String.valueOf(project.getCanBeEditedByTech()));
             statement.setInt(10, project.getCostumerType());
             statement.setString(11, project.getAddress());
@@ -143,7 +143,7 @@ public class ProjectDAO_DB implements IProjectDAO {
             projectTable.setInt(5, project.getProjectCreatorId());
             projectTable.setString(6, String.valueOf(project.getProjectIsDeleted()));
             projectTable.setInt(7, project.getLastEditedBy());
-            projectTable.setDate(8, Date.valueOf(project.getLastEdited()));
+            projectTable.setTimestamp(8, project.getLastEdited());
             projectTable.setString(9, String.valueOf(project.getCanBeEditedByTech()));
             projectTable.setInt(10, project.getCostumerType());
             projectTable.setString(11, project.getAddress());
@@ -241,7 +241,7 @@ public class ProjectDAO_DB implements IProjectDAO {
             statement.setInt(5, project.getProjectCreatorId());
             statement.setString(6, String.valueOf(project.getProjectIsDeleted()));
             statement.setInt(7, project.getLastEditedBy());
-            statement.setDate(8, Date.valueOf(project.getLastEdited()));
+            statement.setTimestamp(8, project.getLastEdited());
             statement.setString(9, String.valueOf(project.getCanBeEditedByTech()));
             statement.setInt(10, project.getCostumerType());
             statement.setString(11, project.getAddress());
@@ -256,6 +256,72 @@ public class ProjectDAO_DB implements IProjectDAO {
             }
         } catch(SQLException e){
                 throw new SQLException("failed to update project and devices",e);
+        }
+    }
+
+    @Override
+    public Project getProjectFromId(Project project) throws Exception {
+        String sql = "SELECT * From Project WHERE Id = ?;";
+
+        try (Connection conn = dbConnector.getConnection(); PreparedStatement statement = conn.prepareStatement(sql))
+        {
+            statement.setInt(1, project.getProjectId());
+
+            ResultSet rs = statement.executeQuery();
+            while (rs.next())
+            {
+                int id = rs.getInt("Id");
+                String costumerName = rs.getString("CostumerName");
+                LocalDate projectDate = rs.getDate("ProjectDate").toLocalDate();
+                String projectLocation = rs.getString("ProjectLocation");
+                String projectDescription = rs.getString("ProjectDescription");
+                int projectCreator = rs.getInt("ProjectCreator");
+                String isDeleted = rs.getString("IsDeleted");
+                int editedBy = rs.getInt("LastEditedBy");
+                String canBeEditedByTech = rs.getString("CanBeEditedByTech");
+                Timestamp lastEdited = rs.getTimestamp("LastEdited");
+                int costumerType = rs.getInt("CostumerType");
+                String address = rs.getString("ProjectAddress");
+                String zipCode = rs.getString("ProjectZipCode");
+
+
+                Project foundProject = new Project(id, costumerName, projectDate, projectLocation, projectDescription, projectCreator, Boolean.valueOf(isDeleted),editedBy,Boolean.parseBoolean(canBeEditedByTech),lastEdited,costumerType, address, zipCode);
+                return foundProject;
+            }
+            return null;
+        }
+        catch (SQLException e)
+        {
+            throw new SQLException("Failed to retrieve the installation");
+        }
+    }
+
+    @Override
+    public boolean lastProjectEditMatch(Project project) throws Exception {
+        String sql = "SELECT * From Project WHERE Id = ?;";
+
+        try (Connection conn = dbConnector.getConnection(); PreparedStatement statement = conn.prepareStatement(sql))
+        {
+            statement.setInt(1, project.getProjectId());
+
+            ResultSet rs = statement.executeQuery();
+            while (rs.next()) {
+                Timestamp lastEdited = rs.getTimestamp("LastEdited");
+
+                System.out.println("LocalProject timestamp = " + project.getLastEdited());
+                System.out.println("DatabaseProject timestamp = " + lastEdited);
+                if (project.getLastEdited().equals(lastEdited)) {
+
+                    System.out.println("Timestamp match");
+                    return true;
+                }
+            }
+            System.out.println("Does not match");
+            return false;
+        }
+        catch (SQLException e)
+        {
+            throw new SQLException("Failed to retrieve the installation");
         }
     }
 }

@@ -8,13 +8,15 @@ import javafx.scene.image.Image;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 
+import java.sql.Timestamp;
+import java.time.Instant;
+
 public class Main extends Application {
     public static void main(String[] args) {launch(args);}
 
     @Override
     public void start(Stage primaryStage) throws Exception {
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/GUI/Views/LoginView.fxml"));
-
 
         Parent root = loader.load();
         Scene scene = new Scene(root);

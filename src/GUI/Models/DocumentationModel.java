@@ -83,6 +83,16 @@ public class DocumentationModel {
         documentationManager.updateProjectAndDevices(project,newDevices);
     }
 
+
+    public boolean lastProjectEditMatch(Project project) throws Exception {
+        return documentationManager.lastProjectEditMatch(project);
+    }
+
+
+    public Project getProjectFromId(Project project) throws Exception {
+        return documentationManager.getProjectFromId(project);
+    }
+
     public void getAllDeviceFromDB() throws Exception {
         deviceTypes = documentationManager.getAllDeviceTypes();
     }

@@ -149,10 +149,6 @@ public class CEOController extends BaseController{
         }
     }
 
-    public void handleShowDevices(ActionEvent actionEvent) {
-        toggleViews(false, false);
-    }
-
     public void handleShowInstallations(ActionEvent actionEvent) {
         toggleViews(false, true);
     }

@@ -18,4 +18,8 @@ public interface IProjectDAO {
     Project createProject(Project project, List<Device> devices) throws SQLException;
 
     void UpdateProjectWithDevices(Project project, List<Device> newDevices) throws SQLException;
+
+    Project getProjectFromId(Project project) throws Exception;
+
+    boolean lastProjectEditMatch(Project project) throws Exception;
 }
