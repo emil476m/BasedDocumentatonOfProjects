@@ -30,6 +30,7 @@ public class createDeviceTypeController extends BaseController{
                 }
                 else {
                     AlertOpener.validationError("The DeviceType type already exist in the database");
+                    //TODO handle what needs to happen if a duplicate exist
                 }
             } catch (Exception e) {
                 throw new RuntimeException(e);

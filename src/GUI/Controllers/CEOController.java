@@ -34,8 +34,6 @@ public class CEOController extends BaseController{
     @FXML
     private Button btnLogout;
     @FXML
-    private Button btnShowDevices;
-    @FXML
     private Button btnshowInstallations;
     @FXML
     private Button btnShowUsers;
@@ -64,17 +62,11 @@ public class CEOController extends BaseController{
     @FXML
     private TableColumn<Project, String> clmINSAddress;
     @FXML
-    private TableView<DeviceType> tbvDevicelist;
-    @FXML
-    private TableColumn<DeviceType, Integer> clmDeviceId;
-    @FXML
-    private TableColumn<DeviceType, String> clmDeviceName;
-    @FXML
     private TableColumn<Project, LocalDate> clmINSDate;
 
     @Override
     public void setup() {
-        toggleViews(true, false, false);
+        toggleViews(true, false);
         try {
             setUpTableViews();
         } catch (Exception e) {
@@ -82,11 +74,7 @@ public class CEOController extends BaseController{
         }
     }
 
-    public CEOController(){
-
-    }
-
-    private void toggleViews(boolean users, boolean projects, boolean devices){
+    private void toggleViews(boolean users, boolean projects){
         txfSearch.clear();
         if (users == true){
             tbvUserlist.setVisible(true);
@@ -107,16 +95,6 @@ public class CEOController extends BaseController{
             btnshowInstallations.setDisable(false);
             tbvInstallationlist.setVisible(false);
         }
-
-        if (devices == true){
-            tbvDevicelist.setVisible(true);
-            txtViewName.setText("DeviceTypes:");
-            btnShowDevices.setDisable(true);
-        }
-        else {
-            btnShowDevices.setDisable(false);
-            tbvDevicelist.setVisible(false);
-        }
     }
 
     private void setUpTableViews() throws Exception {
@@ -136,15 +114,10 @@ public class CEOController extends BaseController{
         clmUserId.setCellValueFactory(new PropertyValueFactory<>("userID"));
         clmUserName.setCellValueFactory(new PropertyValueFactory<>("name"));
         clmUserClass.setCellValueFactory(new PropertyValueFactory<>("userClass"));
-
-        //Device tableview
-        tbvDevicelist.setItems(getModelsHandler().getCeoModel().getDeviceTypeObservableList());
-        clmDeviceId.setCellValueFactory(new PropertyValueFactory<>("id"));
-        clmDeviceName.setCellValueFactory(new PropertyValueFactory<>("type"));
     }
 
     public void handleLogout(ActionEvent actionEvent) {
-        try{
+        try {
             String title = "Error Message";
             String contextText = "Are you sure want to logout?";
             if (AlertOpener.confirm(title, contextText)){
@@ -177,15 +150,15 @@ public class CEOController extends BaseController{
     }
 
     public void handleShowDevices(ActionEvent actionEvent) {
-        toggleViews(false, false, true);
+        toggleViews(false, false);
     }
 
     public void handleShowInstallations(ActionEvent actionEvent) {
-        toggleViews(false, true, false);
+        toggleViews(false, true);
     }
 
     public void handleShowUsers(ActionEvent actionEvent) {
-        toggleViews(true, false, false);
+        toggleViews(true, false);
     }
 
     public void handleCreate(ActionEvent actionEvent) {
@@ -204,40 +177,10 @@ public class CEOController extends BaseController{
         openSelectedItemType();
     }
 
-    private void createDeviceType() {
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("/GUI/Views/createDeviceTypeView.fxml"));
-
-        Parent root = null;
-
-        try {
-            root = loader.load();
-        } catch (IOException e) {
-            ExceptionHandler.displayError(new Exception("Failed to open create DeviceType", e));
-        }
-
-        Stage stage = new Stage();
-        stage.setTitle("");
-        stage.setScene(new Scene(root));
-        stage.initModality(Modality.APPLICATION_MODAL);
-        stage.initStyle(StageStyle.UNDECORATED);
-        stage.getIcons().add(new Image("GUI/Images/WUAV.png"));
-
-        createDeviceTypeController controller = loader.getController();
-        controller.setModel(getModelsHandler());
-
-        //checks if user wants to create a new user or edit existing user.
-        controller.setup();
-
-        stage.showAndWait();
-    }
-
     private void openSelectedItemType(){
 
         if (tbvUserlist.isVisible()){
             openUserInfo();
-        }
-        else if (tbvDevicelist.isVisible()){
-
         }
         else if (tbvInstallationlist.isVisible()){
             openEditProjectWindow(tbvInstallationlist.getSelectionModel().getSelectedItem());
@@ -250,9 +193,6 @@ public class CEOController extends BaseController{
             tbvUserlist.getSelectionModel().clearSelection();
             openUserInfo();
         }
-        else if (tbvDevicelist.isVisible()){
-            createDeviceType();
-        }
         else if (tbvInstallationlist.isVisible()){
             handleCreateProject();
         }
@@ -261,9 +201,6 @@ public class CEOController extends BaseController{
     private void deleteSelectedItemType() throws Exception {
         if (tbvUserlist.isVisible()){
             getModelsHandler().getCeoModel().deleteUser(tbvUserlist.getSelectionModel().getSelectedItem());
-        }
-        else if (tbvDevicelist.isVisible()){
-            getModelsHandler().getCeoModel().deleteDeviceType(tbvDevicelist.getSelectionModel().getSelectedItem());
         }
         else if (tbvInstallationlist.isVisible()){
             getModelsHandler().getCeoModel().deleteProject(tbvInstallationlist.getSelectionModel().getSelectedItem());
@@ -377,16 +314,6 @@ public class CEOController extends BaseController{
         }
     }
 
-    private void searchDeviceType() {
-        String search = txfSearch.getText().toLowerCase();
-
-        if(search != null)
-            getModelsHandler().getCeoModel().searchDeviceTypes(search);
-        else if (search == null){
-            getModelsHandler().getCeoModel().clearSearch();
-        }
-    }
-
     public void searchOnButtonPress(KeyEvent keyEvent) {
         selectSearch();
     }
@@ -394,9 +321,6 @@ public class CEOController extends BaseController{
     private void selectSearch(){
         if (tbvUserlist.isVisible()){
             searchUser();
-        }
-        else if (tbvDevicelist.isVisible()){
-            searchDeviceType();
         }
         else if (tbvInstallationlist.isVisible()){
             searchProject();

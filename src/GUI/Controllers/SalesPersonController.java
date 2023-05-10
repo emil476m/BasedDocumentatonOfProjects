@@ -32,10 +32,6 @@ public class SalesPersonController extends BaseController {
     @FXML
     private Button btnLogout;
     @FXML
-    private Button btnShowInstallations;
-    @FXML
-    private Button btnShowDevices;
-    @FXML
     private Button btnOpen;
     @FXML
     private Text txtViewName;
@@ -49,16 +45,10 @@ public class SalesPersonController extends BaseController {
     private TableColumn<Project, String> clmINSAddress;
     @FXML
     private TableColumn clmINSDate;
-    @FXML
-    private TableView tbvDevicelist;
-    @FXML
-    private TableColumn clmDeviceId;
-    @FXML
-    private TableColumn clmDeviceName;
 
     @Override
     public void setup() {
-        toggleViews(true, false);
+        toggleViews();
         try {
             setUpTableViews();
         } catch (Exception e) {
@@ -66,13 +56,6 @@ public class SalesPersonController extends BaseController {
             ExceptionHandler.displayError(new RuntimeException("failed to set up tableviews", e));
         }
     }
-
-
-    public void handleShowInstallations(ActionEvent actionEvent) {
-        toggleViews(true, false);
-    }
-
-
 
     public void handleOpen(ActionEvent actionEvent) {
     }
@@ -112,8 +95,7 @@ public class SalesPersonController extends BaseController {
 
 
     private void setUpTableViews() throws Exception {
-        getModelsHandler().getSalesPersonModel().getAllProjects();;
-        getModelsHandler().getSalesPersonModel().getAllDeviceTypes();
+        getModelsHandler().getSalesPersonModel().getAllProjects();
 
         //Project tableview
         tbvInstallationlist.setItems(getModelsHandler().getSalesPersonModel().getProjectsObservableList());
@@ -121,42 +103,16 @@ public class SalesPersonController extends BaseController {
         clmCostumerName.setCellValueFactory(new PropertyValueFactory<>("costumerName"));
         clmINSAddress.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getAddress() + " " + "(" + cellData.getValue().getZipCode() + ")"));
         clmINSDate.setCellValueFactory(new PropertyValueFactory<>("projectDate"));
-
-
-        //Device tableview
-        tbvDevicelist.setItems(getModelsHandler().getSalesPersonModel().getDeviceTypeObservableList());
-        clmDeviceId.setCellValueFactory(new PropertyValueFactory<>("id"));
-        clmDeviceName.setCellValueFactory(new PropertyValueFactory<>("type"));
     }
 
-    private void toggleViews(boolean installations, boolean devices){
+    private void toggleViews(){
         txfSearch.clear();
-        if (installations == true){
-            tbvInstallationlist.setVisible(true);
-            txtViewName.setText("Installations:");
-            btnShowInstallations.setDisable(true);
-            btnOpen.setVisible(true);
-        }
-        else {
-            btnShowInstallations.setDisable(false);
-            tbvInstallationlist.setVisible(false);
-        }
-
-        if (devices == true){
-            tbvDevicelist.setVisible(true);
-            txtViewName.setText("DeviceTypes:");
-            btnShowDevices.setDisable(true);
-            btnOpen.setVisible(false);
-        }
-        else {
-            btnShowDevices.setDisable(false);
-            tbvDevicelist.setVisible(false);
-        }
+        tbvInstallationlist.setVisible(true);
+        txtViewName.setText("Installations:");
+        btnOpen.setVisible(true);
     }
 
-    public void handleShowDevices(ActionEvent actionEvent) {
-        toggleViews(false, true);
-    }
+
 
     public void searchOnButtonPress(KeyEvent keyEvent) {
         selectSearch();
@@ -172,21 +128,8 @@ public class SalesPersonController extends BaseController {
         }
     }
 
-    private void searchDeviceType() {
-        String search = txfSearch.getText().toLowerCase();
-
-        if(search != null)
-            getModelsHandler().getSalesPersonModel().searchDeviceTypes(search);
-        else if (search == null){
-            getModelsHandler().getSalesPersonModel().clearSearch();
-        }
-    }
-
     private void selectSearch(){
-        if (tbvDevicelist.isVisible()){
-            searchDeviceType();
-        }
-        else if (tbvInstallationlist.isVisible()){
+        if (tbvInstallationlist.isVisible()){
             searchProject();
         }
     }

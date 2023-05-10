@@ -30,41 +30,27 @@ public class ProjectManagerViewController extends BaseController{
 
     public TextField txfSearch;
     @FXML
-    private Button btnShowDevices,btnshowInstallations, btnLogout;
+    private Button btnLogout;
 
     @FXML
-    private TableView tbvInstallationlist,tbvDevicelist;
+    private TableView tbvInstallationlist;
     @FXML
     private TableColumn<Project, Integer> clmINSId;
     @FXML
     private TableColumn<Project, String> clmCostumerName,clmINSAddress;
     @FXML
     private TableColumn<Project, LocalDate> clmINSDate;
-
-    @FXML
-    private TableColumn<DeviceType, Integer> clmDeviceId;
-
-    @FXML
-    private TableColumn<DeviceType, String> clmDeviceName;
     @FXML
     private Text txtViewName;
 
     @Override
     public void setup() {
-        toggleViews(true,false);
+        toggleViews();
         try {
             setUpTableViews();
         } catch (Exception e) {
             ExceptionHandler.displayError(new RuntimeException("Failed to setup tableviews", e));
         }
-    }
-
-    public void handleShowInstallations(ActionEvent actionEvent) {
-        toggleViews(true,false);
-    }
-
-    public void handleShowDevices(ActionEvent actionEvent) {
-        toggleViews(false,true);
     }
 
     public void handleLogout(ActionEvent actionEvent) {
@@ -140,27 +126,11 @@ public class ProjectManagerViewController extends BaseController{
         stage.show();
     }
 
-    private void toggleViews(boolean projects, boolean devices){
+    private void toggleViews(){
         txfSearch.clear();
-        if (projects == true){
-            tbvInstallationlist.setVisible(true);
-            txtViewName.setText("Installations:");
-            btnshowInstallations.setDisable(true);
-        }
-        else {
-            btnshowInstallations.setDisable(false);
-            tbvInstallationlist.setVisible(false);
-        }
 
-        if (devices == true){
-            tbvDevicelist.setVisible(true);
-            txtViewName.setText("DeviceTypes:");
-            btnShowDevices.setDisable(true);
-        }
-        else {
-            btnShowDevices.setDisable(false);
-            tbvDevicelist.setVisible(false);
-        }
+        tbvInstallationlist.setVisible(true);
+        txtViewName.setText("Installations:");
     }
 
     private void setUpTableViews() throws Exception {
@@ -173,16 +143,10 @@ public class ProjectManagerViewController extends BaseController{
         clmCostumerName.setCellValueFactory(new PropertyValueFactory<>("costumerName"));
         clmINSAddress.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getAddress() + " " + "(" + cellData.getValue().getZipCode() + ")"));
         clmINSDate.setCellValueFactory(new PropertyValueFactory<>("projectDate"));
-
-
-        //Device tableview
-        tbvDevicelist.setItems(getModelsHandler().getProjectManagerModel().getDeviceTypesObservablelist());
-        clmDeviceId.setCellValueFactory(new PropertyValueFactory<>("id"));
-        clmDeviceName.setCellValueFactory(new PropertyValueFactory<>("type"));
     }
 
     public void searchOnButtonPress(KeyEvent keyEvent) {
-        selectSearch();
+        searchProject();
     }
 
     private void searchProject() {
@@ -192,25 +156,6 @@ public class ProjectManagerViewController extends BaseController{
             getModelsHandler().getProjectManagerModel().searchProject(search);
         else if (search == null){
             getModelsHandler().getProjectManagerModel().clearSearch();
-        }
-    }
-
-    private void searchDeviceType() {
-        String search = txfSearch.getText().toLowerCase();
-
-        if(search != null)
-            getModelsHandler().getProjectManagerModel().searchDeviceTypes(search);
-        else if (search == null){
-            getModelsHandler().getProjectManagerModel().clearSearch();
-        }
-    }
-
-    private void selectSearch(){
-        if (tbvDevicelist.isVisible()){
-            searchDeviceType();
-        }
-        else if (tbvInstallationlist.isVisible()){
-            searchProject();
         }
     }
 }

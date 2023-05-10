@@ -50,10 +50,6 @@ public class CEOModel {
         return userObservableList;
     }
 
-    public ObservableList<DeviceType> getDeviceTypeObservableList() {
-        return deviceTypeObservableList;
-    }
-
     public void getAllProjects() throws Exception {
         List<Project> projects = ceoManager.getAllProjects();
         projectsObservableList.clear();
@@ -135,13 +131,6 @@ public class CEOModel {
         allProjects.remove(project);
         project.setProjectIsDeleted(true);
         ceoManager.updateProject(project);
-    }
-
-    public void deleteDeviceType(DeviceType deviceType) throws Exception {
-        deviceTypeObservableList.remove(deviceType);
-        allDeviceTypes.remove(deviceType);
-        deviceType.setIsDeleted(true);
-        ceoManager.updateDeviceType(deviceType);
     }
 
     public void createDeviceType(DeviceType deviceType) throws Exception {
@@ -228,25 +217,6 @@ public class CEOModel {
                 projectsObservableList.add(m);
         }
     }
-
-    /**
-     * Searches for users with given query.
-     * @param query The query to search for.
-     */
-    public void searchDeviceTypes (String query) {
-        if (allDeviceTypes.isEmpty())
-            allDeviceTypes.addAll(deviceTypeObservableList);
-        else
-            deviceTypeObservableList.clear();
-
-        for (DeviceType d: allDeviceTypes)
-        {
-            boolean nameContains = d.getType().toLowerCase().contains(query);
-            if (nameContains)
-                deviceTypeObservableList.add(d);
-        }
-    }
-
 
     public boolean checkIfDeviceTypeNameIsDuplicate(DeviceType deviceType) throws Exception {
         return ceoManager.checkIfDeviceTypeNameIsDuplicate(deviceType);

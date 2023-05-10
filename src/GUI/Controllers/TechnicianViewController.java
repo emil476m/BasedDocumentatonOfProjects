@@ -28,15 +28,7 @@ import java.time.LocalDate;
 
 public class TechnicianViewController extends BaseController{
     @FXML
-    private Button btnShowDevices;
-    @FXML
     private BorderPane borderPaneTechnician;
-    @FXML
-    private TableView tbvDevicelist;
-    @FXML
-    private TableColumn clmDeviceId;
-    @FXML
-    private TableColumn clmDeviceName;
     @FXML
     private TextField txfSearch;
     @FXML
@@ -59,7 +51,7 @@ public class TechnicianViewController extends BaseController{
 
     @Override
     public void setup() {
-        toggleViews(true,false, false);
+        toggleViews(true,false);
         try {
             setUpTableViews();
         } catch (Exception e) {
@@ -69,11 +61,11 @@ public class TechnicianViewController extends BaseController{
     }
 
     public void handleShowMyInstallations(ActionEvent actionEvent) {
-        toggleViews(false,true, false);
+        toggleViews(false,true);
     }
 
     public void handleShowInstallations(ActionEvent actionEvent) {
-        toggleViews(true,false, false);
+        toggleViews(true,false);
     }
 
     public void handleCreate(ActionEvent actionEvent) throws IOException {
@@ -142,7 +134,6 @@ public class TechnicianViewController extends BaseController{
         stage.show();
     }
 
-
     public void handleLogout(ActionEvent actionEvent) {
         try{
             String title = "Error Message";
@@ -176,11 +167,9 @@ public class TechnicianViewController extends BaseController{
         }
     }
 
-
     private void setUpTableViews() throws Exception {
         getModelsHandler().getTechnicianModel().getAllProjects();
         getModelsHandler().getTechnicianModel().getAllMyProjects(getModelsHandler().getLoginModel().getUser());
-        getModelsHandler().getTechnicianModel().getAllDeviceTypes();
 
         //Project tableview
         tbvInstallationlist.setItems(getModelsHandler().getTechnicianModel().getProjectsObservableList());
@@ -195,14 +184,9 @@ public class TechnicianViewController extends BaseController{
         clmCostumerName1.setCellValueFactory(new PropertyValueFactory<>("costumerName"));
         clmINSAddress1.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getAddress() + " " + "(" + cellData.getValue().getZipCode() + ")"));
         clmINSDate1.setCellValueFactory(new PropertyValueFactory<>("projectDate"));
-
-        //Device tableview
-        tbvDevicelist.setItems(getModelsHandler().getTechnicianModel().getDeviceTypeObservableList());
-        clmDeviceId.setCellValueFactory(new PropertyValueFactory<>("id"));
-        clmDeviceName.setCellValueFactory(new PropertyValueFactory<>("type"));
     }
 
-    private void toggleViews(boolean installations, boolean myInstallations, boolean devices){
+    private void toggleViews(boolean installations, boolean myInstallations){
         txfSearch.clear();
         if (installations == true){
             tbvInstallationlist.setVisible(true);
@@ -223,23 +207,6 @@ public class TechnicianViewController extends BaseController{
             btnshowMyInstallations.setDisable(false);
             tbvMyInstallationlist.setVisible(false);
         }
-        if (devices == true){
-            tbvDevicelist.setVisible(true);
-            txtViewName.setText("DeviceTypes:");
-            btnShowDevices.setDisable(true);
-            btnCreate.setVisible(false);
-            btnOpen.setVisible(false);
-        }
-        else {
-            btnShowDevices.setDisable(false);
-            tbvDevicelist.setVisible(false);
-            btnCreate.setVisible(true);
-            btnOpen.setVisible(true);
-        }
-    }
-
-    public void handleShowDevices(ActionEvent actionEvent) {
-        toggleViews(false,false, true);
     }
 
     private void searchMyProject() {
@@ -262,16 +229,6 @@ public class TechnicianViewController extends BaseController{
         }
     }
 
-    private void searchDeviceType() {
-        String search = txfSearch.getText().toLowerCase();
-
-        if(search != null)
-            getModelsHandler().getTechnicianModel().searchDeviceTypes(search);
-        else if (search == null){
-            getModelsHandler().getTechnicianModel().clearSearch();
-        }
-    }
-
     public void searchOnButtonPress(KeyEvent keyEvent) {
         selectSearch();
     }
@@ -279,9 +236,6 @@ public class TechnicianViewController extends BaseController{
     private void selectSearch(){
         if (tbvMyInstallationlist.isVisible()){
             searchMyProject();
-        }
-        else if (tbvDevicelist.isVisible()){
-            searchDeviceType();
         }
         else if (tbvInstallationlist.isVisible()){
             searchProject();

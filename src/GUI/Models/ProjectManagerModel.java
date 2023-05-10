@@ -14,16 +14,11 @@ import java.util.List;
 public class ProjectManagerModel {
     IProjectManagerManager projectManagerManager;
     ObservableList<Project> allProjectsObservablelist;
-    ObservableList<DeviceType> deviceTypesObservablelist;
-
-    private List<DeviceType> allDeviceTypes;
     private List<Project> allProjects;
     public ProjectManagerModel() throws IOException {
         projectManagerManager = new ProjectManagerManager();
-        allDeviceTypes = new ArrayList<>();
         allProjects = new ArrayList<>();
         allProjectsObservablelist = FXCollections.observableArrayList();
-        deviceTypesObservablelist = FXCollections.observableArrayList();
     }
 
     public void getAllProjects() throws Exception {
@@ -42,26 +37,16 @@ public class ProjectManagerModel {
                 break;
             }
         }
-        allDeviceTypes.clear();
-        deviceTypesObservablelist.clear();
-        deviceTypesObservablelist.addAll(deviceTypes);
-        allDeviceTypes.addAll(deviceTypes);
     }
 
     public ObservableList<Project> getAllProjectsObservablelist() {
         return allProjectsObservablelist;
     }
 
-    public ObservableList<DeviceType> getDeviceTypesObservablelist() {
-        return deviceTypesObservablelist;
-    }
-
     /**
      * Clears the search query.
      */
     public void clearSearch() {
-        deviceTypesObservablelist.clear();
-        deviceTypesObservablelist.addAll(allDeviceTypes);
         allProjectsObservablelist.clear();
         allProjectsObservablelist.addAll(allProjects);
     }
@@ -83,24 +68,6 @@ public class ProjectManagerModel {
             boolean containsName = m.getCostumerName().toLowerCase().contains(query);
             if (containsAddress || containsName)
                 allProjectsObservablelist.add(m);
-        }
-    }
-
-    /**
-     * Searches for devices with given query.
-     * @param query The query to search for.
-     */
-    public void searchDeviceTypes (String query) {
-        if (allDeviceTypes.isEmpty())
-            allDeviceTypes.addAll(deviceTypesObservablelist);
-        else
-            deviceTypesObservablelist.clear();
-
-        for (DeviceType d: allDeviceTypes)
-        {
-            boolean nameContains = d.getType().toLowerCase().contains(query);
-            if (nameContains)
-                deviceTypesObservablelist.add(d);
         }
     }
 }

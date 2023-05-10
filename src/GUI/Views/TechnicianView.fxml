@@ -23,7 +23,6 @@
             <Button fx:id="btnLogout" layoutX="33.0" layoutY="546.0" mnemonicParsing="false" onAction="#handleLogout" prefHeight="30.0" prefWidth="140.0" text="Logout" />
             <Button fx:id="btnshowMyInstallations" layoutX="33.0" layoutY="273.0" mnemonicParsing="false" onAction="#handleShowMyInstallations" prefHeight="30.0" prefWidth="140.0" text="My Installations" />
             <Button fx:id="btnShowInstallations" layoutX="33.0" layoutY="185.0" mnemonicParsing="false" onAction="#handleShowInstallations" prefHeight="30.0" prefWidth="140.0" text="Installations" />
-            <Button fx:id="btnShowDevices" layoutX="32.0" layoutY="358.0" mnemonicParsing="false" onAction="#handleShowDevices" prefHeight="30.0" prefWidth="140.0" text="Devices" />
          </children>
       </Pane>
    </left>
@@ -47,12 +46,6 @@
                   <TableColumn fx:id="clmCostumerName1" prefWidth="184.0" resizable="false" text="Costumer Name" />
                   <TableColumn fx:id="clmINSAddress1" minWidth="0.0" prefWidth="177.60003662109375" resizable="false" text="Address" />
                   <TableColumn fx:id="clmINSDate1" maxWidth="254.39999999999998" minWidth="0.0" prefWidth="132.79998779296875" resizable="false" text="Date" />
-               </columns>
-            </TableView>
-            <TableView fx:id="tbvDevicelist" prefHeight="365.0" prefWidth="570.0" AnchorPane.leftAnchor="45.0" AnchorPane.topAnchor="130.0">
-               <columns>
-                  <TableColumn fx:id="clmDeviceId" prefWidth="75.0" resizable="false" text="Id" />
-                  <TableColumn fx:id="clmDeviceName" prefWidth="494.0" resizable="false" text="Name" />
                </columns>
             </TableView>
             <TextField fx:id="txfSearch" layoutX="466.0" layoutY="95.0" onKeyPressed="#searchOnButtonPress" promptText="Search" />
