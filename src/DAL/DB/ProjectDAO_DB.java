@@ -308,11 +308,7 @@ public class ProjectDAO_DB implements IProjectDAO {
             while (rs.next()) {
                 Timestamp lastEdited = rs.getTimestamp("LastEdited");
 
-                System.out.println("LocalProject timestamp = " + project.getLastEdited());
-                System.out.println("DatabaseProject timestamp = " + lastEdited);
                 if (project.getLastEdited().equals(lastEdited)) {
-
-                    System.out.println("Timestamp match");
                     return true;
                 }
             }
