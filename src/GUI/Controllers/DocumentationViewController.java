@@ -426,22 +426,27 @@ public class DocumentationViewController extends BaseController{
         }
     }
 
+
+    /**
+     * updates the table views depending on what type of user is logged in
+     * @param project
+     * @param devices
+     * @throws SQLException
+     */
     private void updateTableViewsNewProject(Project project, ObservableList devices) throws SQLException {
+        Project projectToBeMade = getModelsHandler().getDocumentationModel().saveNewProject(project,devices);
         if(getModelsHandler().getLoginModel().getUser().getClass().getSimpleName().equals(CEO.class.getSimpleName()))
         {
-            getModelsHandler().getCeoModel().getProjectsObservableList().add(getModelsHandler().getDocumentationModel().saveNewProject(project,devices));
+            getModelsHandler().getCeoModel().getProjectsObservableList().add(projectToBeMade);
         }
         else if (getModelsHandler().getLoginModel().getUser().getClass().getSimpleName().equals(Technician.class.getSimpleName()))
         {
-            if(getModelsHandler().getTechnicianModel().getMyProjectsObservableList().contains(project))
-            {
-                getModelsHandler().getTechnicianModel().getMyProjectsObservableList().add(getModelsHandler().getDocumentationModel().saveNewProject(project,devices));
-            }
-            getModelsHandler().getTechnicianModel().getProjectsObservableList().add(getModelsHandler().getDocumentationModel().saveNewProject(project,devices));
+            getModelsHandler().getTechnicianModel().getMyProjectsObservableList().add(projectToBeMade);
+            getModelsHandler().getTechnicianModel().getProjectsObservableList().add(projectToBeMade);
         }
-        if(getModelsHandler().getLoginModel().getUser().getClass().getSimpleName().equals(ProjectManager.class.getSimpleName()))
+        else if(getModelsHandler().getLoginModel().getUser().getClass().getSimpleName().equals(ProjectManager.class.getSimpleName()))
         {
-            getModelsHandler().getProjectManagerModel().getAllProjectsObservablelist().add(getModelsHandler().getDocumentationModel().saveNewProject(project,devices));
+            getModelsHandler().getProjectManagerModel().getAllProjectsObservablelist().add(projectToBeMade);
         }
     }
 
