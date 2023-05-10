@@ -34,7 +34,7 @@ public class CEOModel {
         userOnCurrentProject = FXCollections.observableArrayList();
     }
 
-    public ObservableList getProjectsObservableList() {
+    public ObservableList<Project> getProjectsObservableList() {
         return projectsObservableList;
     }
 

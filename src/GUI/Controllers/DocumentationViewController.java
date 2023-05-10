@@ -153,6 +153,15 @@ public class DocumentationViewController extends BaseController{
         else if(getModelsHandler().getLoginModel().getUser().getClass().getSimpleName().equals(CEO.class.getSimpleName())||getModelsHandler().getLoginModel().getUser().getClass().getSimpleName().equals(ProjectManager.class.getSimpleName())){
                 txtCostumerType.setEditable(false);
                 btnSend.setText("Send to Technician");
+                if(opnedProject != null)
+                {
+                    if(opnedProject.getCanBeEditedByTech())
+                    {
+                        btnSend.setDisable(true);
+                    } else if (!opnedProject.getCanBeEditedByTech()) {
+                        btnSend.setDisable(false);
+                    }
+                }
         }
     }
 
@@ -261,37 +270,85 @@ public class DocumentationViewController extends BaseController{
     }
 
     public void handleSendToPMOrTech(ActionEvent actionEvent) {
-        createNewProject();
         if(getModelsHandler().getLoginModel().getUser().getClass().getSimpleName().equals(Technician.class.getSimpleName()))
         {
-            sendToPMOrTech(false);
+            if(AlertOpener.confirm("Are you sure?", "You are sending the documentation to the project managers and will not be able to edit after this action.")) {
+                sendToPMOrTech(false);
+            }
+
         }
         else if(getModelsHandler().getLoginModel().getUser().getClass().getSimpleName().equals(CEO.class.getSimpleName()) || getModelsHandler().getLoginModel().getUser().getClass().getSimpleName().equals(ProjectManager.class.getSimpleName()))
         {
-            sendToPMOrTech(true);
+            if(AlertOpener.confirm("Are you sure?", "You are sending the documentation back to the technician so they can edit in the documentation again.")) {
+                sendToPMOrTech(true);
+            }
         }
-
+        btnSend.setDisable(true);
     }
 
     private void sendToPMOrTech(boolean canEdit)
     {
         if(opnedProject != null)
         {
-            Project project = opnedProject;
-            Project oldProject = project;
-            getModelsHandler().getTechnicianModel().getProjectsObservableList().remove(project);
-            project.setCanBeEditedByTech(canEdit);
-            if(getModelsHandler().getTechnicianModel().getMyProjectsObservableList().contains(oldProject))
+            try
             {
-                getModelsHandler().getTechnicianModel().getMyProjectsObservableList().remove(oldProject);
-                getModelsHandler().getTechnicianModel().getMyProjectsObservableList().add(project);
+                    Project project = opnedProject;
+                    project.setCanBeEditedByTech(canEdit);
+                    updateProjectList(project);
+                    getModelsHandler().getDocumentationModel().sentToProjectManager(project);
             }
-
-            try {
-                getModelsHandler().getTechnicianModel().getProjectsObservableList().add(project);
-                getModelsHandler().getDocumentationModel().sentToProjectManager(project);
-            } catch (Exception e) {
+            catch (Exception e) {
                 ExceptionHandler.displayError(new RuntimeException("Failed to send installation to project manager", e));
+            }
+        }
+    }
+
+    /**
+     * updates the project observable list when sending a project to a Project Manager or Technician
+     * @param project
+     */
+    private void updateProjectList(Project project)
+    {
+        if(getModelsHandler().getLoginModel().getUser().getClass().getSimpleName().equals(Technician.class.getSimpleName()))
+        {
+            for (Project p: getModelsHandler().getTechnicianModel().getProjectsObservableList())
+            {
+                if(p.getProjectId() == project.getProjectId())
+                {
+                    getModelsHandler().getTechnicianModel().getProjectsObservableList().remove(p);
+                    getModelsHandler().getTechnicianModel().getProjectsObservableList().add(p);
+                }
+            }
+            for (Project p: getModelsHandler().getTechnicianModel().getMyProjectsObservableList())
+            {
+                if(p.getProjectId() == project.getProjectId())
+                {
+                    getModelsHandler().getTechnicianModel().getMyProjectsObservableList().remove(p);
+                    getModelsHandler().getTechnicianModel().getMyProjectsObservableList().add(p);
+                }
+            }
+        }
+        else if(getModelsHandler().getLoginModel().getUser().getClass().getSimpleName().equals(CEO.class.getSimpleName()))
+        {
+            for (Project p: getModelsHandler().getCeoModel().getProjectsObservableList())
+            {
+                if(p.getProjectId() == project.getProjectId())
+                {
+                    getModelsHandler().getCeoModel().getProjectsObservableList().remove(p);
+                    getModelsHandler().getCeoModel().getProjectsObservableList().add(p);
+                }
+            }
+        }
+
+        else if(getModelsHandler().getLoginModel().getUser().getClass().getSimpleName().equals(ProjectManager.class.getSimpleName()))
+        {
+            for (Project p: getModelsHandler().getProjectManagerModel().getAllProjectsObservablelist())
+            {
+                if(p.getProjectId() == project.getProjectId())
+                {
+                    getModelsHandler().getProjectManagerModel().getAllProjectsObservablelist().remove(p);
+                    getModelsHandler().getProjectManagerModel().getAllProjectsObservablelist().add(p);
+                }
             }
         }
     }
@@ -422,7 +479,29 @@ public class DocumentationViewController extends BaseController{
     }
 
     public void handleOpenPaint(ActionEvent actionEvent) throws IOException {
-        Runtime.getRuntime().exec("mspaint.exe");
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/GUI/Views/PaintAppView.fxml"));
+        Parent root = null;
+
+        try {
+            root = loader.load();
+        } catch (IOException e) {
+            ExceptionHandler.displayError(new Exception("Failed to open paint application", e));
+        }
+
+        Stage stage = new Stage();
+        stage.setTitle("Paint");
+        stage.setScene(new Scene(root));
+        stage.initModality(Modality.APPLICATION_MODAL);
+        stage.initStyle(StageStyle.UNDECORATED);
+        stage.getIcons().add(new Image("GUI/Images/WUAV.png"));
+        stage.setMaximized(true);
+
+        BaseController controller = loader.getController();
+        controller.setModel(getModelsHandler());
+
+        controller.setup();
+
+        stage.showAndWait();
     }
 
     public void handleAssignTech(ActionEvent actionEvent) {
