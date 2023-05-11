@@ -68,7 +68,7 @@ public class TechnicianModel {
      * Searches for MyProjects with given query.
      * @param query The query to search for.
      */
-    public void searchMyProject (String query) {
+    public void searchMyProject (String query, boolean name, boolean address, boolean date) {
         if (allMyProjects.isEmpty())
             allMyProjects.addAll(myProjectsObservableList);
         else
@@ -76,10 +76,33 @@ public class TechnicianModel {
 
         for (Project m: allMyProjects)
         {
-            boolean containsAddress = (m.getAddress()+m.getZipCode()).toLowerCase().contains(query);
-            boolean containsName = m.getCostumerName().toLowerCase().contains(query);
-            if (containsAddress || containsName)
-                myProjectsObservableList.add(m);
+            if (name && address && date){
+                boolean containsName = m.getCostumerName().toLowerCase().contains(query);
+                boolean containsAddress = (m.getAddress()+m.getZipCode()).toLowerCase().contains(query);
+                boolean containsDate = (m.getProjectDate()).toString().contains(query);
+
+                if (containsName || containsAddress || containsDate){
+                    myProjectsObservableList.add(m);
+                }
+
+            }
+            else if (name){
+                boolean containsName = m.getCostumerName().toLowerCase().contains(query);
+                if (containsName)
+                    myProjectsObservableList.add(m);
+            }
+
+            else if (address){
+                boolean containsAddress = (m.getAddress()+m.getZipCode()).toLowerCase().contains(query);
+                if (containsAddress)
+                    myProjectsObservableList.add(m);
+            }
+
+            else if (date){
+                boolean containsDate = (m.getProjectDate()).toString().contains(query);
+                if (containsDate)
+                    projectsObservableList.add(m);
+            }
         }
     }
 
@@ -87,7 +110,7 @@ public class TechnicianModel {
      * Searches for Project addresses with given query.
      * @param query The query to search for.
      */
-    public void searchProject (String query) {
+    public void searchProject (String query, boolean name, boolean address, boolean date) {
         if (allProjects.isEmpty())
             allProjects.addAll(projectsObservableList);
         else
@@ -95,10 +118,33 @@ public class TechnicianModel {
 
         for (Project m: allProjects)
         {
-            boolean containsAddress = (m.getAddress()+m.getZipCode()).toLowerCase().contains(query);
-            boolean containsName = m.getCostumerName().toLowerCase().contains(query);
-            if (containsAddress || containsName)
-                projectsObservableList.add(m);
+            if (name && address && date){
+                boolean containsName = m.getCostumerName().toLowerCase().contains(query);
+                boolean containsAddress = (m.getAddress()+m.getZipCode()).toLowerCase().contains(query);
+                boolean containsDate = (m.getProjectDate()).toString().contains(query);
+
+                if (containsName || containsAddress || containsDate){
+                    projectsObservableList.add(m);
+                }
+
+            }
+            else if (name){
+                boolean containsName = m.getCostumerName().toLowerCase().contains(query);
+                if (containsName)
+                    projectsObservableList.add(m);
+            }
+
+            else if (address){
+                boolean containsAddress = (m.getAddress()+m.getZipCode()).toLowerCase().contains(query);
+                if (containsAddress)
+                    projectsObservableList.add(m);
+            }
+
+            else if (date){
+                boolean containsDate = (m.getProjectDate()).toString().contains(query);
+                if (containsDate)
+                    projectsObservableList.add(m);
+            }
         }
     }
 }

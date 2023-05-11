@@ -1,6 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import javafx.scene.control.Button?>
+<?import javafx.scene.control.MenuButton?>
+<?import javafx.scene.control.MenuItem?>
 <?import javafx.scene.control.TableColumn?>
 <?import javafx.scene.control.TableView?>
 <?import javafx.scene.control.TextField?>
@@ -37,7 +39,15 @@
                   <TableColumn fx:id="clmINSDate" maxWidth="254.39999999999998" minWidth="0.0" prefWidth="132.79998779296875" resizable="false" text="Date" />
                </columns>
             </TableView>
-            <TextField fx:id="txfSearch" layoutX="466.0" layoutY="95.0" onKeyPressed="#searchOnButtonPress" promptText="Search" />
+            <TextField fx:id="txfSearch" layoutX="369.0" layoutY="95.0" onKeyPressed="#searchOnButtonPress" promptText="Search" />
+            <MenuButton fx:id="btnSearchChoice" layoutX="518.0" layoutY="95.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="95.0" text="All">
+               <items>
+                  <MenuItem fx:id="miName" mnemonicParsing="false" onAction="#handleNameChoice" text="Name" />
+                  <MenuItem fx:id="miAddress" mnemonicParsing="false" onAction="#handleAddressChoice" text="Address" />
+                  <MenuItem fx:id="miDate" mnemonicParsing="false" onAction="#handleDateChoice" text="Date" />
+               </items>
+            </MenuButton>
+            <Text fx:id="txtSearchText" layoutX="518.0" layoutY="91.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Search for:" wrappingWidth="76.109375" />
          </children>
       </AnchorPane>
    </center>

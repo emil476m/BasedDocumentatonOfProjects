@@ -27,6 +27,16 @@ import java.io.IOException;
 import java.time.LocalDate;
 
 public class CEOController extends BaseController{
+    public Text txtSearchText;
+    public Button btnSearch;
+    @FXML
+    private MenuButton btnSearchChoice;
+    @FXML
+    private MenuItem miName;
+    @FXML
+    private MenuItem miAddress;
+    @FXML
+    private MenuItem miDate;
     @FXML
     private TextField txfSearch;
     @FXML
@@ -64,6 +74,8 @@ public class CEOController extends BaseController{
     @FXML
     private TableColumn<Project, LocalDate> clmINSDate;
 
+    private boolean searchName,  searchAddress,  searchDate;
+
     @Override
     public void setup() {
         toggleViews(true, false);
@@ -90,10 +102,12 @@ public class CEOController extends BaseController{
             tbvInstallationlist.setVisible(true);
             txtViewName.setText("Installations:");
             btnshowInstallations.setDisable(true);
+            resetSearchToProject();
         }
         else {
             btnshowInstallations.setDisable(false);
             tbvInstallationlist.setVisible(false);
+            resetSearchToUsers();
         }
     }
 
@@ -300,11 +314,11 @@ public class CEOController extends BaseController{
         }
     }
 
-    private void searchProject() {
+    private void searchProject(boolean name, boolean address, boolean date) {
         String search = txfSearch.getText().toLowerCase();
 
         if(search != null)
-            getModelsHandler().getCeoModel().searchProject(search);
+            getModelsHandler().getCeoModel().searchProject(search, name, address, date);
         else if (search == null){
             getModelsHandler().getCeoModel().clearSearch();
         }
@@ -319,7 +333,99 @@ public class CEOController extends BaseController{
             searchUser();
         }
         else if (tbvInstallationlist.isVisible()){
-            searchProject();
+            searchProject(searchName, searchAddress, searchDate);
         }
+    }
+
+    public void handleNameChoice(ActionEvent actionEvent) {
+        if (miName.getText().equals("Name")){
+            btnSearchChoice.setText("Name");
+            miName.setText("All");
+            miAddress.setText("Address");
+            miDate.setText("Date");
+            searchName = true;
+            searchAddress = false;
+            searchDate = false;
+        } else if (miName.getText().equals("All")) {
+            btnSearchChoice.setText("All");
+            miName.setText("Name");
+            miAddress.setText("Address");
+            miDate.setText("Date");
+            searchName = true;
+            searchAddress = true;
+            searchDate = true;
+        }
+
+
+    }
+
+    public void handleAddressChoice(ActionEvent actionEvent) {
+        if (miAddress.getText().equals("Address")){
+            btnSearchChoice.setText("Address");
+            miName.setText("Name");
+            miAddress.setText("All");
+            miDate.setText("Date");
+            searchName = false;
+            searchAddress = true;
+            searchDate = false;
+        } else if (miAddress.getText().equals("All")) {
+            btnSearchChoice.setText("All");
+            miName.setText("Name");
+            miAddress.setText("Address");
+            miDate.setText("Date");
+            searchName = true;
+            searchAddress = true;
+            searchDate = true;
+        }
+    }
+
+    public void handleDateChoice(ActionEvent actionEvent) {
+        if (miDate.getText().equals("Date")){
+            btnSearchChoice.setText("Date");
+            miName.setText("Name");
+            miAddress.setText("Address");
+            miDate.setText("All");
+            searchName = false;
+            searchAddress = false;
+            searchDate = true;
+        } else if (miDate.getText().equals("All")) {
+            btnSearchChoice.setText("All");
+            miName.setText("Name");
+            miAddress.setText("Address");
+            miDate.setText("Date");
+            searchName = true;
+            searchAddress = true;
+            searchDate = true;
+        }
+    }
+
+    private void resetSearchToProject(){
+        btnSearchChoice.setText("All");
+        miName.setText("Name");
+        miAddress.setText("Address");
+        miDate.setText("Date");
+        searchName = true;
+        searchAddress = true;
+        searchDate = true;
+
+        btnSearchChoice.setVisible(true);
+        miName.setVisible(true);
+        miAddress.setVisible(true);
+        miDate.setVisible(true);
+        btnSearch.setVisible(false);
+        txtSearchText.setVisible(true);
+    }
+
+    private void resetSearchToUsers(){
+        btnSearchChoice.setVisible(false);
+        miName.setVisible(false);
+        miAddress.setVisible(false);
+        miDate.setVisible(false);
+        btnSearch.setVisible(true);
+        txtSearchText.setVisible(false);
+    }
+
+    public void handleSearch(ActionEvent actionEvent) {
+        selectSearch();
     }
 }

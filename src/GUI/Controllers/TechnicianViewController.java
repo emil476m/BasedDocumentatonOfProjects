@@ -10,10 +10,7 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.Button;
-import javafx.scene.control.TableColumn;
-import javafx.scene.control.TableView;
-import javafx.scene.control.TextField;
+import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.image.Image;
 import javafx.scene.input.KeyEvent;
@@ -27,6 +24,11 @@ import java.io.IOException;
 import java.time.LocalDate;
 
 public class TechnicianViewController extends BaseController{
+    public MenuButton btnSearchChoice;
+    public MenuItem miName;
+    public MenuItem miAddress;
+    public MenuItem miDate;
+    public Text txtSearchText;
     @FXML
     private BorderPane borderPaneTechnician;
     @FXML
@@ -48,6 +50,8 @@ public class TechnicianViewController extends BaseController{
 
     @FXML
     private Button btnShowInstallations,btnshowMyInstallations, btnLogout;
+
+    private boolean searchName = true,  searchAddress = true,  searchDate = true;
 
     @Override
     public void setup() {
@@ -213,7 +217,7 @@ public class TechnicianViewController extends BaseController{
         String search = txfSearch.getText().toLowerCase();
 
         if(search != null)
-            getModelsHandler().getTechnicianModel().searchMyProject(search);
+            getModelsHandler().getTechnicianModel().searchMyProject(search, searchName, searchAddress, searchDate);
         else if (search == null){
             getModelsHandler().getTechnicianModel().clearSearch();
         }
@@ -223,7 +227,7 @@ public class TechnicianViewController extends BaseController{
         String search = txfSearch.getText().toLowerCase();
 
         if(search != null)
-            getModelsHandler().getTechnicianModel().searchProject(search);
+            getModelsHandler().getTechnicianModel().searchProject(search, searchName, searchAddress, searchDate);
         else if (search == null){
             getModelsHandler().getTechnicianModel().clearSearch();
         }
@@ -239,6 +243,68 @@ public class TechnicianViewController extends BaseController{
         }
         else if (tbvInstallationlist.isVisible()){
             searchProject();
+        }
+    }
+
+    public void handleNameChoice(ActionEvent actionEvent) {
+        if (miName.getText().equals("Name")){
+            btnSearchChoice.setText("Name");
+            miName.setText("All");
+            miAddress.setText("Address");
+            miDate.setText("Date");
+            searchName = true;
+            searchAddress = false;
+            searchDate = false;
+        } else if (miName.getText().equals("All")) {
+            btnSearchChoice.setText("All");
+            miName.setText("Name");
+            miAddress.setText("Address");
+            miDate.setText("Date");
+            searchName = true;
+            searchAddress = true;
+            searchDate = true;
+        }
+
+
+    }
+
+    public void handleAddressChoice(ActionEvent actionEvent) {
+        if (miAddress.getText().equals("Address")){
+            btnSearchChoice.setText("Address");
+            miName.setText("Name");
+            miAddress.setText("All");
+            miDate.setText("Date");
+            searchName = false;
+            searchAddress = true;
+            searchDate = false;
+        } else if (miAddress.getText().equals("All")) {
+            btnSearchChoice.setText("All");
+            miName.setText("Name");
+            miAddress.setText("Address");
+            miDate.setText("Date");
+            searchName = true;
+            searchAddress = true;
+            searchDate = true;
+        }
+    }
+
+    public void handleDateChoice(ActionEvent actionEvent) {
+        if (miDate.getText().equals("Date")){
+            btnSearchChoice.setText("Date");
+            miName.setText("Name");
+            miAddress.setText("Address");
+            miDate.setText("All");
+            searchName = false;
+            searchAddress = false;
+            searchDate = true;
+        } else if (miDate.getText().equals("All")) {
+            btnSearchChoice.setText("All");
+            miName.setText("Name");
+            miAddress.setText("Address");
+            miDate.setText("Date");
+            searchName = true;
+            searchAddress = true;
+            searchDate = true;
         }
     }
 }
