@@ -21,7 +21,6 @@ import javafx.stage.StageStyle;
 
 import java.io.IOException;
 import java.sql.SQLException;
-import java.sql.Time;
 import java.sql.Timestamp;
 import java.time.Instant;
 import java.time.LocalDate;
@@ -45,7 +44,7 @@ public class DocumentationViewController extends BaseController{
     @FXML
     private DatePicker dpDatePicker;
     @FXML
-    private ListView lvDevices;
+    private ListView lvDevices, lvImages;
     @FXML
     private Text txtTech;
 
@@ -92,12 +91,13 @@ public class DocumentationViewController extends BaseController{
 
     private void setupListViews() {
         try {
-            getModelsHandler().getDocumentationModel().getDevices().clear();
+            getModelsHandler().getDocumentationModel().getDevicesObservableList().clear();
             if(opnedProject != null)
             {
                 getModelsHandler().getDocumentationModel().getAllDevicesForProject(opnedProject);
             }
-            lvDevices.setItems(getModelsHandler().getDocumentationModel().getDevices());
+            lvDevices.setItems(getModelsHandler().getDocumentationModel().getDevicesObservableList());
+            lvImages.setItems(getModelsHandler().getDocumentationModel().getImagesObservableList());
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
@@ -256,7 +256,7 @@ public class DocumentationViewController extends BaseController{
     public void handleReturn(ActionEvent actionEvent) {
         if(getModelsHandler().getLoginModel().getUser().getClass().getSimpleName().equals(SalesPerson.class.getSimpleName()))
         {
-            getModelsHandler().getDocumentationModel().getDevices().removeAll();
+            getModelsHandler().getDocumentationModel().getDevicesObservableList().removeAll();
             Stage stage = (Stage) btnReturn.getScene().getWindow();
             stage.close();
         }
@@ -525,7 +525,6 @@ public class DocumentationViewController extends BaseController{
         stage.initModality(Modality.APPLICATION_MODAL);
         stage.initStyle(StageStyle.UNDECORATED);
         stage.getIcons().add(new Image("GUI/Images/WUAV.png"));
-        stage.setMaximized(true);
 
         BaseController controller = loader.getController();
         controller.setModel(getModelsHandler());

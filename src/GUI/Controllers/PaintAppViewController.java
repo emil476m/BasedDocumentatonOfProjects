@@ -1,6 +1,9 @@
 package GUI.Controllers;
 
+import BE.CanvasPane;
 import GUI.Util.AlertOpener;
+import GUI.Util.ExceptionHandler;
+import javafx.embed.swing.SwingFXUtils;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.geometry.Pos;
@@ -12,46 +15,64 @@ import javafx.scene.control.ColorPicker;
 import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.image.WritableImage;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.VBox;
+import javafx.stage.FileChooser;
 import javafx.stage.Stage;
+
+import javax.imageio.ImageIO;
+import java.awt.image.RenderedImage;
+import java.awt.image.renderable.RenderableImage;
+import java.io.File;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+
+import static javafx.scene.paint.Color.*;
 
 public class PaintAppViewController extends BaseController{
     @FXML
-    private Button btnBrush, btnSave, btnClose, btnErase;
+    private CanvasPane canvasPane;
+    @FXML
+    private Button btnBrush, btnSave, btnClose, btnErase, btnScreenSize;
 
     @FXML
     private ColorPicker CpColorPicker;
     @FXML
     private TextField txtBrushSize;
-    @FXML
-    private Canvas canvas;
-    boolean toolSelected;
 
 
     GraphicsContext brushTool;
 
     @Override
     public void setup() {
-        canvas.setLayoutX(canvas.getParent().getLayoutX()/2);
-        canvas.setLayoutY(canvas.getParent().getLayoutY()/2);
+        CpColorPicker.setValue(BLACK);
         buttonIconSetup();
         txtBrushSize.setText("5");
-        if(canvas != null)
+        toolListener();
+    }
+
+    private void toolListener()
+    {
+        if(canvasPane.getCanvas() != null)
         {
-         brushTool = canvas.getGraphicsContext2D();
-         canvas.setOnMouseDragged( e -> {
-         double size = Double.parseDouble(txtBrushSize.getText());
-         double x = e.getX() - size / 2;
-         double y = e.getY() - size / 2;
+            brushTool = canvasPane.getCanvas().getGraphicsContext2D();
+            canvasPane.getCanvas().setOnMouseDragged( e -> {
+                double size = Double.parseDouble(txtBrushSize.getText());
+                double x = e.getX() - size / 2;
+                double y = e.getY() - size / 2;
 
-         if(toolSelected && !txtBrushSize.getText().isEmpty())
-         {
-             brushTool.setFill(CpColorPicker.getValue());
-             brushTool.fillRoundRect(x,y,size,size,size,size);
-         }
+                if(btnBrush.isDisable() && !txtBrushSize.getText().isEmpty())
+                {
+                    brushTool.setFill(CpColorPicker.getValue());
+                    brushTool.fillRoundRect(x,y,size,size,size,size);
+                } else if (btnErase.isDisable() && !txtBrushSize.getText().isEmpty())
+                {
+                    brushTool.clearRect(x,y,size,size);
+                }
 
-         });
+            });
         }
     }
 
@@ -61,6 +82,7 @@ public class PaintAppViewController extends BaseController{
         btnClose.setGraphic(new ImageView(new Image("/GUI/Images/icons8-close-80.png")));
         btnErase.setGraphic(new ImageView(new Image("/GUI/Images/icons8-eraser-64.png")));
         btnSave.setGraphic(new ImageView(new Image("/GUI/Images/icons8-save-80.png")));
+        btnScreenSize.setGraphic(new ImageView(new Image("/GUI/Images/icons8-full-screen-80.png")));
     }
 
     public void handleClose(ActionEvent actionEvent)
@@ -90,7 +112,7 @@ public class PaintAppViewController extends BaseController{
         {
             if(!getCanvasHeight.getText().isEmpty() && !getCanvasWidth.getText().isEmpty())
             {
-                canvas = new Canvas();
+                Canvas canvas = canvasPane.getCanvas();
                 canvas.setWidth(Double.parseDouble(getCanvasWidth.getText()));
                 canvas.setHeight(Double.parseDouble(getCanvasHeight.getText()));
                 Stage stage = (Stage) createButton.getScene().getWindow();
@@ -105,8 +127,8 @@ public class PaintAppViewController extends BaseController{
 
         Stage stage = new Stage();
         AnchorPane root = new AnchorPane();
-        root.setPrefWidth(200);
-        root.setPrefHeight(200);
+        root.setPrefWidth(150);
+        root.setPrefHeight(100);
         root.getChildren().add(vBox);
 
         Scene canvasScene = new Scene(root);
@@ -117,7 +139,58 @@ public class PaintAppViewController extends BaseController{
 
     public void handleBrush(ActionEvent actionEvent)
     {
-        toolSelected = true;
         btnBrush.setDisable(true);
+        if(btnErase.isDisable())
+        {
+            btnErase.setDisable(false);
+        }
+    }
+
+    public void handleErase(ActionEvent actionEvent)
+    {
+        btnErase.setDisable(true);
+        if(btnBrush.isDisable())
+        {
+            btnBrush.setDisable(false);
+        }
+    }
+
+    public void handleScreenSize(ActionEvent actionEvent)
+    {
+        Stage stage = (Stage) btnScreenSize.getScene().getWindow();
+        if(stage.isMaximized())
+        {
+            stage.setMaximized(false);
+            btnScreenSize.setGraphic(new ImageView(new Image("/GUI/Images/icons8-full-screen-80.png")));
+        } else if (!stage.isMaximized())
+        {
+            stage.setMaximized(true);
+            btnScreenSize.setGraphic(new ImageView(new Image("/GUI/Images/icons8-normal-screen-80.png")));
+        }
+    }
+
+    public void handleSave(ActionEvent actionEvent)
+    {
+        FileChooser saveFile = new FileChooser();
+        FileChooser.ExtensionFilter extFilter = new FileChooser.ExtensionFilter(".png", "*.png");
+        saveFile.getExtensionFilters().add(extFilter);
+        saveFile.setInitialFileName("*"+extFilter.getDescription());
+        File file = saveFile.showSaveDialog(btnSave.getScene().getWindow());
+
+        if(file != null)
+
+        {
+            try {
+                WritableImage writableImage = new WritableImage((int) canvasPane.getCanvas().getWidth(), (int) canvasPane.getHeight());
+                canvasPane.getCanvas().snapshot(null, writableImage);
+                RenderedImage renderedImage = SwingFXUtils.fromFXImage(writableImage, null);
+                ImageIO.write(renderedImage, "png", file);
+                getModelsHandler().getDocumentationModel().getImagesObservableList().add(file);
+
+
+            } catch (IOException e) {
+                ExceptionHandler.displayError(new RuntimeException("Failed to save the file please try again", e));
+            }
+        }
     }
 }

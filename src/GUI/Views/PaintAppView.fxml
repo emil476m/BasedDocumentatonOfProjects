@@ -13,11 +13,12 @@
 <?import javafx.scene.layout.GridPane?>
 <?import javafx.scene.layout.RowConstraints?>
 
-<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="GUI.Controllers.PaintAppViewController">
+<?import BE.CanvasPane?>
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="602.0" prefWidth="923.0" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="GUI.Controllers.PaintAppViewController" stylesheets="@../Css/PaintCss.Css" styleClass="root">
    <top>
       <AnchorPane prefHeight="38.0" prefWidth="600.0" BorderPane.alignment="CENTER">
          <children>
-            <GridPane alignment="TOP_CENTER" layoutX="212.0" layoutY="8.0" prefHeight="22.0" prefWidth="340.0" AnchorPane.leftAnchor="212.0" AnchorPane.topAnchor="8.0">
+            <GridPane alignment="TOP_CENTER" layoutX="282.0" layoutY="8.0" prefHeight="22.0" prefWidth="340.0" AnchorPane.leftAnchor="282.0" AnchorPane.topAnchor="6.0">
               <columnConstraints>
                 <ColumnConstraints hgrow="SOMETIMES" maxWidth="98.4000244140625" minWidth="10.0" prefWidth="51.999975585937506" />
                   <ColumnConstraints hgrow="SOMETIMES" maxWidth="177.6" minWidth="10.0" prefWidth="176.0000244140625" />
@@ -32,9 +33,10 @@
                   <ColorPicker fx:id="CpColorPicker" GridPane.columnIndex="2" />
                </children>
             </GridPane>
-            <Button fx:id="btnSave" layoutX="28.0" layoutY="7.0" mnemonicParsing="false" AnchorPane.leftAnchor="28.0" AnchorPane.topAnchor="7.0" />
+            <Button fx:id="btnSave" layoutX="28.0" layoutY="7.0" mnemonicParsing="false" AnchorPane.leftAnchor="28.0" AnchorPane.topAnchor="6.0" onAction="#handleSave" />
             <Button fx:id="btnClose" layoutX="560.0" layoutY="6.0" mnemonicParsing="false" onAction="#handleClose" AnchorPane.rightAnchor="24.0" AnchorPane.topAnchor="6.0" />
-            <Button fx:id="btnNewCanvas" layoutX="76.0" layoutY="6.0" mnemonicParsing="false" onAction="#handleNewCanvas" text="New Canvas" AnchorPane.leftAnchor="76.0" />
+            <Button fx:id="btnNewCanvas" layoutX="76.0" layoutY="6.0" mnemonicParsing="false" onAction="#handleNewCanvas" text="New Canvas" AnchorPane.leftAnchor="76.0" AnchorPane.topAnchor="6.0" />
+            <Button fx:id="btnScreenSize" layoutX="829.0" layoutY="7.0" mnemonicParsing="false" onAction="#handleScreenSize" AnchorPane.rightAnchor="78.20000000000005" AnchorPane.topAnchor="6.0" />
          </children>
       </AnchorPane>
    </top>
@@ -55,7 +57,7 @@
                         <Insets left="32.0" />
                      </GridPane.margin>
                   </Button>
-                  <Button fx:id="btnErase" mnemonicParsing="false" GridPane.rowIndex="1">
+                  <Button fx:id="btnErase" mnemonicParsing="false" onAction="#handleErase" GridPane.rowIndex="1">
                      <GridPane.margin>
                         <Insets left="32.0" />
                      </GridPane.margin>
@@ -66,13 +68,6 @@
       </AnchorPane>
    </left>
    <center>
-      <AnchorPane BorderPane.alignment="CENTER">
-         <children>
-            <Canvas fx:id="canvas" height="363.0" width="518.0">
-               <cursor>
-                  <Cursor fx:constant="CROSSHAIR" />
-               </cursor></Canvas>
-         </children>
-      </AnchorPane>
+       <CanvasPane fx:id="canvasPane" styleClass="canvas-pane"/>
    </center>
 </BorderPane>

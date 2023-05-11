@@ -4,7 +4,6 @@ import BE.CostumerType;
 import BE.Device;
 import BE.DeviceType;
 import BE.Project;
-import BE.UserTypes.User;
 import BLL.Interfaces.IDocumentationManager;
 import BLL.Managers.DocumentationManager;
 import javafx.collections.FXCollections;
@@ -19,8 +18,8 @@ import java.util.List;
 
 public class DocumentationModel {
     private IDocumentationManager documentationManager;
-    ObservableList<Device> devices;
-    ObservableList<File> images;
+    ObservableList<Device> devicesObservableList;
+    ObservableList<File> imagesObservableList;
 
 
     List<CostumerType> costumerTypes;
@@ -30,8 +29,9 @@ public class DocumentationModel {
     public DocumentationModel() throws IOException {
         documentationManager = new DocumentationManager();
         costumerTypes = new ArrayList<>();
-        devices = FXCollections.observableArrayList();
+        devicesObservableList = FXCollections.observableArrayList();
         deviceTypes = new ArrayList<>();
+        imagesObservableList = FXCollections.observableArrayList();
     }
 
     public void getAllCostumerTypes() throws Exception {
@@ -52,14 +52,14 @@ public class DocumentationModel {
     }
 
     public void getAllDevicesForProject(Project project) throws Exception {
-        devices.clear();
+        devicesObservableList.clear();
         List<Device> deviceList = documentationManager.devicesForProject(project);
-        devices.addAll(deviceList);
+        devicesObservableList.addAll(deviceList);
     }
 
-    public ObservableList getDevices()
+    public ObservableList getDevicesObservableList()
     {
-        return devices;
+        return devicesObservableList;
     }
 
     public void saveproject(Project project, ObservableList<Device> devices) throws Exception {
@@ -108,12 +108,17 @@ public class DocumentationModel {
             }
         }
 
-        devices.add(device);
+        devicesObservableList.add(device);
     }
 
     public List<Integer> getUsersWorkingOnProject(Project project) throws Exception{
         List<Integer> allUsersId = documentationManager.getUsersWorkingOnProject(project);
         return allUsersId;
+    }
+
+    public ObservableList getImagesObservableList()
+    {
+        return imagesObservableList;
     }
 
 }
