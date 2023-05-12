@@ -6,13 +6,17 @@ import DAL.DBUtil.BCrypt;
 import DAL.DatabaseConnector;
 import DAL.Interface.IUserDAO;
 
+import java.io.File;
+import java.io.FileInputStream;
 import java.io.IOException;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Properties;
 
 public class UserDAO_DB implements IUserDAO {
     private DatabaseConnector dbConnector;
+    private static final String PROP_FILE = ".idea/Config/DataBase.Settings";
 
     public UserDAO_DB() throws IOException {
         dbConnector = new DatabaseConnector();
@@ -61,8 +65,14 @@ public class UserDAO_DB implements IUserDAO {
 
     @Override
     public User createUser(User user) throws Exception{
+        Properties databaseProperties = new Properties();
+        databaseProperties.load(new FileInputStream(new File(PROP_FILE)));
+
+        String saltIteration = databaseProperties.getProperty("SaltIteration");
+
+
         String sql = "INSERT INTO [User] (PassWord, UserName, Mail, Name, UserType, IsDeleted) VALUES (?,?,?,?,?,?);";
-        String salt = BCrypt.gensalt(12);
+        String salt = BCrypt.gensalt(Integer.parseInt(saltIteration));
         String hashPw = BCrypt.hashpw(user.getPassWord(),salt);
         try(Connection connection = dbConnector.getConnection();
             PreparedStatement statement = connection.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)){
@@ -111,8 +121,13 @@ public class UserDAO_DB implements IUserDAO {
 
     @Override
     public void updateUser(User user) throws Exception {
+        Properties databaseProperties = new Properties();
+        databaseProperties.load(new FileInputStream(new File(PROP_FILE)));
+
+        String saltIteration = databaseProperties.getProperty("SaltIteration");
+
         String sql = "UPDATE [User] SET UserName = ?, PassWord = ?, Mail = ?, Name = ?, UserType = ?, IsDeleted = ? WHERE Id = ?;";
-        String salt = BCrypt.gensalt(12);
+        String salt = BCrypt.gensalt(Integer.parseInt(saltIteration));
         String hashPw = BCrypt.hashpw(user.getPassWord(),salt);
         try (Connection connection = dbConnector.getConnection();
              PreparedStatement statement = connection.prepareStatement(sql)) {

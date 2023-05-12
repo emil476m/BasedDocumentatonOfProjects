@@ -1,0 +1,11 @@
+<component name="libraryTable">
+  <library name="dropbox.core.sdk" type="repository">
+    <properties maven-id="com.dropbox.core:dropbox-core-sdk:5.4.4" />
+    <CLASSES>
+      <root url="jar://$PROJECT_DIR$/lib/dropbox-core-sdk-5.4.4.jar!/" />
+      <root url="jar://$PROJECT_DIR$/lib/jackson-core-2.7.9.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES />
+  </library>
+</component>

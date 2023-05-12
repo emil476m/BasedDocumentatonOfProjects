@@ -8,5 +8,6 @@
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />
     <orderEntry type="library" name="mssql-jdbc-11.2.2.jre18" level="project" />
+    <orderEntry type="library" name="dropbox.core.sdk" level="project" />
   </component>
 </module>
