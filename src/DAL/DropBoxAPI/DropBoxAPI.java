@@ -35,16 +35,16 @@ public class DropBoxAPI implements IDropBoxAPI {
     }
 
     @Override
-    public void deleteFilesFromDropBox() throws DbxException {
+    public void deleteFilesFromDropBox(String dropBoxFilePath) throws DbxException {
         String pictureName = "/WUAV.png";
         Metadata metadata = client.files().delete(pictureName);
     }
 
     @Override
-    public void uploadFilesFromDropBox() throws DbxException {
+    public void uploadFilesFromDropBox(String localFilePath, String dropBoxFilePath) throws DbxException {
         // Upload "test.txt" to Dropbox
-        try (InputStream in = new FileInputStream("C:\\Users\\emilw\\IdeaProjects\\BasedDocumentationOfProjects\\src\\GUI\\Images\\WUAV.png")) {
-            FileMetadata metadata = client.files().uploadBuilder("/WUAV.png")
+        try (InputStream in = new FileInputStream(localFilePath)) {
+            FileMetadata metadata = client.files().uploadBuilder(dropBoxFilePath)
                     .uploadAndFinish(in);
         } catch (IOException e) {
             throw new RuntimeException(e);
@@ -52,12 +52,10 @@ public class DropBoxAPI implements IDropBoxAPI {
     }
 
     @Override
-    public void downloadFilesFromDropBox() throws DbxException {
-        String pictureName = "/WUAV.png";
-
-        DbxDownloader<FileMetadata> downloader = client.files().download(pictureName);
+    public void downloadFilesFromDropBox(String dropBoxFilePath, String fileName) throws DbxException {
+        DbxDownloader<FileMetadata> downloader = client.files().download(dropBoxFilePath);
         try {
-            FileOutputStream out = new FileOutputStream("DownloadedDropBoxFiles/WUAV.png");
+            FileOutputStream out = new FileOutputStream("DownloadedDropBoxFiles/"+fileName);
             downloader.download(out);
             out.close();
         } catch (DbxException | IOException ex) {
@@ -66,7 +64,28 @@ public class DropBoxAPI implements IDropBoxAPI {
     }
 
     @Override
-    public void readFilesFromDropBox() throws DbxException {
+    public void readFilesFromDropBox(String folderPath) throws DbxException {
+        // Get current account info
+        FullAccount account = client.users().getCurrentAccount();
+        System.out.println(account.getName().getDisplayName());
+
+        ListFolderResult result = client.files().listFolder(folderPath);
+        while (true) {
+            for (Metadata metadata : result.getEntries()) {
+                System.out.println(metadata.getPathLower());
+
+            }
+
+            if (!result.getHasMore()) {
+                break;
+            }
+
+            result = client.files().listFolderContinue(result.getCursor());
+        }
+    }
+
+    @Override
+    public void readAllFilesFromDropBox() throws DbxException {
         // Get current account info
         FullAccount account = client.users().getCurrentAccount();
         System.out.println(account.getName().getDisplayName());

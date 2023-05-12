@@ -4,7 +4,6 @@ import BLL.Interfaces.IDropBoxAPIManager;
 import DAL.DropBoxAPI.DropBoxAPI;
 import DAL.Interface.IDropBoxAPI;
 import com.dropbox.core.DbxException;
-import com.dropbox.core.v2.DbxClientV2;
 
 public class DropBoxAPIManager implements IDropBoxAPIManager {
     private IDropBoxAPI dropBoxAPI;
@@ -14,22 +13,27 @@ public class DropBoxAPIManager implements IDropBoxAPIManager {
     }
 
     @Override
-    public void deleteFilesFromDropBox() throws DbxException {
-        dropBoxAPI.deleteFilesFromDropBox();
+    public void deleteFilesFromDropBox(String dropBoxFilePath) throws DbxException {
+        dropBoxAPI.deleteFilesFromDropBox(dropBoxFilePath);
     }
 
     @Override
-    public void uploadFilesFromDropBox() throws DbxException {
-        dropBoxAPI.uploadFilesFromDropBox();
+    public void uploadFilesFromDropBox(String localFilePath, String dropBoxFilePath) throws DbxException {
+        dropBoxAPI.uploadFilesFromDropBox(localFilePath, dropBoxFilePath);
     }
 
     @Override
-    public void downloadFilesFromDropBox() throws DbxException {
-        dropBoxAPI.downloadFilesFromDropBox();
+    public void downloadFilesFromDropBox(String dropBoxFilePath, String fileName) throws DbxException {
+        dropBoxAPI.downloadFilesFromDropBox(dropBoxFilePath, fileName);
     }
 
     @Override
-    public void readFilesFromDropBox() throws DbxException {
-        dropBoxAPI.readFilesFromDropBox();
+    public void readFilesFromDropBox(String folderPath) throws DbxException {
+        dropBoxAPI.readFilesFromDropBox(folderPath);
+    }
+
+    @Override
+    public void readAllFilesFromDropBox() throws DbxException {
+        dropBoxAPI.readAllFilesFromDropBox();
     }
 }
