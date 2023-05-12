@@ -14,6 +14,7 @@ import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.text.Text;
@@ -52,6 +53,7 @@ public class SalesPersonController extends BaseController {
     @Override
     public void setup() {
         toggleViews();
+        logoutButtonSetup();
         try {
             setUpTableViews();
         } catch (Exception e) {
@@ -60,7 +62,20 @@ public class SalesPersonController extends BaseController {
         }
     }
 
+    /**
+     * sets the icon for the logout button
+     */
+    private void logoutButtonSetup()
+    {
+        btnLogout.setGraphic(new ImageView(new Image("/GUI/Images/icons8-logout-80.png")));
+    }
+
     public void handleOpen(ActionEvent actionEvent) {
+        try {
+            openDocumentationWindow((Project) tbvInstallationlist.getFocusModel().getFocusedItem());
+        } catch (IOException e) {
+            ExceptionHandler.displayError(new RuntimeException("Failed to open the documentation please try again", e));
+        }
     }
 
     public void handleLogout(ActionEvent actionEvent) {
@@ -197,5 +212,28 @@ public class SalesPersonController extends BaseController {
             searchAddress = true;
             searchDate = true;
         }
+    }
+
+
+    private void openDocumentationWindow(Project project) throws IOException {
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/GUI/Views/DocumentationView.fxml"));
+
+        Parent root = loader.load();
+        Stage stage = new Stage();
+
+        DocumentationViewController controller = loader.getController();
+        try {
+            controller.setModel(ModelsHandler.getInstance());
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+        controller.setOpenedProject(project);
+        controller.setup();
+
+        stage.setScene(new Scene(root));
+        stage.setTitle("WUAV Documentation Documentation window");
+        stage.initStyle(StageStyle.UNDECORATED);
+        stage.getIcons().add(new Image("/GUI/Images/WUAV.png"));
+        stage.show();
     }
 }

@@ -55,7 +55,6 @@ public class DocumentationViewController extends BaseController{
     private Project opnedProject;
 
 
-
     @Override
     public void setup() {
         try {
@@ -89,6 +88,9 @@ public class DocumentationViewController extends BaseController{
         }
     }
 
+    /**
+     * Sets up the listviews in the window.
+     */
     private void setupListViews() {
         try {
             getModelsHandler().getDocumentationModel().getDevicesObservableList().clear();
@@ -104,6 +106,9 @@ public class DocumentationViewController extends BaseController{
 
     }
 
+    /**
+     * Adds all TextFields to an arraylist.
+     */
     private void addTextFields()
     {
         textFields.add(txtCostumerName);
@@ -113,6 +118,10 @@ public class DocumentationViewController extends BaseController{
         textFields.add(txtLocation);
     }
 
+    /**
+     * Checks the access level of the user that is currently signed in.
+     * @throws Exception
+     */
     private void checkAccesslevel() throws Exception {
         if(getModelsHandler().getLoginModel().getUser().getClass().getSimpleName().equals(Technician.class.getSimpleName()))
         {
@@ -169,6 +178,9 @@ public class DocumentationViewController extends BaseController{
         }
     }
 
+    /**
+     * Makes it so the loggedIn user can not edit.
+     */
     private void nonEditAccess()
     {
         btnAssignTech.setDisable(true);
@@ -193,6 +205,10 @@ public class DocumentationViewController extends BaseController{
         btnRemoveTechnician.setVisible(false);
     }
 
+    /**
+     * Generates a Menus items for each costumerType
+     * @throws Exception
+     */
     private void generateMenuItems() throws Exception {
         getModelsHandler().getDocumentationModel().getAllCostumerTypes();
         costumerTypes = getModelsHandler().getDocumentationModel().getCostumerTypes();
@@ -202,6 +218,11 @@ public class DocumentationViewController extends BaseController{
         }
     }
 
+    /**
+     * Creates a MenuItem
+     * @param costumerType
+     * @return a menuItem with an onAction.
+     */
     private MenuItem createMenuItem(CostumerType costumerType)
     {
        MenuItem menuItem = new MenuItem();
@@ -213,7 +234,11 @@ public class DocumentationViewController extends BaseController{
        return menuItem;
     }
 
-    private Boolean checkTextField()
+    /**
+     * Checks if textFields are empty or disabled
+     * @return true if they are not empty or if they are disabled and false if they are empty.
+     */
+    private Boolean checkTextFields()
     {
         for (TextField t: textFields)
         {
@@ -233,6 +258,9 @@ public class DocumentationViewController extends BaseController{
         return null;
     }
 
+    /**
+     * checks the costumerType textfield and adjusts the view according to what the costumer type needs to know.
+     */
     private void checkCostumertype()
     {
         txtCostumerType.textProperty().addListener((observable, oldValue, newValue) -> {
@@ -253,6 +281,10 @@ public class DocumentationViewController extends BaseController{
         });
     }
 
+    /**
+     * Closes the window.
+     * @param actionEvent
+     */
     public void handleReturn(ActionEvent actionEvent) {
         if(getModelsHandler().getLoginModel().getUser().getClass().getSimpleName().equals(SalesPerson.class.getSimpleName()))
         {
@@ -270,9 +302,17 @@ public class DocumentationViewController extends BaseController{
         }
     }
 
+    /**
+     * Saves the documentation to the current device as a pdf file.
+     * @param actionEvent
+     */
     public void handleSaveToDevice(ActionEvent actionEvent) {
     }
 
+    /**
+     * makes it so a technician can either edit or not edit the openedProject
+     * @param actionEvent
+     */
     public void handleSendToPMOrTech(ActionEvent actionEvent) {
         if(getModelsHandler().getLoginModel().getUser().getClass().getSimpleName().equals(Technician.class.getSimpleName()))
         {
@@ -290,6 +330,10 @@ public class DocumentationViewController extends BaseController{
         btnSend.setDisable(true);
     }
 
+    /**
+     * makes it so a technician can either edit or not edit the openedProject
+     * @param canEdit
+     */
     private void sendToPMOrTech(boolean canEdit)
     {
         if(opnedProject != null)
@@ -356,6 +400,10 @@ public class DocumentationViewController extends BaseController{
         }
     }
 
+    /**
+     * Saves or creates a new project.
+     * @param actionEvent
+     */
     public void handleSave(ActionEvent actionEvent)
     {
         if(opnedProject == null)
@@ -369,6 +417,9 @@ public class DocumentationViewController extends BaseController{
         }
     }
 
+    /**
+     * Saves the current changes to the openedProjcet:
+     */
     private void saveProject()
     {
         try {
@@ -415,6 +466,10 @@ public class DocumentationViewController extends BaseController{
         }
     }
 
+    /**
+     * Updates the tableviews so the information matches if you change anything on a project that already exists.
+     * @param project
+     */
     private void updateTableviews(Project project)
     {
         if(getModelsHandler().getLoginModel().getUser().getClass().getSimpleName().equals(CEO.class.getSimpleName()))
@@ -476,9 +531,12 @@ public class DocumentationViewController extends BaseController{
         }
     }
 
+    /**
+     * Creates a new project.
+     */
     private void createNewProject()
     {
-        if(checkTextField() && !txtaComments.getText().isEmpty() && dpDatePicker.getValue() != null)
+        if(checkTextFields() && !txtaComments.getText().isEmpty() && dpDatePicker.getValue() != null)
         {
             String costumerName = txtCostumerName.getText();
             String location = "";
@@ -509,6 +567,11 @@ public class DocumentationViewController extends BaseController{
         }
     }
 
+    /**
+     * Opens paint.
+     * @param actionEvent
+     * @throws IOException
+     */
     public void handleOpenPaint(ActionEvent actionEvent) throws IOException {
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/GUI/Views/PaintAppView.fxml"));
         Parent root = null;
@@ -534,6 +597,10 @@ public class DocumentationViewController extends BaseController{
         stage.showAndWait();
     }
 
+    /**
+     * Opens assignTech window.
+     * @param actionEvent
+     */
     public void handleAssignTech(ActionEvent actionEvent) {
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/GUI/Views/AssignTechnicianView.fxml"));
         Parent root = null;
@@ -561,6 +628,11 @@ public class DocumentationViewController extends BaseController{
     }
 
 
+    /**
+     * finds the coustomerType form a string.
+     * @param type
+     * @return
+     */
     private int findCostumertype(String type)
     {
         for (CostumerType c:costumerTypes)
@@ -573,6 +645,11 @@ public class DocumentationViewController extends BaseController{
         return 0;
     }
 
+    /**
+     * finds the costumer type form the id.
+     * @param id
+     * @return
+     */
     private String findCostumerTypeFromId(int id)
     {
         for (CostumerType c: costumerTypes)
@@ -585,6 +662,9 @@ public class DocumentationViewController extends BaseController{
         return null;
     }
 
+    /**
+     * sets up the text fields.
+     */
     private void setTextFields()
     {
         Project project = opnedProject;
@@ -600,6 +680,10 @@ public class DocumentationViewController extends BaseController{
         txtaComments.setText(project.getProjectDescription());
     }
 
+    /**
+     * sets the OpenedProject.
+     * @param project
+     */
     public void setOpenedProject(Project project)
     {
 
@@ -610,6 +694,9 @@ public class DocumentationViewController extends BaseController{
         }
     }
 
+    /**
+     * Sets up the TechniciansRemoveAddAndView.
+     */
     private void setUpTechniciansRemoveAddAndView(){
         try {
             if (opnedProject != null)
@@ -622,6 +709,11 @@ public class DocumentationViewController extends BaseController{
         lvTechniciansOnProject.setItems(getModelsHandler().getCeoModel().getUserOnCurrentProject());
     }
 
+    /**
+     * checks if the current Logged-in user can edit.
+     * @return
+     * @throws Exception
+     */
     private boolean checkIfUserCanEdit() throws Exception {
        List<Integer> userIds = getModelsHandler().getDocumentationModel().getUsersWorkingOnProject(opnedProject);
         for (Integer i: userIds)
@@ -634,6 +726,10 @@ public class DocumentationViewController extends BaseController{
         return false;
     }
 
+    /**
+     * Removes a technician form the project.
+     * @param actionEvent
+     */
     public void handleRemoveTechnician(ActionEvent actionEvent) {
         try {
             if (lvTechniciansOnProject.getSelectionModel().getSelectedItem() != null) {
@@ -644,6 +740,11 @@ public class DocumentationViewController extends BaseController{
         }
     }
 
+    /**
+     * Opens add device window.
+     * @param actionEvent
+     * @throws IOException
+     */
     public void handleAddDevice(ActionEvent actionEvent) throws IOException {
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/GUI/Views/AddDeviceView.fxml"));
 

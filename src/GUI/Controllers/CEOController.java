@@ -15,6 +15,7 @@ import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.text.Text;
@@ -27,8 +28,10 @@ import java.io.IOException;
 import java.time.LocalDate;
 
 public class CEOController extends BaseController{
-    public Text txtSearchText;
-    public Button btnSearch;
+    @FXML
+    private Text txtSearchText;
+    @FXML
+    private Button btnSearch;
     @FXML
     private MenuButton btnSearchChoice;
     @FXML
@@ -79,6 +82,7 @@ public class CEOController extends BaseController{
     @Override
     public void setup() {
         toggleViews(true, false);
+        buttonSetup();
         try {
             setUpTableViews();
         } catch (Exception e) {
@@ -86,6 +90,21 @@ public class CEOController extends BaseController{
         }
     }
 
+
+    /**
+     * sets the icons for the buttons
+     */
+    private void buttonSetup()
+    {
+        btnLogout.setGraphic(new ImageView(new Image("/GUI/Images/icons8-logout-80.png")));
+        btnSearch.setGraphic(new ImageView(new Image("/GUI/Images/icons8-search-80.png")));
+    }
+
+    /**
+     * toggles which tableview is shown to the user.
+     * @param users
+     * @param projects
+     */
     private void toggleViews(boolean users, boolean projects){
         txfSearch.clear();
         if (users == true){
@@ -111,6 +130,10 @@ public class CEOController extends BaseController{
         }
     }
 
+    /**
+     * Sets up the different tableviews
+     * @throws Exception
+     */
     private void setUpTableViews() throws Exception {
         getModelsHandler().getCeoModel().getAllProjects();
         getModelsHandler().getCeoModel().getAllUsers();
@@ -130,6 +153,10 @@ public class CEOController extends BaseController{
         clmUserClass.setCellValueFactory(new PropertyValueFactory<>("userClass"));
     }
 
+    /**
+     * Logs out the current user and gives the option to login again
+     * @param actionEvent
+     */
     public void handleLogout(ActionEvent actionEvent) {
         try {
             String title = "Error Message";
@@ -163,18 +190,34 @@ public class CEOController extends BaseController{
         }
     }
 
+    /**
+     * Shows the installation tableview.
+     * @param actionEvent
+     */
     public void handleShowInstallations(ActionEvent actionEvent) {
         toggleViews(false, true);
     }
 
+    /**
+     * Shows the user tableview.
+     * @param actionEvent
+     */
     public void handleShowUsers(ActionEvent actionEvent) {
         toggleViews(true, false);
     }
 
+    /**
+     * Opens the create window for the selected tableview be it user or installation
+     * @param actionEvent
+     */
     public void handleCreate(ActionEvent actionEvent) {
         createSelectedItemType();
     }
 
+    /**
+     * Deletes the selected item in whatever tableview that is visible.
+     * @param actionEvent
+     */
     public void handleDelete(ActionEvent actionEvent) {
         try {
             deleteSelectedItemType();
@@ -183,10 +226,17 @@ public class CEOController extends BaseController{
         }
     }
 
+    /**
+     * Opens the selected item form the visible tableview
+     * @param actionEvent
+     */
     public void handleOpen(ActionEvent actionEvent) {
         openSelectedItemType();
     }
 
+    /**
+     * Checks what window there has to be opened.
+     */
     private void openSelectedItemType(){
 
         if (tbvUserlist.isVisible()){
@@ -197,6 +247,9 @@ public class CEOController extends BaseController{
         }
     }
 
+    /**
+     * Checks what create window there has to be opened.
+     */
     private void createSelectedItemType(){
 
         if (tbvUserlist.isVisible()){
@@ -208,6 +261,9 @@ public class CEOController extends BaseController{
         }
     }
 
+    /**
+     * Checks what item needs to be deleted and form which tableview.
+     */
     private void deleteSelectedItemType() throws Exception {
         if (tbvUserlist.isVisible()){
             getModelsHandler().getCeoModel().deleteUser(tbvUserlist.getSelectionModel().getSelectedItem());
@@ -217,6 +273,10 @@ public class CEOController extends BaseController{
         }
     }
 
+    /**
+     * Gets the selected user
+     * @return the selected user
+     */
     private User getSelectedUser(){
         User user = tbvUserlist.getSelectionModel().getSelectedItem();
         if (user != null){
@@ -226,6 +286,9 @@ public class CEOController extends BaseController{
             return null;
     }
 
+    /**
+     * Opens the userInfo window.
+     */
     private void openUserInfo(){
 
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/GUI/Views/UserInfoView.fxml"));
@@ -254,6 +317,10 @@ public class CEOController extends BaseController{
         stage.showAndWait();
     }
 
+    /**
+     * Opens the documentation window with the selected project.
+     * @param project
+     */
     private void openEditProjectWindow(Project project) {
         try {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/GUI/Views/DocumentationView.fxml"));
@@ -279,6 +346,9 @@ public class CEOController extends BaseController{
         }
     }
 
+    /**
+     * Opens the documentation window without a selected project.
+     */
     public void handleCreateProject() {
         try {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/GUI/Views/DocumentationView.fxml"));
@@ -304,6 +374,9 @@ public class CEOController extends BaseController{
         }
     }
 
+    /**
+     * Searches for a users matching the search query.
+     */
     private void searchUser() {
         String search = txfSearch.getText().toLowerCase();
 
@@ -314,6 +387,12 @@ public class CEOController extends BaseController{
         }
     }
 
+    /**
+     * Searches for a project matching the query.
+     * @param name
+     * @param address
+     * @param date
+     */
     private void searchProject(boolean name, boolean address, boolean date) {
         String search = txfSearch.getText().toLowerCase();
 
@@ -324,10 +403,17 @@ public class CEOController extends BaseController{
         }
     }
 
+    /**
+     * Does the search action when a button is pressed.
+     * @param keyEvent
+     */
     public void searchOnButtonPress(KeyEvent keyEvent) {
         selectSearch();
     }
 
+    /**
+     * Checks which search method that has to be used.
+     */
     private void selectSearch(){
         if (tbvUserlist.isVisible()){
             searchUser();
@@ -337,6 +423,10 @@ public class CEOController extends BaseController{
         }
     }
 
+    /**
+     * Searches on the costumer name in the installations tableview.
+     * @param actionEvent
+     */
     public void handleNameChoice(ActionEvent actionEvent) {
         if (miName.getText().equals("Name")){
             btnSearchChoice.setText("Name");
@@ -359,6 +449,10 @@ public class CEOController extends BaseController{
 
     }
 
+    /**
+     * Searches for the address in the installations tableview.
+     * @param actionEvent
+     */
     public void handleAddressChoice(ActionEvent actionEvent) {
         if (miAddress.getText().equals("Address")){
             btnSearchChoice.setText("Address");
@@ -379,6 +473,10 @@ public class CEOController extends BaseController{
         }
     }
 
+    /**
+     * Searches for the date in the installations tableview.
+     * @param actionEvent
+     */
     public void handleDateChoice(ActionEvent actionEvent) {
         if (miDate.getText().equals("Date")){
             btnSearchChoice.setText("Date");
@@ -399,6 +497,9 @@ public class CEOController extends BaseController{
         }
     }
 
+    /**
+     * Resets the search for the installations tableview.
+     */
     private void resetSearchToProject(){
         btnSearchChoice.setText("All");
         miName.setText("Name");
@@ -416,6 +517,9 @@ public class CEOController extends BaseController{
         txtSearchText.setVisible(true);
     }
 
+    /**
+     * Resets the search for the users tableView.
+     */
     private void resetSearchToUsers(){
         btnSearchChoice.setVisible(false);
         miName.setVisible(false);
@@ -425,7 +529,12 @@ public class CEOController extends BaseController{
         txtSearchText.setVisible(false);
     }
 
+    /**
+     * Searches when the search button is pressed
+     * @param actionEvent
+     */
     public void handleSearch(ActionEvent actionEvent) {
         selectSearch();
     }
+
 }

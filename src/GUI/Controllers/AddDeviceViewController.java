@@ -40,6 +40,9 @@ public class AddDeviceViewController extends BaseController{
         }
     }
 
+    /**
+     * Adds all textFields to an arrayList.
+     */
     private void addTextFieldstoList()
     {
         textFields.add(txtDeviceType);
@@ -48,6 +51,10 @@ public class AddDeviceViewController extends BaseController{
         textFields.add(txtCDeviceType);
     }
 
+    /**
+     * Checks all the TextFields if they are empty or disabled
+     * @return false if they are empty return true if they are not empty or if they are disabled.
+     */
     private Boolean checkTextFields()
     {
         for (TextField t: textFields)
@@ -68,6 +75,10 @@ public class AddDeviceViewController extends BaseController{
         return null;
     }
 
+    /**
+     * Adds a menuItem for each DeviceType found.
+     * @throws Exception
+     */
     private void addMenuItems() throws Exception {
         getModelsHandler().getDocumentationModel().getAllDeviceFromDB();
         deviceTypes = getModelsHandler().getDocumentationModel().getDeviceTypes();
@@ -76,6 +87,12 @@ public class AddDeviceViewController extends BaseController{
             menuType.getItems().add(createMenuItems(dt));
         }
     }
+
+    /**
+     * Creates menuItems for the DeviceType
+     * @param deviceType
+     * @return a menuItem with an onAction.
+     */
     private MenuItem createMenuItems(DeviceType deviceType)
     {
         MenuItem menuItem = new MenuItem();
@@ -86,12 +103,19 @@ public class AddDeviceViewController extends BaseController{
         return menuItem;
     }
 
+    /**
+     * Closes the window if the button is pressed.
+     * @param actionEvent
+     */
     public void handleCancle(ActionEvent actionEvent)
     {
         Stage stage = (Stage) btnCancle.getScene().getWindow();
         stage.close();
     }
 
+    /**
+     * checks on the deviceType textfield if it says custom or not.
+     */
     private void checkDeviceType()
     {
         txtDeviceType.textProperty().addListener((observable, oldValue, newValue) -> {
@@ -106,6 +130,10 @@ public class AddDeviceViewController extends BaseController{
         });
     }
 
+    /**
+     * Adds a device to the project that is either being made or being edited.
+     * @param actionEvent
+     */
     public void handleAddDevice(ActionEvent actionEvent)
     {
         Device device = null;
@@ -132,6 +160,11 @@ public class AddDeviceViewController extends BaseController{
         }
     }
 
+    /**
+     * Findes the right deviceType that fits the text form the deviceType textfield
+     * @param type
+     * @return
+     */
     private DeviceType findDeviceType(String type)
     {
         for (DeviceType dt:deviceTypes)

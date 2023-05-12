@@ -34,40 +34,50 @@ public class AssignTechnicianController extends BaseController{
 
     private Project openedProject;
 
-    private ObservableList<User> allEventCoordinators;
+    private ObservableList<User> allTechnicians;
 
+    /**
+     * Sets the openedProject.
+     * @param openedProject
+     */
     public void setOpenedEvent(Project openedProject) {
         this.openedProject = openedProject;
     }
 
     @Override
     public void setup() {
-        getAndShowEventCoordinators();
+        getAndShowTechnicians();
         multiSelect();
         dragScreen();
     }
 
     public AssignTechnicianController(){
-        allEventCoordinators = FXCollections.observableArrayList();
+        allTechnicians = FXCollections.observableArrayList();
     }
 
-    private void getAndShowEventCoordinators(){
-        allEventCoordinators.addAll(getModelsHandler().getCeoModel().getUserOnCurrentProject());
+    /**
+     * Gets and displays Technicians.
+     */
+    private void getAndShowTechnicians(){
+        allTechnicians.addAll(getModelsHandler().getCeoModel().getUserOnCurrentProject());
 
         for (User u:getModelsHandler().getCeoModel().getAllUsersList()){
             if (u.getClass().getSimpleName() == Technician.class.getSimpleName()){
-                if (!allEventCoordinators.contains(u))
-                    allEventCoordinators.add(u);
+                if (!allTechnicians.contains(u))
+                    allTechnicians.add(u);
                 else
-                    allEventCoordinators.remove(u);
+                    allTechnicians.remove(u);
             }
         }
         tbvUserList.getSelectionModel().setSelectionMode(SelectionMode.MULTIPLE);
-        tbvUserList.setItems(allEventCoordinators);
+        tbvUserList.setItems(allTechnicians);
         tbcUserListName.setCellValueFactory(new PropertyValueFactory<>("name"));
         tbcUserListId.setCellValueFactory(new PropertyValueFactory<>("userID"));
     }
 
+    /**
+     * Makes the window movable.
+     */
     public void dragScreen() {
         borderPaneEventCoordinatorList.setOnMousePressed(pressEvent -> {
             borderPaneEventCoordinatorList.setOnMouseDragged(dragEvent -> {
@@ -77,11 +87,18 @@ public class AssignTechnicianController extends BaseController{
         });
     }
 
+    /**
+     * Closes the window.
+     */
     public void handleExit() {
         Stage stage = (Stage) btnExit.getScene().getWindow();
         stage.close();
     }
 
+    /**
+     * Adds the selected Technicians to the project.
+     * @param actionEvent
+     */
     public void handleConfirm(ActionEvent actionEvent) {
         try {
             List<User> usersToBeAdded = new ArrayList<>();

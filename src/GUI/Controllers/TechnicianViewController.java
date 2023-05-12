@@ -13,6 +13,7 @@ import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.text.Text;
@@ -56,12 +57,21 @@ public class TechnicianViewController extends BaseController{
     @Override
     public void setup() {
         toggleViews(true,false);
+        logoutButtonSetup();
         try {
             setUpTableViews();
         } catch (Exception e) {
             e.printStackTrace();
             ExceptionHandler.displayError(new RuntimeException("failed to set up tableviews", e));
         }
+    }
+
+    /**
+     * sets the icon for the logout button
+     */
+    private void logoutButtonSetup()
+    {
+        btnLogout.setGraphic(new ImageView(new Image("/GUI/Images/icons8-logout-80.png")));
     }
 
     public void handleShowMyInstallations(ActionEvent actionEvent) {

@@ -1,6 +1,5 @@
 package GUI.Controllers;
 
-import BE.DeviceType;
 import BE.Project;
 import GUI.Models.ModelsHandler;
 import GUI.Util.AlertOpener;
@@ -14,6 +13,7 @@ import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
@@ -49,13 +49,26 @@ public class ProjectManagerViewController extends BaseController{
     @Override
     public void setup() {
         toggleViews();
+        logoutButtonSetup();
         try {
-            setUpTableViews();
+            setUpTableView();
         } catch (Exception e) {
             ExceptionHandler.displayError(new RuntimeException("Failed to setup tableviews", e));
         }
     }
 
+    /**
+     * sets the icon for the logout button
+     */
+    private void logoutButtonSetup()
+    {
+        btnLogout.setGraphic(new ImageView(new Image("/GUI/Images/icons8-logout-80.png")));
+    }
+
+    /**
+     * Logs the current user out of the program and gives the option of logging in again.
+     * @param actionEvent
+     */
     public void handleLogout(ActionEvent actionEvent) {
         try{
             String title = "Error Message";
@@ -89,12 +102,24 @@ public class ProjectManagerViewController extends BaseController{
         }
     }
 
+    /**
+     * Opens the documentation window to create a new project
+     * @param actionEvent
+     */
     public void handleCreate(ActionEvent actionEvent) {
     }
 
+    /**
+     * deletes a selected element from a tableview
+     * @param actionEvent
+     */
     public void handleDelete(ActionEvent actionEvent) {
     }
 
+    /**
+     * Opens a new window when the open button
+     * @param actionEvent
+     */
     public void handleOpen(ActionEvent actionEvent) {
         if(tbvInstallationlist.isVisible())
         {
@@ -107,6 +132,11 @@ public class ProjectManagerViewController extends BaseController{
         }
     }
 
+    /**
+     * opens the documentation view to edit an existing project.
+     * @param project
+     * @throws IOException
+     */
     private void openEditWindow(Project project) throws IOException {
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/GUI/Views/DocumentationView.fxml"));
 
@@ -129,6 +159,9 @@ public class ProjectManagerViewController extends BaseController{
         stage.show();
     }
 
+    /**
+     * Clears and resets some GUI elements.
+     */
     private void toggleViews(){
         txfSearch.clear();
 
@@ -136,9 +169,12 @@ public class ProjectManagerViewController extends BaseController{
         txtViewName.setText("Installations:");
     }
 
-    private void setUpTableViews() throws Exception {
+    /**
+     * sets up the project tableview.
+     * @throws Exception
+     */
+    private void setUpTableView() throws Exception {
         getModelsHandler().getProjectManagerModel().getAllProjects();
-        getModelsHandler().getProjectManagerModel().getAllDeviceTypes();
 
         //Project tableview
         tbvInstallationlist.setItems(getModelsHandler().getProjectManagerModel().getAllProjectsObservablelist());
@@ -148,10 +184,17 @@ public class ProjectManagerViewController extends BaseController{
         clmINSDate.setCellValueFactory(new PropertyValueFactory<>("projectDate"));
     }
 
+    /**
+     * Searches through the project tableview when a key is pressed.
+     * @param keyEvent
+     */
     public void searchOnButtonPress(KeyEvent keyEvent) {
         searchProject();
     }
 
+    /**
+     * Looks through the projects tableview and finds any that contains the search qury.
+     */
     private void searchProject() {
         String search = txfSearch.getText().toLowerCase();
 
@@ -162,6 +205,10 @@ public class ProjectManagerViewController extends BaseController{
         }
     }
 
+    /**
+     * Sets the Search to only search through costumer names
+     * @param actionEvent
+     */
     public void handleNameChoice(ActionEvent actionEvent) {
         if (miName.getText().equals("Name")){
             btnSearchChoice.setText("Name");
@@ -184,6 +231,10 @@ public class ProjectManagerViewController extends BaseController{
 
     }
 
+    /**
+     * Sets Date as the element that is searched on.
+     * @param actionEvent
+     */
     public void handleAddressChoice(ActionEvent actionEvent) {
         if (miAddress.getText().equals("Address")){
             btnSearchChoice.setText("Address");

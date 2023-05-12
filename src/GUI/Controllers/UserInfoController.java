@@ -57,16 +57,26 @@ public class UserInfoController extends BaseController {
 
     }
 
+    /**
+     * sets CreateUser.
+     * @param user
+     */
     public void setCreateUser(User user){
         this.selectedUser = user;
     }
 
-
+    /**
+     * Closes the window.
+     */
     public void handleExit() {
         Stage stage = (Stage) btnExit.getScene().getWindow();
         stage.close();
     }
 
+    /**
+     * Check if you should edit.
+     * @return
+     */
     private boolean checkShouldEdit(){
         if (selectedUser != null)
             return true;
@@ -91,6 +101,9 @@ public class UserInfoController extends BaseController {
 
     }
 
+    /**
+     * Sets the textfields to match the selected user.
+     */
     private void setUserInfoInTxtf(){
         txtfMail.setText(selectedUser.getMail());
         txtfName.setText(selectedUser.getName());
@@ -100,6 +113,10 @@ public class UserInfoController extends BaseController {
         txtfAcceslevel.setText(selectedUser.getClass().getSimpleName());
     }
 
+    /**
+     * Cehecks if you can edit a user or not.
+     * @param ableToEdit
+     */
     private void setEditAbleUser(boolean ableToEdit){
         if (ableToEdit){
             txtfAcceslevel.setEditable(false);
@@ -123,6 +140,10 @@ public class UserInfoController extends BaseController {
 
     }
 
+    /**
+     * Deletes the selected user.
+     * @param actionEvent
+     */
     public void handleDeleteUser(ActionEvent actionEvent) {
         if (selectedUser != null){
             try {
@@ -134,10 +155,18 @@ public class UserInfoController extends BaseController {
         handleExit();
     }
 
+    /**
+     * sets the EditAbleUser to true.
+     * @param actionEvent
+     */
     public void handleEditUser(ActionEvent actionEvent) {
         setEditAbleUser(true);
     }
 
+    /**
+     * Creates or updates a user.
+     * @param actionEvent
+     */
     public void handleConfirm(ActionEvent actionEvent) {
         if (checkTextFieldsNotNull()) {
             if (!checkShouldEdit()) {
@@ -150,6 +179,9 @@ public class UserInfoController extends BaseController {
             AlertOpener.validationError("Missing Input!");
     }
 
+    /**
+     * Creates a user.
+     */
     private void createUser(){
 
         String passWord = txtfPassword.getText();
@@ -185,6 +217,9 @@ public class UserInfoController extends BaseController {
         }
     }
 
+    /**
+     * Updates a user.
+     */
     private void editUser(){
         String passWord = txtfPassword.getText();
         String userName = txtfUsername.getText();
@@ -266,6 +301,10 @@ public class UserInfoController extends BaseController {
             return false;
     }
 
+    /**
+     * Checks if the textfields are not null.
+     * @return
+     */
     private boolean checkTextFieldsNotNull(){
         if (checktxtfName() && checktxtfUserName() && checktxtfPassword()){
             if (checktxtfMail() && checktxtfAccessLevel())
@@ -277,29 +316,53 @@ public class UserInfoController extends BaseController {
             return false;
     }
 
+    /**
+     * Checks the name textfield.
+     * @return
+     */
     private boolean checktxtfName(){
         if (!txtfName.getText().isEmpty() && txtfName.getText() != null) return true;
         else
             return false;
     }
+
+    /**
+     * Checks the username textfield.
+     * @return
+     */
     private boolean checktxtfUserName(){
         if (!txtfUsername.getText().isEmpty() && txtfUsername.getText() != null)
             return true;
         else
             return false;
     }
+
+    /**
+     * Checks the password textfield.
+     * @return
+     */
     private boolean checktxtfPassword(){
         if (!txtfPassword.getText().isEmpty() && txtfPassword.getText() != null)
             return true;
         else
             return false;
     }
+
+    /**
+     * Checks the mail textfield.
+     * @return
+     */
     private boolean checktxtfMail(){
         if (!txtfMail.getText().isEmpty() && txtfMail.getText() != null)
             return true;
         else
             return false;
     }
+
+    /**
+     * Checks the accessLevel textfield.
+     * @return
+     */
     private boolean checktxtfAccessLevel(){
         if (!txtfAcceslevel.getText().isEmpty() && txtfAcceslevel.getText() != null)
             return true;
@@ -307,6 +370,10 @@ public class UserInfoController extends BaseController {
             return false;
     }
 
+    /**
+     * Makes the window movable.
+     * @param mouseEvent
+     */
     @FXML
     private void dragScreen(MouseEvent mouseEvent){
         borderPaneUserInfo.setOnMousePressed(pressEvent -> {
@@ -317,18 +384,34 @@ public class UserInfoController extends BaseController {
         });
     }
 
+    /**
+     * Sets AccessLevel textfield text.
+     * @param actionEvent
+     */
     public void handleMenuItemCEO(ActionEvent actionEvent) {
         txtfAcceslevel.setText(menuItemCEO.getText());
     }
 
+    /**
+     * Sets AccessLevel textfield text.
+     * @param actionEvent
+     */
     public void handleMenuItemProjectManager(ActionEvent actionEvent) {
         txtfAcceslevel.setText(menuItemProjectManager.getText());
     }
 
+    /**
+     * Sets AccessLevel textfield text.
+     * @param actionEvent
+     */
     public void handleMenuItemTechnician(ActionEvent actionEvent) {
         txtfAcceslevel.setText(menuItemTechnician.getText());
     }
 
+    /**
+     * Sets AccessLevel textfield text.
+     * @param actionEvent
+     */
     public void handleMenuItemSalesPerson(ActionEvent actionEvent) {
         txtfAcceslevel.setText(menuItemSalesPerson.getText());
     }

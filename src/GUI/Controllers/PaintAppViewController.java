@@ -53,6 +53,9 @@ public class PaintAppViewController extends BaseController{
         toolListener();
     }
 
+    /**
+     * checks what tool is selected and dos its action.
+     */
     private void toolListener()
     {
         if(canvasPane.getCanvas() != null)
@@ -76,6 +79,9 @@ public class PaintAppViewController extends BaseController{
         }
     }
 
+    /**
+     * Sets the icons for all the buttons in the window.
+     */
     private void buttonIconSetup()
     {
         btnBrush.setGraphic(new ImageView(new Image("/GUI/Images/icons8-paint-brush-80.png")));
@@ -85,6 +91,10 @@ public class PaintAppViewController extends BaseController{
         btnScreenSize.setGraphic(new ImageView(new Image("/GUI/Images/icons8-full-screen-80.png")));
     }
 
+    /**
+     * Closes the window when pressed
+     * @param actionEvent
+     */
     public void handleClose(ActionEvent actionEvent)
     {
         Stage stage = (Stage) btnClose.getScene().getWindow();
@@ -94,8 +104,13 @@ public class PaintAppViewController extends BaseController{
         }
     }
 
+    /**
+     * opens a dynamically created window to create a new canvas when a button is pressed:
+     * @param actionEvent
+     */
     public void handleNewCanvas(ActionEvent actionEvent)
     {
+        // Create JavaFX Nodes
         TextField getCanvasWidth = new TextField();
         getCanvasWidth.setPromptText("Width");
         getCanvasWidth.setPrefWidth(150);
@@ -108,6 +123,8 @@ public class PaintAppViewController extends BaseController{
 
         Button createButton = new Button();
         createButton.setText("Create");
+
+        // Sets the onAction for the createButton.
         createButton.setOnAction(event ->
         {
             if(!getCanvasHeight.getText().isEmpty() && !getCanvasWidth.getText().isEmpty())
@@ -137,6 +154,10 @@ public class PaintAppViewController extends BaseController{
         stage.showAndWait();
     }
 
+    /**
+     * Handles the selection of the brush tool.
+     * @param actionEvent
+     */
     public void handleBrush(ActionEvent actionEvent)
     {
         btnBrush.setDisable(true);
@@ -146,6 +167,10 @@ public class PaintAppViewController extends BaseController{
         }
     }
 
+    /**
+     * Handles the tool selection for the eraser tool
+     * @param actionEvent
+     */
     public void handleErase(ActionEvent actionEvent)
     {
         btnErase.setDisable(true);
@@ -155,6 +180,10 @@ public class PaintAppViewController extends BaseController{
         }
     }
 
+    /**
+     * Handles the resizing of the window when a button is pressed.
+     * @param actionEvent
+     */
     public void handleScreenSize(ActionEvent actionEvent)
     {
         Stage stage = (Stage) btnScreenSize.getScene().getWindow();
@@ -169,6 +198,11 @@ public class PaintAppViewController extends BaseController{
         }
     }
 
+
+    /**
+     * Saves the drawing the user created as a .png file
+     * @param actionEvent
+     */
     public void handleSave(ActionEvent actionEvent)
     {
         FileChooser saveFile = new FileChooser();
@@ -186,8 +220,7 @@ public class PaintAppViewController extends BaseController{
                 RenderedImage renderedImage = SwingFXUtils.fromFXImage(writableImage, null);
                 ImageIO.write(renderedImage, "png", file);
                 getModelsHandler().getDocumentationModel().getImagesObservableList().add(file);
-
-
+                AlertOpener.confirm("Has been saved", "Your image has been saved");
             } catch (IOException e) {
                 ExceptionHandler.displayError(new RuntimeException("Failed to save the file please try again", e));
             }

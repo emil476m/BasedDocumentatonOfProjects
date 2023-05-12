@@ -40,6 +40,9 @@ public class LoginViewController extends BaseController{
       login();
     }
 
+    /**
+     * Logs a user in if the username and password is correct.
+     */
     private void login()
     {
         try {
@@ -84,6 +87,10 @@ public class LoginViewController extends BaseController{
         }
     }
 
+    /**
+     * Opens the CEO window.
+     * @throws IOException
+     */
     private void openCEO() throws IOException {
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/GUI/Views/CEOView.fxml"));
 
@@ -105,6 +112,10 @@ public class LoginViewController extends BaseController{
         stage.show();
     }
 
+    /**
+     * Opens the Technician window.
+     * @throws IOException
+     */
     private void openTechnician() throws IOException {
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/GUI/Views/TechnicianView.fxml"));
 
@@ -126,6 +137,10 @@ public class LoginViewController extends BaseController{
         stage.show();
     }
 
+    /**
+     * Opens the ProjectManager window.
+     * @throws IOException
+     */
     private void openProjectManager() throws IOException {
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/GUI/Views/ProjectManagerView.fxml"));
 
@@ -147,6 +162,10 @@ public class LoginViewController extends BaseController{
         stage.show();
     }
 
+    /**
+     * Opnes the SalesPerson window.
+     * @throws IOException
+     */
     private void openSalesPerson() throws IOException {
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/GUI/Views/SalesPersonView.fxml"));
 
@@ -168,11 +187,19 @@ public class LoginViewController extends BaseController{
         stage.show();
     }
 
+    /**
+     * Closes the application.
+     * @param actionEvent
+     */
     public void closeAction(ActionEvent actionEvent) {
         Stage stage = (Stage) btnClose.getScene().getWindow();
         stage.close();
     }
 
+    /**
+     * logs in with a press of the enter key.
+     * @param keyEvent
+     */
     @FXML
     public void handleEnter(KeyEvent keyEvent) {
         if (keyEvent.getCode().equals(KeyCode.ENTER)){
