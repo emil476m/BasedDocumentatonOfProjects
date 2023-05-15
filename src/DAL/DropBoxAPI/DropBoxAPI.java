@@ -1,5 +1,6 @@
 package DAL.DropBoxAPI;
 
+import DAL.DBUtil.LocalFileHandler;
 import DAL.Interface.IDropBoxAPI;
 import com.dropbox.core.DbxDownloader;
 import com.dropbox.core.DbxException;
@@ -8,7 +9,6 @@ import com.dropbox.core.v2.DbxClientV2;
 import com.dropbox.core.v2.files.FileMetadata;
 import com.dropbox.core.v2.files.ListFolderResult;
 import com.dropbox.core.v2.files.Metadata;
-import com.dropbox.core.v2.users.FullAccount;
 
 import java.io.*;
 import java.util.ArrayList;
@@ -110,5 +110,19 @@ public class DropBoxAPI implements IDropBoxAPI {
             result = client.files().listFolderContinue(result.getCursor());
         }
         return onlineFilePaths;
+    }
+
+    @Override
+    public void deleteLocalFiles(List<String> localFilePaths) throws Exception {
+        for (String s: localFilePaths){
+            LocalFileHandler.deleteLocalFile(s);
+        }
+    }
+
+    @Override
+    public File createLocalFile(File file) throws Exception {
+        File newFile = new File(String.valueOf(LocalFileHandler.createLocalFile(file.getPath())));
+        return newFile;
+
     }
 }

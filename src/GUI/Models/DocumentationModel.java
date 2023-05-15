@@ -33,6 +33,8 @@ public class DocumentationModel {
     List<CostumerType> costumerTypes;
     List<DeviceType> deviceTypes;
 
+    List<File> imagesToBeSaved;
+
     File pdf = new File("PdfFiles//project.pdf");
 
 
@@ -43,6 +45,7 @@ public class DocumentationModel {
         devicesObservableList = FXCollections.observableArrayList();
         deviceTypes = new ArrayList<>();
         imagesObservableList = FXCollections.observableArrayList();
+        imagesToBeSaved = new ArrayList<>();
     }
 
     public void getAllCostumerTypes() throws Exception {
@@ -127,7 +130,7 @@ public class DocumentationModel {
         return allUsersId;
     }
 
-    public ObservableList getImagesObservableList()
+    public ObservableList<File> getImagesObservableList()
     {
         return imagesObservableList;
     }
@@ -158,6 +161,7 @@ public class DocumentationModel {
     }
 
     public void downloadProjectFilesFromDropBox(int projectId) throws DbxException {
+        getImagesObservableList().clear();
         for (Metadata m: readFilesFromDropBox(projectId)){
             downloadFilesFromDropBox(m.getPathLower(), m.getName());
             File file = new File("DownloadedDropBoxFiles//" + m.getName());
@@ -173,5 +177,15 @@ public class DocumentationModel {
         return dropBoxAPIManager.readAllFilesFromDropBox();
     }
 
+    public void deleteLocalFiles(List<String> localFilePaths) throws Exception {
+        dropBoxAPIManager.deleteLocalFiles(localFilePaths);
+    }
 
+    public File createLocalFile(File file) throws Exception {
+        return dropBoxAPIManager.createLocalFile(file);
+    }
+
+    public List<File> getImagesToBeSaved() {
+        return imagesToBeSaved;
+    }
 }

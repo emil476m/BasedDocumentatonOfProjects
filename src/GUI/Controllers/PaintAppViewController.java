@@ -221,7 +221,7 @@ public class PaintAppViewController extends BaseController{
                 ImageIO.write(renderedImage, "png", file);
                 File ddb = new File("DownloadedDropBoxFiles//" + file.getName());
                 Files.copy(file.toPath(),ddb.toPath());
-                getModelsHandler().getDocumentationModel().getImagesObservableList().add(ddb);
+                getModelsHandler().getDocumentationModel().getImagesToBeSaved().add(ddb);
                 AlertOpener.confirm("Has been saved", "Your image has been saved");
             } catch (IOException e) {
                 ExceptionHandler.displayError(new RuntimeException("Failed to save the file please try again", e));

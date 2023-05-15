@@ -37,14 +37,14 @@
          <children>
             <Button fx:id="btnAddImage" layoutX="286.0" layoutY="646.0" mnemonicParsing="false" onAction="#handleAddImage" prefHeight="30.0" prefWidth="140.0" styleClass="buttonothertext" text="Add Image" AnchorPane.bottomAnchor="25.0" AnchorPane.leftAnchor="286.0" />
             <Button fx:id="btnAddDevice" layoutX="451.0" layoutY="646.0" mnemonicParsing="false" onAction="#handleAddDevice" prefHeight="30.0" prefWidth="140.0" styleClass="buttonothertext" text="Add Device" AnchorPane.bottomAnchor="25.0" AnchorPane.leftAnchor="451.0" />
-            <Button fx:id="btnRemove" layoutX="624.0" layoutY="646.0" mnemonicParsing="false" prefHeight="30.0" prefWidth="140.0" styleClass="buttonothertext" text="Remove" AnchorPane.bottomAnchor="25.0" AnchorPane.leftAnchor="624.0" />
+            <Button fx:id="btnRemove" layoutX="624.0" layoutY="646.0" mnemonicParsing="false" onAction="#handleRemove" prefHeight="30.0" prefWidth="140.0" styleClass="buttonothertext" text="Remove" AnchorPane.bottomAnchor="25.0" AnchorPane.leftAnchor="624.0" />
             <TextField fx:id="txtCostumerName" layoutX="39.0" layoutY="54.0" promptText="Costumer Name" AnchorPane.leftAnchor="39.0" AnchorPane.topAnchor="54.0" />
             <TextField fx:id="txtAddress" layoutX="205.0" layoutY="54.0" promptText="Address" AnchorPane.leftAnchor="205.0" AnchorPane.topAnchor="54.0" />
             <TextField fx:id="txtZipCode" layoutX="367.0" layoutY="54.0" promptText="Zip-code" AnchorPane.leftAnchor="367.0" AnchorPane.topAnchor="54.0" />
             <TextField fx:id="txtCostumerType" layoutX="36.0" layoutY="90.0" prefHeight="37.0" prefWidth="153.0" promptText="Costumer type" AnchorPane.leftAnchor="36.0" AnchorPane.topAnchor="90.0" />
             <MenuButton fx:id="menuTypes" layoutX="190.0" layoutY="89.0" mnemonicParsing="false" prefHeight="15.0" prefWidth="32.0" text="Types" AnchorPane.leftAnchor="190.0" AnchorPane.topAnchor="90.0" />
             <TextArea fx:id="txtaComments" layoutX="36.0" layoutY="177.0" prefHeight="243.0" prefWidth="478.0" promptText="Comments/Documentation" wrapText="true" AnchorPane.leftAnchor="36.0" AnchorPane.topAnchor="177.0" />
-            <ListView fx:id="lvImages" layoutX="661.0" layoutY="75.0" prefHeight="116.0" prefWidth="422.0" AnchorPane.rightAnchor="28.0" AnchorPane.topAnchor="75.0" />
+            <ListView fx:id="lvImages" layoutX="661.0" layoutY="75.0" onMouseClicked="#handleImageClicked" prefHeight="116.0" prefWidth="422.0" AnchorPane.rightAnchor="28.0" AnchorPane.topAnchor="75.0" />
             <ListView fx:id="lvDevices" layoutX="664.0" layoutY="419.0" prefHeight="200.0" prefWidth="424.0" AnchorPane.bottomAnchor="87.0" AnchorPane.rightAnchor="28.0" />
             <Label layoutX="661.0" layoutY="55.0" prefHeight="18.0" prefWidth="76.0" text="Images:" AnchorPane.leftAnchor="661.0" AnchorPane.topAnchor="55.0" />
             <Label layoutX="664.0" layoutY="397.0" text="Devices:" AnchorPane.leftAnchor="664.0" AnchorPane.topAnchor="397.0" />

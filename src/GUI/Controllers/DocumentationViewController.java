@@ -2,11 +2,13 @@ package GUI.Controllers;
 import BE.CostumerType;
 import BE.Project;
 import BE.UserTypes.*;
+import DAL.DBUtil.LocalFileHandler;
 import GUI.Models.ModelsHandler;
 import GUI.Util.AlertOpener;
 import GUI.Util.ExceptionHandler;
 import com.dropbox.core.DbxException;
 import com.dropbox.core.v2.files.Metadata;
+import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -16,6 +18,8 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.text.Text;
 import javafx.stage.FileChooser;
 import javafx.stage.Modality;
@@ -34,6 +38,7 @@ import java.util.List;
 
 public class DocumentationViewController extends BaseController{
 
+    public ImageView imImageView;
     @FXML
     private ListView<User> lvTechniciansOnProject;
     @FXML
@@ -61,6 +66,9 @@ public class DocumentationViewController extends BaseController{
 
     private File file;
 
+    private ObservableList<File> projectImages;
+
+
 
     @Override
     public void setup() {
@@ -71,6 +79,8 @@ public class DocumentationViewController extends BaseController{
         }
         costumerTypes = new ArrayList<>();
         textFields = new ArrayList<>();
+        projectImages = FXCollections.observableArrayList();
+
         addTextFields();
         try
         {
@@ -107,7 +117,6 @@ public class DocumentationViewController extends BaseController{
                 getModelsHandler().getDocumentationModel().getAllDevicesForProject(opnedProject);
             }
             lvDevices.setItems(getModelsHandler().getDocumentationModel().getDevicesObservableList());
-            lvImages.setItems(getModelsHandler().getDocumentationModel().getImagesObservableList());
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
@@ -295,20 +304,24 @@ public class DocumentationViewController extends BaseController{
      * @param actionEvent
      */
     public void handleReturn(ActionEvent actionEvent) {
-        if(getModelsHandler().getLoginModel().getUser().getClass().getSimpleName().equals(SalesPerson.class.getSimpleName()))
-        {
-            getModelsHandler().getDocumentationModel().getDevicesObservableList().removeAll();
-            Stage stage = (Stage) btnReturn.getScene().getWindow();
-            stage.close();
-        }
-        else
-        {
+
         if(AlertOpener.confirm("Are you sure?","remember to save before you exit or your changes will be lost"))
         {
+            List<String> localFilePaths = new ArrayList<>();
+            for (File f: projectImages){
+                localFilePaths.add(f.getAbsolutePath());
+            }
+            try {
+                if (localFilePaths != null && !localFilePaths.isEmpty())
+                    getModelsHandler().getDocumentationModel().deleteLocalFiles(localFilePaths);
+            } catch (Exception e) {
+                throw new RuntimeException(e);
+            }
+
             Stage stage = (Stage) btnReturn.getScene().getWindow();
             stage.close();
         }
-        }
+
     }
 
     /**
@@ -434,6 +447,7 @@ public class DocumentationViewController extends BaseController{
         }
         else if (opnedProject != null)
         {
+            uploadImagesToBeSaved(opnedProject);
             saveProject();
         }
     }
@@ -532,24 +546,25 @@ public class DocumentationViewController extends BaseController{
 
     /**
      * updates the table views depending on what type of user is logged in
-     * @param project
+     * @param projectToBeMade
      * @param devices
      * @throws SQLException
      */
-    private void updateTableViewsNewProject(Project project, ObservableList devices) throws SQLException {
-        Project projectToBeMade = getModelsHandler().getDocumentationModel().saveNewProject(project,devices);
+    private void updateTableViewsNewProject(Project projectToBeMade, ObservableList devices) throws SQLException {
+        Project project = getModelsHandler().getDocumentationModel().saveNewProject(projectToBeMade,devices);
+        uploadImagesToBeSaved(project);
         if(getModelsHandler().getLoginModel().getUser().getClass().getSimpleName().equals(CEO.class.getSimpleName()))
         {
-            getModelsHandler().getCeoModel().getProjectsObservableList().add(projectToBeMade);
+            getModelsHandler().getCeoModel().getProjectsObservableList().add(project);
         }
         else if (getModelsHandler().getLoginModel().getUser().getClass().getSimpleName().equals(Technician.class.getSimpleName()))
         {
-            getModelsHandler().getTechnicianModel().getMyProjectsObservableList().add(projectToBeMade);
-            getModelsHandler().getTechnicianModel().getProjectsObservableList().add(projectToBeMade);
+            getModelsHandler().getTechnicianModel().getMyProjectsObservableList().add(project);
+            getModelsHandler().getTechnicianModel().getProjectsObservableList().add(project);
         }
         else if(getModelsHandler().getLoginModel().getUser().getClass().getSimpleName().equals(ProjectManager.class.getSimpleName()))
         {
-            getModelsHandler().getProjectManagerModel().getAllProjectsObservablelist().add(projectToBeMade);
+            getModelsHandler().getProjectManagerModel().getAllProjectsObservablelist().add(project);
         }
     }
 
@@ -804,21 +819,42 @@ public class DocumentationViewController extends BaseController{
         if(file != null) {
             String fileUriString = file.toURI().toString();
 
-            if ((fileUriString.endsWith(".png") || fileUriString.endsWith(".jpg")))
+            if ((fileUriString.endsWith(".png") || fileUriString.endsWith(".jpg"))){
                 filePath = file.getAbsolutePath();
+                try {
+                    file = getModelsHandler().getDocumentationModel().createLocalFile(file);
+                } catch (Exception e) {
+                    throw new RuntimeException(e);
+                }
+                projectImages.add(file);
+                getModelsHandler().getDocumentationModel().getImagesToBeSaved().add(file);
+            }
+
         }
-        if (filePath != null){
-            try {
-                getModelsHandler().getDocumentationModel().uploadFilesFromDropBox(filePath, "/"+opnedProject.getProjectId()+"/"+file.getName());
-            } catch (DbxException e) {
-                throw new RuntimeException(e);
+    }
+
+    private void uploadImagesToBeSaved(Project project){
+        System.out.println("Images are saving please wait..");
+        System.out.println("...");
+        System.out.println("...");
+        for (File f: getModelsHandler().getDocumentationModel().getImagesToBeSaved()){
+            if (f.getPath() != null){
+                try {
+                    getModelsHandler().getDocumentationModel().uploadFilesFromDropBox(f.getPath(), "/"+project.getProjectId()+"/"+f.getName());
+                    System.out.println("test");
+                } catch (DbxException e) {
+                    throw new RuntimeException(e);
+                }
             }
         }
+        getModelsHandler().getDocumentationModel().getImagesToBeSaved().clear();
+        System.out.println("Images are now saved");
+
     }
 
     private void getAllDropBoxFilesForProject(){
 
-        lvImages.setItems(getModelsHandler().getDocumentationModel().getImagesObservableList());
+
         if (opnedProject.getProjectId() <=1){
 
             //TODO this is temp and should be changed
@@ -836,5 +872,25 @@ public class DocumentationViewController extends BaseController{
                 throw new RuntimeException(e);
             }
         }
+        projectImages.clear();
+        projectImages.addAll(getModelsHandler().getDocumentationModel().getImagesObservableList());
+        lvImages.setItems(projectImages);
+    }
+
+    private void imagePreview(){
+        if (lvImages.getSelectionModel().getSelectedItem() != null){
+            if (lvImages.getSelectionModel().getSelectedItem().getClass() == File.class){
+                File file1 = projectImages.get(projectImages.indexOf(lvImages.getSelectionModel().getSelectedItem()));
+                Image image = new Image(file1.getAbsolutePath());
+                imImageView.setImage(image);
+            }
+        }
+    }
+
+    public void handleRemove(ActionEvent actionEvent) {
+    }
+
+    public void handleImageClicked(MouseEvent mouseEvent) {
+        imagePreview();
     }
 }

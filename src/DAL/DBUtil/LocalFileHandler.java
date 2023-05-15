@@ -42,7 +42,7 @@ public class LocalFileHandler {
             File localFilePath = new File(path);
             String fileName = localFilePath.getName();
 
-            String relativeFilePath = "data//";
+            String relativeFilePath = "DownloadedDropBoxFiles//";
 
             Path originalFile = Paths.get(path);
             File file = new File(relativeFilePath + fileName);

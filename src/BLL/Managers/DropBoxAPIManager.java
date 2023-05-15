@@ -6,6 +6,7 @@ import DAL.Interface.IDropBoxAPI;
 import com.dropbox.core.DbxException;
 import com.dropbox.core.v2.files.Metadata;
 
+import java.io.File;
 import java.util.List;
 
 public class DropBoxAPIManager implements IDropBoxAPIManager {
@@ -39,4 +40,14 @@ public class DropBoxAPIManager implements IDropBoxAPIManager {
     public List<Metadata> readAllFilesFromDropBox() throws DbxException {
         return dropBoxAPI.readAllFilesFromDropBox();
     }
+    @Override
+    public void deleteLocalFiles(List<String> localFilePaths) throws Exception {
+        dropBoxAPI.deleteLocalFiles(localFilePaths);
+    }
+
+    @Override
+    public File createLocalFile(File file) throws Exception {
+        return dropBoxAPI.createLocalFile(file);
+    }
+
 }
