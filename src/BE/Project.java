@@ -6,6 +6,7 @@ import java.time.LocalDate;
 public class Project {
     private int projectId;
     private String costumerName;
+    private String costumerEmail;
     private LocalDate projectDate;
     private String projectLocation;
     private String projectDescription;
@@ -20,8 +21,9 @@ public class Project {
 
     private String addressAndZipCode;
 
-    public Project(String costumerName, LocalDate projectDate, String projectLocation, String projectDescription, int projectCreatorId, boolean projectIsDeleted, int lastEditedBy, boolean canBeEditedByTech, Timestamp lastEdited, int costumerType, String address, String zipCode) {
+    public Project(String costumerName, String costumerEmail, LocalDate projectDate, String projectLocation, String projectDescription, int projectCreatorId, boolean projectIsDeleted, int lastEditedBy, boolean canBeEditedByTech, Timestamp lastEdited, int costumerType, String address, String zipCode) {
         this.costumerName = costumerName;
+        this.costumerEmail = costumerEmail;
         this.projectDate = projectDate;
         this.projectLocation = projectLocation;
         this.projectDescription = projectDescription;
@@ -36,9 +38,10 @@ public class Project {
         this.addressAndZipCode = address + " " + "(" + zipCode + ")";
     }
 
-    public Project(int projectId, String costumerName, LocalDate projectDate, String projectLocation, String projectDescription, int projectCreatorId, boolean projectIsDeleted, int lastEditedBy, boolean canBeEditedByTech, Timestamp lastEdited, int costumerType, String address, String zipCode) {
+    public Project(int projectId, String costumerName, String costumerEmail, LocalDate projectDate, String projectLocation, String projectDescription, int projectCreatorId, boolean projectIsDeleted, int lastEditedBy, boolean canBeEditedByTech, Timestamp lastEdited, int costumerType, String address, String zipCode) {
         this.projectId = projectId;
         this.costumerName = costumerName;
+        this.costumerEmail = costumerEmail;
         this.projectDate = projectDate;
         this.projectLocation = projectLocation;
         this.projectDescription = projectDescription;
@@ -117,6 +120,8 @@ public class Project {
     public String getAddress() {return address;}
 
     public String getZipCode() {return zipCode;}
+
+    public String getCostumerEmail() {return costumerEmail;}
 
     @Override
     public String toString() {

@@ -43,7 +43,7 @@
             <TextField fx:id="txtZipCode" layoutX="367.0" layoutY="54.0" promptText="Zip-code" AnchorPane.leftAnchor="367.0" AnchorPane.topAnchor="54.0" />
             <TextField fx:id="txtCostumerType" layoutX="36.0" layoutY="90.0" prefHeight="37.0" prefWidth="153.0" promptText="Costumer type" AnchorPane.leftAnchor="36.0" AnchorPane.topAnchor="90.0" />
             <MenuButton fx:id="menuTypes" layoutX="190.0" layoutY="89.0" mnemonicParsing="false" prefHeight="15.0" prefWidth="32.0" text="Types" AnchorPane.leftAnchor="190.0" AnchorPane.topAnchor="90.0" />
-            <TextArea fx:id="txtaComments" layoutX="36.0" layoutY="133.0" prefHeight="287.0" prefWidth="478.0" promptText="Comments/Documentation" wrapText="true" AnchorPane.leftAnchor="36.0" AnchorPane.topAnchor="133.0" />
+            <TextArea fx:id="txtaComments" layoutX="36.0" layoutY="177.0" prefHeight="243.0" prefWidth="478.0" promptText="Comments/Documentation" wrapText="true" AnchorPane.leftAnchor="36.0" AnchorPane.topAnchor="177.0" />
             <ListView fx:id="lvImages" layoutX="661.0" layoutY="75.0" prefHeight="116.0" prefWidth="422.0" AnchorPane.rightAnchor="28.0" AnchorPane.topAnchor="75.0" />
             <ListView fx:id="lvDevices" layoutX="664.0" layoutY="419.0" prefHeight="200.0" prefWidth="424.0" AnchorPane.bottomAnchor="87.0" AnchorPane.rightAnchor="28.0" />
             <Label layoutX="661.0" layoutY="55.0" prefHeight="18.0" prefWidth="76.0" text="Images:" AnchorPane.leftAnchor="661.0" AnchorPane.topAnchor="55.0" />
@@ -54,6 +54,7 @@
             <Text fx:id="txtTech" layoutX="39.0" layoutY="467.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Technicians on Project:" wrappingWidth="197.53668212890625" AnchorPane.bottomAnchor="235.0" AnchorPane.leftAnchor="39.0" />
             <Button fx:id="btnRemoveTechnician" layoutX="39.0" layoutY="621.0" mnemonicParsing="false" onAction="#handleRemoveTechnician" text="Remove Technician" AnchorPane.bottomAnchor="50.0" AnchorPane.leftAnchor="39.0" />
             <ImageView fx:id="imImageView" fitHeight="201.0" fitWidth="423.0" layoutX="660.0" layoutY="191.0" pickOnBounds="true" preserveRatio="true" AnchorPane.rightAnchor="28.0" AnchorPane.topAnchor="191.0" />
+            <TextField fx:id="txtCostumerEmail" layoutX="37.0" layoutY="133.0" promptText="Costumer Email" AnchorPane.leftAnchor="37.0" AnchorPane.topAnchor="133.0" />
          </children>
       </AnchorPane>
    </center>

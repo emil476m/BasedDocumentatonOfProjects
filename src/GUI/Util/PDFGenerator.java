@@ -79,7 +79,7 @@ public class PDFGenerator {
     private void createHeader() throws MalformedURLException {
         ImageData imageData = ImageDataFactory.create("src/GUI/Images/smallWUAV.png");
         Image logo = new Image(imageData);
-        String customerNameAndAddress = project.getCostumerName() + "\n" + project.getAddress() + "\n" + project.getZipCode();
+        String customerNameAndAddress = project.getCostumerName() + "\n" + project.getAddress() + "\n" + project.getZipCode() + "\n" + project.getCostumerEmail();
         String date = "Date: " + project.getProjectDate();
         float twoCol = 285f;
         float twoCol150 = twoCol + 150f;

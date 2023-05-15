@@ -41,7 +41,7 @@ public class DocumentationViewController extends BaseController{
     @FXML
     private Button btnAssignTech,btnOpenPaint,btnSave,btnSend,btnSaveToDevice,btnAddImage,btnAddDevice,btnRemove,btnReturn;
     @FXML
-    private TextField txtCostumerName,txtAddress,txtZipCode,txtCostumerType,txtLocation;
+    private TextField txtCostumerName,txtAddress,txtZipCode,txtCostumerType,txtLocation, txtCostumerEmail;
     @FXML
     private MenuButton menuTypes;
     @FXML
@@ -124,6 +124,7 @@ public class DocumentationViewController extends BaseController{
         textFields.add(txtZipCode);
         textFields.add(txtCostumerType);
         textFields.add(txtLocation);
+        textFields.add(txtCostumerEmail);
     }
 
     /**
@@ -446,6 +447,7 @@ public class DocumentationViewController extends BaseController{
             String location = "";
             int costumerType = 0;
             String costumerName = txtCostumerName.getText();
+            String costumerEmail = txtCostumerEmail.getText();
             String address = txtAddress.getText();
             if(findCostumertype(txtCostumerType.getText()) != opnedProject.getCostumerType())
             {
@@ -468,7 +470,7 @@ public class DocumentationViewController extends BaseController{
             LocalDate date = dpDatePicker.getValue();
 
             if (getModelsHandler().getDocumentationModel().lastProjectEditMatch(opnedProject)){
-                Project project = new Project(opnedProject.getProjectId(), costumerName , date, location, comment, opnedProject.getProjectCreatorId(), opnedProject.getProjectIsDeleted(), opnedProject.getLastEditedBy(), opnedProject.getCanBeEditedByTech(), Timestamp.from(Instant.now()), costumerType, address, zipCode);
+                Project project = new Project(opnedProject.getProjectId(), costumerName, costumerEmail, date, location, comment, opnedProject.getProjectCreatorId(), opnedProject.getProjectIsDeleted(), opnedProject.getLastEditedBy(), opnedProject.getCanBeEditedByTech(), Timestamp.from(Instant.now()), costumerType, address, zipCode);
                 getModelsHandler().getDocumentationModel().saveproject(project, lvDevices.getItems());
                 updateTableviews(project);
                 AlertOpener.confirm("Has been saved", "Your changes have been saved.");
@@ -560,6 +562,7 @@ public class DocumentationViewController extends BaseController{
         {
             String costumerName = txtCostumerName.getText();
             String location = "";
+            String costumerEmail = txtCostumerEmail.getText();
             if(txtLocation.isDisable())
             {
                 location = "";
@@ -575,7 +578,7 @@ public class DocumentationViewController extends BaseController{
             int costumerType = findCostumertype(txtCostumerType.getText());
             boolean isDeleted = false;
             String comment = txtaComments.getText();
-            Project project = new Project(costumerName, date, location, comment, creator, isDeleted, creator, true, Timestamp.from(Instant.now()), costumerType, address, zipcode);
+            Project project = new Project(costumerName, costumerEmail, date, location, comment, creator, isDeleted, creator, true, Timestamp.from(Instant.now()), costumerType, address, zipcode);
             try {
                 updateTableViewsNewProject(project, lvDevices.getItems());
                 AlertOpener.confirm("Has been saved", "Your changes have been saved.");
@@ -689,6 +692,7 @@ public class DocumentationViewController extends BaseController{
     {
         Project project = opnedProject;
         txtCostumerType.setText(findCostumerTypeFromId(project.getCostumerType()));
+        txtCostumerEmail.setText(opnedProject.getCostumerEmail());
         txtCostumerName.setText(project.getCostumerName());
         if(!txtLocation.isDisable())
         {
