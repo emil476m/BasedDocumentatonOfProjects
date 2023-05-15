@@ -6,11 +6,14 @@ import BE.DeviceType;
 import BE.Project;
 import BLL.Interfaces.IDocumentationManager;
 import BLL.Managers.DocumentationManager;
+import GUI.Util.PDFGenerator;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.nio.file.Path;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -24,6 +27,8 @@ public class DocumentationModel {
 
     List<CostumerType> costumerTypes;
     List<DeviceType> deviceTypes;
+
+    File pdf = new File("PdfFiles//project.pdf");
 
 
     public DocumentationModel() throws IOException {
@@ -121,4 +126,17 @@ public class DocumentationModel {
         return imagesObservableList;
     }
 
+    /**
+     * Creates a pdf file for a project
+     * @param project
+     * @param devices
+     * @param files
+     * @throws IOException
+     */
+    public void createPdf(Project project, ObservableList<Device> devices, ObservableList<File> files) throws IOException {
+        PDFGenerator pdfGenerator = new PDFGenerator(project,devices,files);
+        pdfGenerator.createDocument();
+    }
+
+    public Path getPdf() {return pdf.toPath();}
 }

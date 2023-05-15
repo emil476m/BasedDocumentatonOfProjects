@@ -219,7 +219,9 @@ public class PaintAppViewController extends BaseController{
                 canvasPane.getCanvas().snapshot(null, writableImage);
                 RenderedImage renderedImage = SwingFXUtils.fromFXImage(writableImage, null);
                 ImageIO.write(renderedImage, "png", file);
-                getModelsHandler().getDocumentationModel().getImagesObservableList().add(file);
+                File ddb = new File("DownloadedDropBoxFiles//" + file.getName());
+                Files.copy(file.toPath(),ddb.toPath());
+                getModelsHandler().getDocumentationModel().getImagesObservableList().add(ddb);
                 AlertOpener.confirm("Has been saved", "Your image has been saved");
             } catch (IOException e) {
                 ExceptionHandler.displayError(new RuntimeException("Failed to save the file please try again", e));

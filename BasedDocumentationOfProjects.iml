@@ -9,5 +9,8 @@
     <orderEntry type="sourceFolder" forTests="false" />
     <orderEntry type="library" name="mssql-jdbc-11.2.2.jre18" level="project" />
     <orderEntry type="library" name="dropbox.core.sdk" level="project" />
+    <orderEntry type="library" name="slf4j.jdk14" level="project" />
+    <orderEntry type="library" name="itextpdf.commons" level="project" />
+    <orderEntry type="library" name="lib" level="project" />
   </component>
 </module>

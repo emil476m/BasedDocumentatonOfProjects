@@ -15,11 +15,14 @@ import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.image.Image;
 import javafx.scene.text.Text;
+import javafx.stage.FileChooser;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 
+import java.io.File;
 import java.io.IOException;
+import java.nio.file.Files;
 import java.sql.SQLException;
 import java.sql.Timestamp;
 import java.time.Instant;
@@ -307,6 +310,18 @@ public class DocumentationViewController extends BaseController{
      * @param actionEvent
      */
     public void handleSaveToDevice(ActionEvent actionEvent) {
+        try
+        {
+            getModelsHandler().getDocumentationModel().createPdf(opnedProject,lvDevices.getItems(),lvImages.getItems());
+            FileChooser fileChooser = new FileChooser();
+            fileChooser.setTitle("Save Documentation");
+            fileChooser.setInitialFileName("documentation");
+            fileChooser.getExtensionFilters().add(new FileChooser.ExtensionFilter(".pdf", "*.pdf"));
+            File file = fileChooser.showSaveDialog(btnSaveToDevice.getScene().getWindow());
+            Files.copy(getModelsHandler().getDocumentationModel().getPdf(), file.toPath());
+        } catch (IOException e) {
+            ExceptionHandler.displayError(new RuntimeException("Failed to save file to this device please try again", e));
+        }
     }
 
     /**
