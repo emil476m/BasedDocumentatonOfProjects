@@ -5,6 +5,8 @@ import BE.UserTypes.*;
 import GUI.Models.ModelsHandler;
 import GUI.Util.AlertOpener;
 import GUI.Util.ExceptionHandler;
+import com.dropbox.core.DbxException;
+import com.dropbox.core.v2.files.Metadata;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -57,6 +59,8 @@ public class DocumentationViewController extends BaseController{
 
     private Project opnedProject;
 
+    private File file;
+
 
     @Override
     public void setup() {
@@ -81,6 +85,7 @@ public class DocumentationViewController extends BaseController{
             {
                 setTextFields();
                 setUpTechniciansRemoveAddAndView();
+                getAllDropBoxFilesForProject();
             }
 
         }
@@ -779,5 +784,53 @@ public class DocumentationViewController extends BaseController{
         stage.initStyle(StageStyle.UNDECORATED);
         stage.getIcons().add(new Image("/GUI/Images/WUAV.png"));
         stage.showAndWait();
+    }
+
+    public void handleAddImage(ActionEvent actionEvent) {
+        String filePath = null;
+        FileChooser fileChooser = new FileChooser();
+        fileChooser.setTitle("Add your image");
+
+        FileChooser.ExtensionFilter imageExtensions = new FileChooser.ExtensionFilter("Image files", "*.png", "*.jpg");
+
+        fileChooser.getExtensionFilters().add(imageExtensions);
+
+        file = fileChooser.showOpenDialog((Stage) btnReturn.getScene().getWindow());
+
+        if(file != null) {
+            String fileUriString = file.toURI().toString();
+
+            if ((fileUriString.endsWith(".png") || fileUriString.endsWith(".jpg")))
+                filePath = file.getAbsolutePath();
+        }
+        if (filePath != null){
+            try {
+                getModelsHandler().getDocumentationModel().uploadFilesFromDropBox(filePath, "/"+opnedProject.getProjectId()+"/"+file.getName());
+            } catch (DbxException e) {
+                throw new RuntimeException(e);
+            }
+        }
+    }
+
+    private void getAllDropBoxFilesForProject(){
+
+        lvImages.setItems(getModelsHandler().getDocumentationModel().getImagesObservableList());
+        if (opnedProject.getProjectId() <=1){
+
+            //TODO this is temp and should be changed
+            try {
+                System.out.println("AppFolder:");
+                getModelsHandler().getDocumentationModel().readAllFilesFromDropBox();
+                System.out.println("\n"+"ProjectFolder:");
+                getModelsHandler().getDocumentationModel().readFilesFromDropBox(opnedProject.getProjectId());
+
+                System.out.println("\n" + "Download Pictures from project");
+                getModelsHandler().getDocumentationModel().downloadProjectFilesFromDropBox(opnedProject.getProjectId());
+
+
+            } catch (DbxException e) {
+                throw new RuntimeException(e);
+            }
+        }
     }
 }

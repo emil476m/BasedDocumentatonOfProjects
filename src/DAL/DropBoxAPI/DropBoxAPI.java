@@ -11,6 +11,8 @@ import com.dropbox.core.v2.files.Metadata;
 import com.dropbox.core.v2.users.FullAccount;
 
 import java.io.*;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Properties;
 
 public class DropBoxAPI implements IDropBoxAPI {
@@ -27,8 +29,8 @@ public class DropBoxAPI implements IDropBoxAPI {
             final String ACCESS_TOKEN = access_token;
 
             // Create Dropbox client
-            DbxRequestConfig config = DbxRequestConfig.newBuilder("dropbox/java-tutorial").build();
-            DbxClientV2 client = new DbxClientV2(config, ACCESS_TOKEN);
+            config = DbxRequestConfig.newBuilder("dropbox/java-tutorial").build();
+            client = new DbxClientV2(config, ACCESS_TOKEN);
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
@@ -64,15 +66,14 @@ public class DropBoxAPI implements IDropBoxAPI {
     }
 
     @Override
-    public void readFilesFromDropBox(String folderPath) throws DbxException {
-        // Get current account info
-        FullAccount account = client.users().getCurrentAccount();
-        System.out.println(account.getName().getDisplayName());
+    public List<Metadata> readFilesFromDropBox(String folderPath) throws DbxException {
+        List<Metadata> onlineFilePaths = new ArrayList<>();
 
         ListFolderResult result = client.files().listFolder(folderPath);
         while (true) {
             for (Metadata metadata : result.getEntries()) {
                 System.out.println(metadata.getPathLower());
+                onlineFilePaths.add(metadata);
 
             }
 
@@ -82,18 +83,23 @@ public class DropBoxAPI implements IDropBoxAPI {
 
             result = client.files().listFolderContinue(result.getCursor());
         }
+        return onlineFilePaths;
     }
 
     @Override
-    public void readAllFilesFromDropBox() throws DbxException {
+    public List<Metadata> readAllFilesFromDropBox() throws DbxException {
         // Get current account info
-        FullAccount account = client.users().getCurrentAccount();
-        System.out.println(account.getName().getDisplayName());
+        //FullAccount account = client.users().getCurrentAccount();
+        //System.out.println(account.getName().getDisplayName());
 
+        List<Metadata> onlineFilePaths = new ArrayList<>();
+
+        //Get all folder files
         ListFolderResult result = client.files().listFolder("");
         while (true) {
             for (Metadata metadata : result.getEntries()) {
                 System.out.println(metadata.getPathLower());
+                onlineFilePaths.add(metadata);
 
             }
 
@@ -103,5 +109,6 @@ public class DropBoxAPI implements IDropBoxAPI {
 
             result = client.files().listFolderContinue(result.getCursor());
         }
+        return onlineFilePaths;
     }
 }

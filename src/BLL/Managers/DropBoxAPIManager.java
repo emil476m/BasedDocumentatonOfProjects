@@ -4,6 +4,9 @@ import BLL.Interfaces.IDropBoxAPIManager;
 import DAL.DropBoxAPI.DropBoxAPI;
 import DAL.Interface.IDropBoxAPI;
 import com.dropbox.core.DbxException;
+import com.dropbox.core.v2.files.Metadata;
+
+import java.util.List;
 
 public class DropBoxAPIManager implements IDropBoxAPIManager {
     private IDropBoxAPI dropBoxAPI;
@@ -28,12 +31,12 @@ public class DropBoxAPIManager implements IDropBoxAPIManager {
     }
 
     @Override
-    public void readFilesFromDropBox(String folderPath) throws DbxException {
-        dropBoxAPI.readFilesFromDropBox(folderPath);
+    public List<Metadata> readFilesFromDropBox(String folderPath) throws DbxException {
+        return dropBoxAPI.readFilesFromDropBox(folderPath);
     }
 
     @Override
-    public void readAllFilesFromDropBox() throws DbxException {
-        dropBoxAPI.readAllFilesFromDropBox();
+    public List<Metadata> readAllFilesFromDropBox() throws DbxException {
+        return dropBoxAPI.readAllFilesFromDropBox();
     }
 }

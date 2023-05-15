@@ -5,8 +5,12 @@ import BE.Device;
 import BE.DeviceType;
 import BE.Project;
 import BLL.Interfaces.IDocumentationManager;
+import BLL.Interfaces.IDropBoxAPIManager;
 import BLL.Managers.DocumentationManager;
 import GUI.Util.PDFGenerator;
+import BLL.Managers.DropBoxAPIManager;
+import com.dropbox.core.DbxException;
+import com.dropbox.core.v2.files.Metadata;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 
@@ -21,6 +25,7 @@ import java.util.List;
 
 public class DocumentationModel {
     private IDocumentationManager documentationManager;
+    private IDropBoxAPIManager dropBoxAPIManager;
     ObservableList<Device> devicesObservableList;
     ObservableList<File> imagesObservableList;
 
@@ -33,6 +38,7 @@ public class DocumentationModel {
 
     public DocumentationModel() throws IOException {
         documentationManager = new DocumentationManager();
+        dropBoxAPIManager = new DropBoxAPIManager();
         costumerTypes = new ArrayList<>();
         devicesObservableList = FXCollections.observableArrayList();
         deviceTypes = new ArrayList<>();
@@ -139,4 +145,33 @@ public class DocumentationModel {
     }
 
     public Path getPdf() {return pdf.toPath();}
+    public void deleteFilesFromDropBox(String dropBoxFilePath) throws DbxException {
+        dropBoxAPIManager.deleteFilesFromDropBox(dropBoxFilePath);
+    }
+
+    public void uploadFilesFromDropBox(String localFilePath, String dropBoxFilePath) throws DbxException {
+        dropBoxAPIManager.uploadFilesFromDropBox(localFilePath, dropBoxFilePath);
+    }
+
+    public void downloadFilesFromDropBox(String dropBoxFilePath, String fileName) throws DbxException {
+        dropBoxAPIManager.downloadFilesFromDropBox(dropBoxFilePath, fileName);
+    }
+
+    public void downloadProjectFilesFromDropBox(int projectId) throws DbxException {
+        for (Metadata m: readFilesFromDropBox(projectId)){
+            downloadFilesFromDropBox(m.getPathLower(), m.getName());
+            File file = new File("DownloadedDropBoxFiles//" + m.getName());
+            getImagesObservableList().add(file);
+        }
+    }
+
+    public List<Metadata> readFilesFromDropBox(int projectId) throws DbxException {
+        return dropBoxAPIManager.readFilesFromDropBox("/"+projectId);
+    }
+
+    public List<Metadata> readAllFilesFromDropBox() throws DbxException {
+        return dropBoxAPIManager.readAllFilesFromDropBox();
+    }
+
+
 }
