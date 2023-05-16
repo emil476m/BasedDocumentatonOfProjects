@@ -164,9 +164,18 @@ public class PDFGenerator {
         Table threeColTable2 = new Table(threeColWidth);
         for (Device d: devices)
         {
-            threeColTable2.addCell(new Cell().add(new Paragraph(d.getDeviceTypeString())).setBorder(Border.NO_BORDER).setMarginLeft(10f));
-            threeColTable2.addCell(new Cell().add(new Paragraph(d.getDeviceUserName())).setBorder(Border.NO_BORDER));
-            threeColTable2.addCell(new Cell().add(new Paragraph(d.getDevicePassWord())).setMarginRight(15f).setBorder(Border.NO_BORDER));
+            if (d.getDeviceTypeString() != null)
+                threeColTable2.addCell(new Cell().add(new Paragraph(d.getDeviceTypeString())).setBorder(Border.NO_BORDER).setMarginLeft(10f));
+            else
+                threeColTable2.addCell(new Cell().add(new Paragraph(" ")).setBorder(Border.NO_BORDER).setMarginLeft(10f));
+            if (d.getDeviceUserName() != null)
+                threeColTable2.addCell(new Cell().add(new Paragraph(d.getDeviceUserName())).setBorder(Border.NO_BORDER));
+            else
+                threeColTable2.addCell(new Cell().add(new Paragraph(" ")).setBorder(Border.NO_BORDER));
+            if (d.getDevicePassWord() != null)
+                threeColTable2.addCell(new Cell().add(new Paragraph(d.getDevicePassWord())).setMarginRight(15f).setBorder(Border.NO_BORDER));
+            else
+                threeColTable2.addCell(new Cell().add(new Paragraph(" ")).setMarginRight(15f).setBorder(Border.NO_BORDER));
         }
         document.add(threeColTable2);
         createDotSeparator();

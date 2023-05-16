@@ -54,6 +54,13 @@ public class Device {
 
     @Override
     public String toString() {
-        return deviceId + "\t" + "Username: " + deviceUserName + "\n\t" + "Password: " + devicePassWord + "\n\t" + "Type: " + deviceTypeString;
+        if (deviceUserName != null && devicePassWord != null)
+            return deviceId + "\t" + "Username: " + deviceUserName + "\n\t" + "Password: " + devicePassWord + "\n\t" + "Type: " + deviceTypeString;
+        else if (deviceUserName != null)
+            return deviceId + "\t" + "Username: " + deviceUserName + "\n\t" + "Type: " + deviceTypeString;
+        else if (devicePassWord != null)
+            return deviceId + "\t" + "Password: " + devicePassWord + "\n\t" + "Type: " + deviceTypeString;
+        else
+            return deviceId + "\t" + "Type: " + deviceTypeString;
     }
 }
