@@ -1,8 +1,6 @@
 package GUI.Controllers;
 
-import BE.DeviceType;
 import BE.Project;
-import BE.UserTypes.CEO;
 import BE.UserTypes.User;
 import GUI.Models.ModelsHandler;
 import GUI.Util.AlertOpener;

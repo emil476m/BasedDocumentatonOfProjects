@@ -38,7 +38,8 @@ import java.util.List;
 
 public class DocumentationViewController extends BaseController{
 
-    public ImageView imImageView;
+    @FXML
+    private ImageView imImageView;
     @FXML
     private ListView<User> lvTechniciansOnProject;
     @FXML
@@ -843,36 +844,27 @@ public class DocumentationViewController extends BaseController{
 
     private void uploadImagesToBeSaved(Project project){
         if (!getModelsHandler().getDocumentationModel().getImagesToBeSaved().isEmpty()) {
-            System.out.println("Images are saving please wait..");
-            System.out.println("...");
-            System.out.println("...");
             for (File f : getModelsHandler().getDocumentationModel().getImagesToBeSaved()) {
                 if (f.getPath() != null) {
                     try {
                         getModelsHandler().getDocumentationModel().uploadFilesFromDropBox(f.getPath(), "/" + project.getProjectId() + "/" + f.getName());
-                        System.out.println("test");
                     } catch (DbxException e) {
                         throw new RuntimeException(e);
                     }
                 }
             }
             getModelsHandler().getDocumentationModel().getImagesToBeSaved().clear();
-            System.out.println("Images are now saved");
         }
     }
 
     private void getAllDropBoxFilesForProject(){
-        System.out.println("test123123");
+
         if (opnedProject.getProjectId() >=1){
 
             //TODO this is temp and should be changed
             try {
-                System.out.println("AppFolder:");
                 getModelsHandler().getDocumentationModel().readAllFilesFromDropBox();
-                System.out.println("\n"+"ProjectFolder:");
                 getModelsHandler().getDocumentationModel().readFilesFromDropBox(opnedProject.getProjectId());
-
-                System.out.println("\n" + "Download Pictures from project");
                 getModelsHandler().getDocumentationModel().downloadProjectFilesFromDropBox(opnedProject.getProjectId());
 
 

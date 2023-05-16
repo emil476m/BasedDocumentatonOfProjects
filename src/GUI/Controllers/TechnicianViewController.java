@@ -30,6 +30,7 @@ public class TechnicianViewController extends BaseController{
     public MenuItem miAddress;
     public MenuItem miDate;
     public Text txtSearchText;
+    public Label lblLoggedInAs;
     @FXML
     private BorderPane borderPaneTechnician;
     @FXML
@@ -58,6 +59,7 @@ public class TechnicianViewController extends BaseController{
     public void setup() {
         toggleViews(true,false);
         logoutButtonSetup();
+        lblLoggedInAs.setText("Technician: " + getModelsHandler().getLoginModel().getUser().getName());
         try {
             setUpTableViews();
         } catch (Exception e) {

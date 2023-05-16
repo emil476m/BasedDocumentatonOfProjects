@@ -26,7 +26,7 @@
             <Button fx:id="btnLogout" layoutX="33.0" layoutY="546.0" mnemonicParsing="false" onAction="#handleLogout" prefHeight="30.0" prefWidth="140.0" text="Logout" />
             <Button fx:id="btnshowInstallations" layoutX="33.0" layoutY="273.0" mnemonicParsing="false" onAction="#handleShowInstallations" prefHeight="30.0" prefWidth="140.0" text="Installations" />
             <Button fx:id="btnShowUsers" layoutX="33.0" layoutY="203.0" mnemonicParsing="false" onAction="#handleShowUsers" prefHeight="30.0" prefWidth="140.0" text="Users" />
-            <Label fx:id="lblLoggedInAs" layoutX="43.0" layoutY="162.0" prefHeight="23.0" prefWidth="119.0" />
+            <Label fx:id="lblLoggedInAs" layoutX="43.0" layoutY="137.0" prefHeight="48.0" prefWidth="119.0" styleClass="label-User" text="CEO:" wrapText="true" />
          </children>
       </Pane>
    </left>

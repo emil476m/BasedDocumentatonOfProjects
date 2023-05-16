@@ -30,6 +30,7 @@ public class SalesPersonController extends BaseController {
     public MenuItem miAddress;
     public MenuItem miDate;
     public Text txtSearchText;
+    public Label lblLoggedInAs;
     @FXML
     private BorderPane borderPaneTechnician;
     @FXML
@@ -54,6 +55,7 @@ public class SalesPersonController extends BaseController {
     public void setup() {
         toggleViews();
         logoutButtonSetup();
+        lblLoggedInAs.setText("SalesPerson: " + getModelsHandler().getLoginModel().getUser().getName());
         try {
             setUpTableViews();
         } catch (Exception e) {

@@ -31,6 +31,7 @@ public class ProjectManagerViewController extends BaseController{
     public MenuItem miAddress;
     public MenuItem miDate;
     public Text txtSearchText;
+    public Label lblLoggedInAs;
     @FXML
     private Button btnLogout;
 
@@ -50,6 +51,7 @@ public class ProjectManagerViewController extends BaseController{
     public void setup() {
         toggleViews();
         logoutButtonSetup();
+        lblLoggedInAs.setText("Project Manager: " + getModelsHandler().getLoginModel().getUser().getName());
         try {
             setUpTableView();
         } catch (Exception e) {

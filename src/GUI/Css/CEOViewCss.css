@@ -85,3 +85,9 @@
     -fx-border-color: #444444;
     -fx-border-radius:5px;
 }
+.label-User
+{
+    -fx-font-size: 16;
+    -fx-text-fill: #F8F8F8;
+    -fx-text-alignment: center;
+}
