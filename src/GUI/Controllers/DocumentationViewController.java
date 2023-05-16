@@ -83,6 +83,7 @@ public class DocumentationViewController extends BaseController{
         textFields = new ArrayList<>();
         projectImages = FXCollections.observableArrayList();
         projectImages.clear();
+        getModelsHandler().getDocumentationModel().getImagesObservableList().clear();
         addTextFields();
         try
         {
