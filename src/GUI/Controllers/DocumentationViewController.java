@@ -862,7 +862,8 @@ public class DocumentationViewController extends BaseController{
     }
 
     private void getAllDropBoxFilesForProject(){
-        if (opnedProject.getProjectId() <=1){
+        System.out.println("test123123");
+        if (opnedProject.getProjectId() >=1){
 
             //TODO this is temp and should be changed
             try {

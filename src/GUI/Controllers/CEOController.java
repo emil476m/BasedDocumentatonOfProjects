@@ -2,6 +2,7 @@ package GUI.Controllers;
 
 import BE.DeviceType;
 import BE.Project;
+import BE.UserTypes.CEO;
 import BE.UserTypes.User;
 import GUI.Models.ModelsHandler;
 import GUI.Util.AlertOpener;
@@ -28,6 +29,8 @@ import java.io.IOException;
 import java.time.LocalDate;
 
 public class CEOController extends BaseController{
+    @FXML
+    private Label lblLoggedInAs;
     @FXML
     private Text txtSearchText;
     @FXML
@@ -83,6 +86,7 @@ public class CEOController extends BaseController{
     public void setup() {
         toggleViews(true, false);
         buttonSetup();
+        lblLoggedInAs.setText("CEO: " + getModelsHandler().getLoginModel().getUser().getName());
         try {
             setUpTableViews();
         } catch (Exception e) {
