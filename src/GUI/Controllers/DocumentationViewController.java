@@ -858,23 +858,22 @@ public class DocumentationViewController extends BaseController{
     }
 
     private void getAllDropBoxFilesForProject(){
-
-        if (opnedProject.getProjectId() >=1){
-
-            //TODO this is temp and should be changed
-            try {
-                getModelsHandler().getDocumentationModel().readAllFilesFromDropBox();
-                getModelsHandler().getDocumentationModel().readFilesFromDropBox(opnedProject.getProjectId());
-                getModelsHandler().getDocumentationModel().downloadProjectFilesFromDropBox(opnedProject.getProjectId());
-
-
-            } catch (DbxException e) {
-                throw new RuntimeException(e);
+        try {
+            for (Metadata m: getModelsHandler().getDocumentationModel().readAllFilesFromDropBox()){
+                if (m.getName().equals(""+opnedProject.getProjectId())){
+                    if (opnedProject.getProjectId() >= 1) {
+                        getModelsHandler().getDocumentationModel().readAllFilesFromDropBox();
+                        getModelsHandler().getDocumentationModel().readFilesFromDropBox(opnedProject.getProjectId());
+                        getModelsHandler().getDocumentationModel().downloadProjectFilesFromDropBox(opnedProject.getProjectId());
+                    }
+                    projectImages.clear();
+                    projectImages.addAll(getModelsHandler().getDocumentationModel().getImagesObservableList());
+                    lvImages.setItems(projectImages);
+                }
             }
+        } catch (DbxException e) {
+            throw new RuntimeException(e);
         }
-        projectImages.clear();
-        projectImages.addAll(getModelsHandler().getDocumentationModel().getImagesObservableList());
-        lvImages.setItems(projectImages);
     }
 
     private void imagePreview(){

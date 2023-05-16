@@ -71,9 +71,7 @@ public class DropBoxAPI implements IDropBoxAPI {
         ListFolderResult result = client.files().listFolder(folderPath);
         while (true) {
             for (Metadata metadata : result.getEntries()) {
-                System.out.println(metadata.getPathLower());
                 onlineFilePaths.add(metadata);
-
             }
 
             if (!result.getHasMore()) {
@@ -87,25 +85,18 @@ public class DropBoxAPI implements IDropBoxAPI {
 
     @Override
     public List<Metadata> readAllFilesFromDropBox() throws DbxException {
-        // Get current account info
-        //FullAccount account = client.users().getCurrentAccount();
-        //System.out.println(account.getName().getDisplayName());
-
         List<Metadata> onlineFilePaths = new ArrayList<>();
 
         //Get all folder files
         ListFolderResult result = client.files().listFolder("");
         while (true) {
             for (Metadata metadata : result.getEntries()) {
-                System.out.println(metadata.getPathLower());
                 onlineFilePaths.add(metadata);
-
             }
 
             if (!result.getHasMore()) {
                 break;
             }
-
             result = client.files().listFolderContinue(result.getCursor());
         }
         return onlineFilePaths;
@@ -122,6 +113,5 @@ public class DropBoxAPI implements IDropBoxAPI {
     public File createLocalFile(File file) throws Exception {
         File newFile = new File(String.valueOf(LocalFileHandler.createLocalFile(file.getPath())));
         return newFile;
-
     }
 }
