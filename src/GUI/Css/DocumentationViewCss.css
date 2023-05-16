@@ -99,3 +99,10 @@
 .menu-item:focused .label{
     -fx-text-fill: #F8F8F8;
 }
+
+.context-menu {
+    -fx-background-color: transparent;
+    -fx-text-fill: #393939;
+    -fx-border-color: #444444;
+    -fx-border-radius:5px;
+}

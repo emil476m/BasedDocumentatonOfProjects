@@ -29,9 +29,9 @@ public class PDFGenerator {
 
     Project project;
 
-    List<Device> devices;
+    List<Device> devices = new ArrayList<>();
 
-    List<File> files;
+    List<File> files = new ArrayList<>();
 
     public PDFGenerator(Project project, List<Device> devices, List<File> files) throws FileNotFoundException {
         this.project = project;
@@ -39,35 +39,39 @@ public class PDFGenerator {
         this.files = files;
     }
 
+    public PDFGenerator(Project project, File file) {
+        this.project = project;
+        files = new ArrayList<>();
+        files.add(file);
+    }
 
     /**
      * Creates the pdf document.
      * @throws IOException
      */
-    public void createDocument() throws IOException {
-        try {
-        PdfWriter pdfWriter = new PdfWriter(path);
-        File file = new File(path);
-        PdfDocument pdfDocument = new PdfDocument(pdfWriter);
-        pdfDocument.setDefaultPageSize(PageSize.A4);
-        document = new Document(pdfDocument);
-        createHeader();
-        createSolidSeparator();
-        createComment();
-        if(!devices.isEmpty())
+    public void createDocument() throws Exception {
+        try
         {
-            createDeviceList();
+            PdfWriter pdfWriter = new PdfWriter(path);
+            File file = new File(path);
+            PdfDocument pdfDocument = new PdfDocument(pdfWriter);
+            pdfDocument.setDefaultPageSize(PageSize.A4);
+            document = new Document(pdfDocument);
+            createHeader();
+            createSolidSeparator();
+            createComment();
+            if (!devices.isEmpty()) {
+                createDeviceList();
+            }
+            if (!files.isEmpty()) {
+                createImages();
+            }
+            document.close();
         }
-        if(!files.isEmpty())
-        {
-            createImages();
-        }
-        document.close();
-        }
-        catch (IOException e)
+        catch (Exception e)
         {
             e.printStackTrace();
-            throw new IOException("Failed to create pdf", e);
+            throw new com.itextpdf.io.exceptions.IOException("Failed to create pdf", e);
         }
 
     }

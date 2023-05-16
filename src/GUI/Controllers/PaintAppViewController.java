@@ -35,7 +35,7 @@ public class PaintAppViewController extends BaseController{
     @FXML
     private CanvasPane canvasPane;
     @FXML
-    private Button btnBrush, btnSave, btnClose, btnErase, btnScreenSize;
+    private Button btnBrush, btnSave, btnClose, btnErase, btnScreenSize,btnSpeaker,btnCC,btnProjcetor,btnWifi,btnAmp;
 
     @FXML
     private ColorPicker CpColorPicker;
@@ -61,23 +61,50 @@ public class PaintAppViewController extends BaseController{
         if(canvasPane.getCanvas() != null)
         {
             brushTool = canvasPane.getCanvas().getGraphicsContext2D();
-            canvasPane.getCanvas().setOnMouseDragged( e -> {
+            canvasPane.getCanvas().setOnMouseDragged(e -> {
                 double size = Double.parseDouble(txtBrushSize.getText());
                 double x = e.getX() - size / 2;
                 double y = e.getY() - size / 2;
-
-                if(btnBrush.isDisable() && !txtBrushSize.getText().isEmpty())
+                if (btnBrush.isDisable() && !txtBrushSize.getText().isEmpty())
                 {
-                    brushTool.setFill(CpColorPicker.getValue());
-                    brushTool.fillRoundRect(x,y,size,size,size,size);
-                } else if (btnErase.isDisable() && !txtBrushSize.getText().isEmpty())
+                   brushTool.setFill(CpColorPicker.getValue());
+                    brushTool.fillRoundRect(x, y, size, size, size, size);
+                }
+                else if (btnErase.isDisable() && !txtBrushSize.getText().isEmpty())
                 {
-                    brushTool.clearRect(x,y,size,size);
+                    brushTool.clearRect(x, y, size, size);
                 }
 
             });
+            canvasPane.getCanvas().setOnMouseClicked(ev -> {
+                double size = Double.parseDouble(txtBrushSize.getText());
+                double x = ev.getX() - size/2;
+                double y = ev.getY() - size/2;
+                if (btnAmp.isDisable()) {
+                    Image image = new Image(String.valueOf(getClass().getResource("/GUI/Images/AMP.png")));
+                    brushTool.drawImage(image,x,y);
+                }
+                if (btnCC.isDisable()) {
+
+                    Image image = new Image(String.valueOf(getClass().getResource("/GUI/Images/cc.png")));
+                    brushTool.drawImage(image,x,y);
+                }
+                if (btnWifi.isDisable()) {
+                    Image image = new Image(String.valueOf(getClass().getResource("/GUI/Images/wifi.png")));
+                    brushTool.drawImage(image,x,y);
+                }
+                if (btnProjcetor.isDisable()) {
+                    Image image = new Image(String.valueOf(getClass().getResource("/GUI/Images/Projector.png")));
+                    brushTool.drawImage(image,x,y);
+                }
+                if (btnSpeaker.isDisable()) {
+                    Image image = new Image(String.valueOf(getClass().getResource("/GUI/Images/speaker.png")));
+                    brushTool.drawImage(image,x,y);
+                }
+            });
         }
     }
+
 
     /**
      * Sets the icons for all the buttons in the window.
@@ -89,6 +116,11 @@ public class PaintAppViewController extends BaseController{
         btnErase.setGraphic(new ImageView(new Image("/GUI/Images/icons8-eraser-64.png")));
         btnSave.setGraphic(new ImageView(new Image("/GUI/Images/icons8-save-80.png")));
         btnScreenSize.setGraphic(new ImageView(new Image("/GUI/Images/icons8-full-screen-80.png")));
+        btnCC.setGraphic(new ImageView(new Image("/GUI/Images/icons8-ipad-pro-50.png")));
+        btnAmp.setGraphic(new ImageView(new Image("/GUI/Images/icons8-amplifier-64.png")));
+        btnSpeaker.setGraphic(new ImageView(new Image("/GUI/Images/icons8-speaker-80.png")));
+        btnWifi.setGraphic(new ImageView(new Image("/GUI/Images/icons8-wi-fi-80.png")));
+        btnProjcetor.setGraphic(new ImageView(new Image("/GUI/Images/icons8-video-projector-80.png")));
     }
 
     /**
@@ -155,16 +187,48 @@ public class PaintAppViewController extends BaseController{
     }
 
     /**
+     * Resets buttons
+     */
+    private void resetButton()
+    {
+        if(btnBrush.isDisable())
+        {
+            btnBrush.setDisable(false);
+        }
+        if(btnErase.isDisable())
+        {
+            btnErase.setDisable(false);
+        }
+        if(btnProjcetor.isDisable())
+        {
+            btnProjcetor.setDisable(false);
+        }
+        if(btnWifi.isDisable())
+        {
+            btnWifi.setDisable(false);
+        }
+        if(btnSpeaker.isDisable())
+        {
+            btnSpeaker.setDisable(false);
+        }
+        if(btnCC.isDisable())
+        {
+            btnCC.setDisable(false);
+        }
+        if(btnAmp.isDisable())
+        {
+            btnAmp.setDisable(false);
+        }
+    }
+
+    /**
      * Handles the selection of the brush tool.
      * @param actionEvent
      */
     public void handleBrush(ActionEvent actionEvent)
     {
+        resetButton();
         btnBrush.setDisable(true);
-        if(btnErase.isDisable())
-        {
-            btnErase.setDisable(false);
-        }
     }
 
     /**
@@ -173,11 +237,8 @@ public class PaintAppViewController extends BaseController{
      */
     public void handleErase(ActionEvent actionEvent)
     {
+        resetButton();
         btnErase.setDisable(true);
-        if(btnBrush.isDisable())
-        {
-            btnBrush.setDisable(false);
-        }
     }
 
     /**
@@ -227,5 +288,30 @@ public class PaintAppViewController extends BaseController{
                 ExceptionHandler.displayError(new RuntimeException("Failed to save the file please try again", e));
             }
         }
+    }
+
+    public void handleSpeaker(ActionEvent actionEvent) {
+        resetButton();
+        btnSpeaker.setDisable(true);
+    }
+
+    public void handleWifi(ActionEvent actionEvent) {
+        resetButton();
+        btnWifi.setDisable(true);
+    }
+
+    public void handleControlCenter(ActionEvent actionEvent) {
+        resetButton();
+        btnCC.setDisable(true);
+    }
+
+    public void handleProjcetor(ActionEvent actionEvent) {
+        resetButton();
+        btnProjcetor.setDisable(true);
+    }
+
+    public void handleAmp(ActionEvent actionEvent) {
+        resetButton();
+        btnAmp.setDisable(true);
     }
 }

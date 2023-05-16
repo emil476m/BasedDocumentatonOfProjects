@@ -50,7 +50,7 @@
                   <TableColumn fx:id="clmINSDate1" maxWidth="254.39999999999998" minWidth="0.0" prefWidth="132.79998779296875" resizable="false" text="Date" />
                </columns>
             </TableView>
-            <TextField fx:id="txfSearch" layoutX="374.0" layoutY="95.0" onKeyPressed="#searchOnButtonPress" promptText="Search" />
+            <TextField fx:id="txfSearch" layoutX="369.0" layoutY="95.0" onKeyPressed="#searchOnButtonPress" promptText="Search" />
             <MenuButton fx:id="btnSearchChoice" layoutX="523.0" layoutY="95.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="95.0" text="All">
                <items>
                   <MenuItem fx:id="miName" mnemonicParsing="false" onAction="#handleNameChoice" text="Name" />

@@ -340,7 +340,7 @@ public class DocumentationViewController extends BaseController{
             fileChooser.getExtensionFilters().add(new FileChooser.ExtensionFilter(".pdf", "*.pdf"));
             File file = fileChooser.showSaveDialog(btnSaveToDevice.getScene().getWindow());
             Files.copy(getModelsHandler().getDocumentationModel().getPdf(), file.toPath());
-        } catch (IOException e) {
+        } catch (Exception e) {
             ExceptionHandler.displayError(new RuntimeException("Failed to save file to this device please try again", e));
         }
     }

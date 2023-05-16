@@ -1,0 +1,49 @@
+@import url('https://fonts.googleapis.com/css2?family=Russo+One&display=swap');
+
+
+.root
+{
+    -fx-background-color: #393939;;
+    -fx-font-family: 'Russo One', sans-serif;
+    -fx-border-color: #000000;
+    -fx-border-width: 3px;
+}
+
+.button
+{
+    -fx-background-color: #FC4C02;
+    -fx-text-fill: #F8F8F8;
+    -fx-background-radius:20px;
+}
+.button:focused
+{
+    -fx-border-color: transparent;
+}
+
+.text-field
+{
+    -fx-background-color: #ECF2F7;
+    -fx-border-color: #444444;
+    -fx-border-radius:5px;
+}
+
+.text
+{
+    -fx-font-size: 16;
+    -fx-fill: #f1f1f1;
+}
+
+.menu-bar
+{
+    -fx-background-color: transparent;
+    -fx-border-color: #ECF2F7;
+    -fx-border-radius:5px;
+}
+
+.menu-item {
+    -fx-background-color: transparent;
+}
+
+.context-menu {
+    -fx-background-color: transparent;
+}

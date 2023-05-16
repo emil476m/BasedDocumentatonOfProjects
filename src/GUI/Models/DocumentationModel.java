@@ -143,7 +143,7 @@ public class DocumentationModel {
      * @param files
      * @throws IOException
      */
-    public void createPdf(Project project, ObservableList<Device> devices, ObservableList<File> files) throws IOException {
+    public void createPdf(Project project, ObservableList<Device> devices, ObservableList<File> files) throws Exception {
         PDFGenerator pdfGenerator = new PDFGenerator(project,devices,files);
         pdfGenerator.createDocument();
     }

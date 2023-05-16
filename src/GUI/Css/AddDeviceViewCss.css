@@ -3,7 +3,7 @@
 
 .root
 {
-    -fx-background-color: #393939;;
+    -fx-background-color: #393939;
     -fx-font-family: 'Russo One', sans-serif;
     -fx-border-color: #000000;
     -fx-border-width: 3px;
@@ -27,17 +27,20 @@
     -fx-background-radius:20px;
 }
 
+.menu-button .label
+{
+    -fx-text-fill: #F8F8F8;
+}
+
 .menu-item .label
 {
     -fx-text-fill: #393939;
 }
 
-.menu-item:focused{
-    -fx-background-color: #444444;
-}
+
 
 .menu-item:focused .label{
-    -fx-text-fill: #F8F8F8;
+    -fx-text-fill: #393939;
 }
 
 .text-field
@@ -48,10 +51,13 @@
 
 .table-view .column-header {
     -fx-background-color: transparent;
-    -fx-text-background-color: #F8F8F8;
 }
 
 .anchor-pane
 {
+    -fx-background-color: #ECF2F7;
+}
+
+.context-menu {
     -fx-background-color: #ECF2F7;
 }

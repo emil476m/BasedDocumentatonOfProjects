@@ -11,7 +11,7 @@
       <AnchorPane prefHeight="328.0" prefWidth="600.0" BorderPane.alignment="CENTER">
          <children>
             <TextField fx:id="txtDeviceType" layoutX="69.0" layoutY="86.0" promptText="Device Type" AnchorPane.leftAnchor="69.0" AnchorPane.topAnchor="86.0" />
-            <MenuButton fx:id="menuType" layoutX="219.0" layoutY="86.0" mnemonicParsing="false" text="Types" AnchorPane.leftAnchor="219.0" AnchorPane.topAnchor="86.0" />
+            <MenuButton fx:id="menuType" layoutX="224.0" layoutY="86.0" mnemonicParsing="false" text="Types" AnchorPane.leftAnchor="224.0" AnchorPane.topAnchor="86.0" />
             <TextField fx:id="txtUsername" layoutX="70.0" layoutY="134.0" promptText="Device username" AnchorPane.leftAnchor="70.0" AnchorPane.topAnchor="134.0" />
             <TextField fx:id="txtPassword" layoutX="70.0" layoutY="175.0" promptText="Device password" AnchorPane.leftAnchor="70.0" AnchorPane.topAnchor="175.0" />
             <TextField fx:id="txtCDeviceType" layoutX="341.0" layoutY="139.0" promptText="Custom device type" AnchorPane.leftAnchor="341.0" AnchorPane.topAnchor="139.0" />
