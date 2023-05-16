@@ -45,7 +45,7 @@
             <MenuButton fx:id="menuTypes" layoutX="190.0" layoutY="89.0" mnemonicParsing="false" prefHeight="15.0" prefWidth="32.0" text="Types" AnchorPane.leftAnchor="190.0" AnchorPane.topAnchor="90.0" />
             <TextArea fx:id="txtaComments" layoutX="36.0" layoutY="177.0" prefHeight="243.0" prefWidth="478.0" promptText="Comments/Documentation" wrapText="true" AnchorPane.leftAnchor="36.0" AnchorPane.topAnchor="177.0" />
             <ListView fx:id="lvImages" layoutX="661.0" layoutY="75.0" onMouseClicked="#handleImageClicked" prefHeight="116.0" prefWidth="422.0" AnchorPane.rightAnchor="28.0" AnchorPane.topAnchor="75.0" />
-            <ListView fx:id="lvDevices" layoutX="664.0" layoutY="419.0" prefHeight="200.0" prefWidth="424.0" AnchorPane.bottomAnchor="87.0" AnchorPane.rightAnchor="28.0" />
+            <ListView fx:id="lvDevices" layoutX="664.0" layoutY="419.0" onMouseClicked="#handleDevicesClicked" prefHeight="200.0" prefWidth="424.0" AnchorPane.bottomAnchor="87.0" AnchorPane.rightAnchor="28.0" />
             <Label layoutX="661.0" layoutY="55.0" prefHeight="18.0" prefWidth="76.0" text="Images:" AnchorPane.leftAnchor="661.0" AnchorPane.topAnchor="55.0" />
             <Label layoutX="664.0" layoutY="397.0" text="Devices:" AnchorPane.leftAnchor="664.0" AnchorPane.topAnchor="397.0" />
             <TextField fx:id="txtLocation" layoutX="262.0" layoutY="95.0" promptText="Location" AnchorPane.leftAnchor="262.0" AnchorPane.topAnchor="95.0" />

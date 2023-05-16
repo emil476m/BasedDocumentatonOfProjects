@@ -68,6 +68,8 @@ public class DocumentationViewController extends BaseController{
 
     private ObservableList<File> projectImages;
 
+    private boolean lvImagesLastSelected = false;
+
 
 
     @Override
@@ -888,9 +890,47 @@ public class DocumentationViewController extends BaseController{
     }
 
     public void handleRemove(ActionEvent actionEvent) {
+        try {
+            chooseRemoveAction();
+        } catch (DbxException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    private void chooseRemoveAction() throws DbxException {
+        if (!(lvImages.getSelectionModel().getSelectedItem() == null) && lvImagesLastSelected){
+            removeImage();
+        }
+        else if(!(lvDevices.getSelectionModel().getSelectedItem() == null) && !lvImagesLastSelected){
+            deleteDevice();
+        }
+    }
+
+    private void removeImage() throws DbxException {
+        if (lvImages.getSelectionModel().getSelectedItem().getClass() == File.class){
+            if (getModelsHandler().getDocumentationModel().getImagesToBeSaved().contains(lvImages.getSelectionModel().getSelectedItem()))
+                getModelsHandler().getDocumentationModel().getImagesToBeSaved().remove(lvImages.getSelectionModel().getSelectedItem());
+            else {
+                File file1 = projectImages.get(projectImages.indexOf(lvImages.getSelectionModel().getSelectedItem()));
+                getModelsHandler().getDocumentationModel().deleteFilesFromDropBox("/" + opnedProject.getProjectId() + "/" + file1.getName());
+                projectImages.remove(lvImages.getSelectionModel().getSelectedItem());
+                if (getModelsHandler().getDocumentationModel().getImagesObservableList().contains(lvImages.getSelectionModel().getSelectedItem()))
+                    getModelsHandler().getDocumentationModel().getImagesObservableList().remove(lvImages.getSelectionModel().getSelectedItem());
+            }
+        }
     }
 
     public void handleImageClicked(MouseEvent mouseEvent) {
+        lvImagesLastSelected = true;
         imagePreview();
+    }
+
+    private void deleteDevice(){
+
+        getModelsHandler().getDocumentationModel().getDevicesObservableList().remove(lvDevices.getSelectionModel().getSelectedItem());
+    }
+
+    public void handleDevicesClicked(MouseEvent mouseEvent) {
+        lvImagesLastSelected = false;
     }
 }

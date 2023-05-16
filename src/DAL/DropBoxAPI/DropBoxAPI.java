@@ -38,8 +38,7 @@ public class DropBoxAPI implements IDropBoxAPI {
 
     @Override
     public void deleteFilesFromDropBox(String dropBoxFilePath) throws DbxException {
-        String pictureName = "/WUAV.png";
-        Metadata metadata = client.files().delete(pictureName);
+        Metadata metadata = client.files().delete(dropBoxFilePath);
     }
 
     @Override

@@ -125,6 +125,7 @@ public class DocumentationModel {
         devicesObservableList.add(device);
     }
 
+
     public List<Integer> getUsersWorkingOnProject(Project project) throws Exception{
         List<Integer> allUsersId = documentationManager.getUsersWorkingOnProject(project);
         return allUsersId;
@@ -149,6 +150,7 @@ public class DocumentationModel {
 
     public Path getPdf() {return pdf.toPath();}
     public void deleteFilesFromDropBox(String dropBoxFilePath) throws DbxException {
+        System.out.println("FilePath: " + dropBoxFilePath);
         dropBoxAPIManager.deleteFilesFromDropBox(dropBoxFilePath);
     }
 
