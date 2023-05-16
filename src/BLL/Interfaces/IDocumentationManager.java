@@ -28,4 +28,6 @@ public interface IDocumentationManager {
     boolean lastProjectEditMatch(Project project) throws Exception;
 
     Project getProjectFromId(Project project) throws Exception;
+
+    void deleteDevices(List<Device> devices) throws SQLException;
 }

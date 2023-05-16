@@ -43,3 +43,13 @@
 {
     -fx-background-color: #ECF2F7;
 }
+
+.label
+{
+    -fx-text-fill: #ECF2F7;
+}
+
+.color-picker .label
+{
+    -fx-text-fill: #000000;
+}

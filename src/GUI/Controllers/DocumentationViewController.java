@@ -1,5 +1,6 @@
 package GUI.Controllers;
 import BE.CostumerType;
+import BE.Device;
 import BE.Project;
 import BE.UserTypes.*;
 import DAL.DBUtil.LocalFileHandler;
@@ -68,6 +69,8 @@ public class DocumentationViewController extends BaseController{
     private File file;
 
     private ObservableList<File> projectImages;
+
+    private List<Device> devicestoDelete = new ArrayList<>();
 
     private boolean lvImagesLastSelected = false;
 
@@ -452,6 +455,14 @@ public class DocumentationViewController extends BaseController{
         else if (opnedProject != null)
         {
             uploadImagesToBeSaved(opnedProject);
+            if(!devicestoDelete.isEmpty())
+            {
+                try {
+                    getModelsHandler().getDocumentationModel().deleteDevices(devicestoDelete);
+                } catch (SQLException e) {
+                    ExceptionHandler.displayError(new RuntimeException("Failed to delete devices"));
+                }
+            }
             saveProject();
         }
     }
@@ -926,8 +937,11 @@ public class DocumentationViewController extends BaseController{
         imagePreview();
     }
 
-    private void deleteDevice(){
-        getModelsHandler().getDocumentationModel().getDevicesObservableList().remove(lvDevices.getSelectionModel().getSelectedItem());
+    private void deleteDevice() {
+        Device device = (Device) lvDevices.getSelectionModel().getSelectedItem();
+        lvDevices.getSelectionModel().clearSelection();
+        devicestoDelete.add(device);
+        getModelsHandler().getDocumentationModel().getDevicesObservableList().remove(device);
     }
 
     public void handleDevicesClicked(MouseEvent mouseEvent) {

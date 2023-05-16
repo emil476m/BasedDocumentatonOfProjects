@@ -5,6 +5,7 @@ import BE.DeviceType;
 import BE.Project;
 import DAL.DatabaseConnector;
 import DAL.Interface.IDeviceDAO;
+import com.microsoft.sqlserver.jdbc.SQLServerException;
 
 import java.io.IOException;
 import java.sql.*;
@@ -144,4 +145,36 @@ public class DeviceDAO_DB implements IDeviceDAO {
             throw new Exception("Failed to Check DeviceTypes", e);
         }
     }
+
+    @Override
+    public void deleteDevice(List<Device> devices) throws SQLException {
+        String relation = "DELETE DeviceForProject WHERE DeviceId = ?";
+        String devicestable = "DELETE Device WHERE Id=?;";
+
+        try (Connection conn = dbConnector.getConnection())
+        {
+            List<Device> deviceList = devices;
+            conn.setAutoCommit(false);
+            PreparedStatement relationTable = conn.prepareStatement(relation);
+            for (Device d: deviceList)
+            {
+                relationTable.setInt(1,d.getDeviceId());
+                relationTable.addBatch();
+            }
+            relationTable.executeBatch();
+            PreparedStatement deviceTab = conn.prepareStatement(devicestable);
+            for (Device dv:devices)
+            {
+                deviceTab.setInt(1,dv.getDeviceId());
+                deviceTab.addBatch();
+            }
+            deviceTab.executeBatch();
+            conn.commit();
+        }
+        catch (SQLException e)
+        {
+            throw new SQLException("Failed to delete Device",e);
+        }
+    }
+
 }

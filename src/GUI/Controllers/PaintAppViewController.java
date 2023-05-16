@@ -23,11 +23,9 @@ import javafx.stage.Stage;
 
 import javax.imageio.ImageIO;
 import java.awt.image.RenderedImage;
-import java.awt.image.renderable.RenderableImage;
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
-import java.nio.file.Path;
 
 import static javafx.scene.paint.Color.*;
 
@@ -35,7 +33,7 @@ public class PaintAppViewController extends BaseController{
     @FXML
     private CanvasPane canvasPane;
     @FXML
-    private Button btnBrush, btnSave, btnClose, btnErase, btnScreenSize,btnSpeaker,btnCC,btnProjcetor,btnWifi,btnAmp;
+    private Button btnBrush, btnSave, btnClose, btnErase, btnScreenSize,btnSpeaker,btnCC,btnProjector,btnWifi,btnAmp;
 
     @FXML
     private ColorPicker CpColorPicker;
@@ -68,7 +66,7 @@ public class PaintAppViewController extends BaseController{
                 if (btnBrush.isDisable() && !txtBrushSize.getText().isEmpty())
                 {
                    brushTool.setFill(CpColorPicker.getValue());
-                    brushTool.fillRoundRect(x, y, size, size, size, size);
+                   brushTool.fillRoundRect(x, y, size, size, size, size);
                 }
                 else if (btnErase.isDisable() && !txtBrushSize.getText().isEmpty())
                 {
@@ -93,7 +91,7 @@ public class PaintAppViewController extends BaseController{
                     Image image = new Image(String.valueOf(getClass().getResource("/GUI/Images/wifi.png")));
                     brushTool.drawImage(image,x,y);
                 }
-                if (btnProjcetor.isDisable()) {
+                if (btnProjector.isDisable()) {
                     Image image = new Image(String.valueOf(getClass().getResource("/GUI/Images/Projector.png")));
                     brushTool.drawImage(image,x,y);
                 }
@@ -120,7 +118,7 @@ public class PaintAppViewController extends BaseController{
         btnAmp.setGraphic(new ImageView(new Image("/GUI/Images/icons8-amplifier-64.png")));
         btnSpeaker.setGraphic(new ImageView(new Image("/GUI/Images/icons8-speaker-80.png")));
         btnWifi.setGraphic(new ImageView(new Image("/GUI/Images/icons8-wi-fi-80.png")));
-        btnProjcetor.setGraphic(new ImageView(new Image("/GUI/Images/icons8-video-projector-80.png")));
+        btnProjector.setGraphic(new ImageView(new Image("/GUI/Images/icons8-video-projector-80.png")));
     }
 
     /**
@@ -199,9 +197,9 @@ public class PaintAppViewController extends BaseController{
         {
             btnErase.setDisable(false);
         }
-        if(btnProjcetor.isDisable())
+        if(btnProjector.isDisable())
         {
-            btnProjcetor.setDisable(false);
+            btnProjector.setDisable(false);
         }
         if(btnWifi.isDisable())
         {
@@ -290,24 +288,40 @@ public class PaintAppViewController extends BaseController{
         }
     }
 
+    /**
+     * Selects the speaker tool.
+     * @param actionEvent
+     */
     public void handleSpeaker(ActionEvent actionEvent) {
         resetButton();
         btnSpeaker.setDisable(true);
     }
 
+    /**
+     * Selects the wifi tool.
+     * @param actionEvent
+     */
     public void handleWifi(ActionEvent actionEvent) {
         resetButton();
         btnWifi.setDisable(true);
     }
 
+    /**
+     * selects the controll center tool.
+     * @param actionEvent
+     */
     public void handleControlCenter(ActionEvent actionEvent) {
         resetButton();
         btnCC.setDisable(true);
     }
 
-    public void handleProjcetor(ActionEvent actionEvent) {
+    /**
+     * Selects the projector
+     * @param actionEvent
+     */
+    public void handleProjector(ActionEvent actionEvent) {
         resetButton();
-        btnProjcetor.setDisable(true);
+        btnProjector.setDisable(true);
     }
 
     public void handleAmp(ActionEvent actionEvent) {

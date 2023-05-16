@@ -79,4 +79,9 @@ public class DocumentationManager implements IDocumentationManager {
     public Project getProjectFromId(Project project) throws Exception {
         return projectDAO.getProjectFromId(project);
     }
+
+    @Override
+    public void deleteDevices(List<Device> devices) throws SQLException {
+        deviceDAO.deleteDevice(devices);
+    }
 }

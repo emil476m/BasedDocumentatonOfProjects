@@ -190,4 +190,8 @@ public class DocumentationModel {
     public List<File> getImagesToBeSaved() {
         return imagesToBeSaved;
     }
+
+    public void deleteDevices(List<Device> devices) throws SQLException {
+        documentationManager.deleteDevices(devices);
+    }
 }
