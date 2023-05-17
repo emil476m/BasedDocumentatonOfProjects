@@ -51,6 +51,13 @@ public class ProjectManagerModel {
         allProjectsObservablelist.addAll(allProjects);
     }
 
+    public void deleteProject(Project project) throws Exception {
+        allProjectsObservablelist.remove(project);
+        allProjects.remove(project);
+        project.setProjectIsDeleted(true);
+        projectManagerManager.updateProject(project);
+    }
+
 
     /**
      * Searches for Project addresses with given query.

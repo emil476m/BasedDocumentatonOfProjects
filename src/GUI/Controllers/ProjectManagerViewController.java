@@ -16,6 +16,7 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.text.Text;
+import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 
@@ -36,7 +37,7 @@ public class ProjectManagerViewController extends BaseController{
     private Button btnLogout;
 
     @FXML
-    private TableView tbvInstallationlist;
+    private TableView<Project> tbvInstallationlist;
     @FXML
     private TableColumn<Project, Integer> clmINSId;
     @FXML
@@ -73,7 +74,7 @@ public class ProjectManagerViewController extends BaseController{
      */
     public void handleLogout(ActionEvent actionEvent) {
         try{
-            String title = "Error Message";
+            String title = "You are logging out!";
             String contextText = "Are you sure want to logout?";
             if (AlertOpener.confirm(title, contextText)){
                 // Link your login form and show it
@@ -109,6 +110,35 @@ public class ProjectManagerViewController extends BaseController{
      * @param actionEvent
      */
     public void handleCreate(ActionEvent actionEvent) {
+        handleCreateProject();
+    }
+
+    /**
+     * Opens the documentation window without a selected project.
+     */
+    public void handleCreateProject() {
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/GUI/Views/DocumentationView.fxml"));
+
+
+            Parent root = loader.load();
+            Stage stage = new Stage();
+
+            BaseController controller = loader.getController();
+
+            controller.setModel(ModelsHandler.getInstance());
+
+            controller.setup();
+
+            stage.setScene(new Scene(root));
+            stage.setTitle("WUAV Documentation Documentation window");
+            stage.initStyle(StageStyle.UNDECORATED);
+            stage.getIcons().add(new Image("/GUI/Images/WUAV.png"));
+            stage.initModality(Modality.APPLICATION_MODAL);
+            stage.show();
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
     }
 
     /**
@@ -116,6 +146,11 @@ public class ProjectManagerViewController extends BaseController{
      * @param actionEvent
      */
     public void handleDelete(ActionEvent actionEvent) {
+        try {
+            getModelsHandler().getProjectManagerModel().deleteProject(tbvInstallationlist.getSelectionModel().getSelectedItem());
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
     }
 
     /**
@@ -123,14 +158,12 @@ public class ProjectManagerViewController extends BaseController{
      * @param actionEvent
      */
     public void handleOpen(ActionEvent actionEvent) {
-        if(tbvInstallationlist.isVisible())
-        {
-            Project project = (Project) tbvInstallationlist.getFocusModel().getFocusedItem();
-            try {
-                openEditWindow(project);
-            } catch (IOException e) {
-                ExceptionHandler.displayError(new RuntimeException("Failed to open installation", e));
-            }
+
+        Project project = tbvInstallationlist.getFocusModel().getFocusedItem();
+        try {
+            openEditWindow(project);
+        } catch (IOException e) {
+            ExceptionHandler.displayError(new RuntimeException("Failed to open installation", e));
         }
     }
 
@@ -229,8 +262,6 @@ public class ProjectManagerViewController extends BaseController{
             searchAddress = true;
             searchDate = true;
         }
-
-
     }
 
     /**

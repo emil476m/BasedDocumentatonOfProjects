@@ -25,6 +25,11 @@ public class ProjectManagerManager implements IProjectManagerManager {
     }
 
     @Override
+    public void updateProject(Project project) throws Exception{
+        projectDAO.updateProject(project);
+    }
+
+    @Override
     public List<DeviceType> getAllDeviceTypes() throws Exception {
         return deviceDAO.getAllDeviceTypes();
     }

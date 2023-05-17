@@ -9,5 +9,7 @@ public interface IProjectManagerManager {
 
     List<Project> getAllProjects() throws Exception;
 
+    void updateProject(Project project) throws Exception;
+
     List<DeviceType> getAllDeviceTypes() throws Exception;
 }

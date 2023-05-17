@@ -163,7 +163,7 @@ public class CEOController extends BaseController{
      */
     public void handleLogout(ActionEvent actionEvent) {
         try {
-            String title = "Error Message";
+            String title = "You are logging out!";
             String contextText = "Are you sure want to logout?";
             if (AlertOpener.confirm(title, contextText)){
                 // Link your login form and show it

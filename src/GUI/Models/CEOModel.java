@@ -164,6 +164,10 @@ public class CEOModel {
         userOnCurrentProject.addAll(usersToBeAdded);
     }
 
+    public void addUsersWorkingOnNewProject(List<User> usersToBeAdded, Project project) throws Exception {
+        ceoManager.addUsersToWorkingOnProject(usersToBeAdded, project);
+    }
+
     public void deleteFromWorkingOnProject(User user, Project project) throws Exception {
         ceoManager.deleteFromWorkingOnProject(user, project);
         userOnCurrentProject.remove(user);

@@ -85,14 +85,13 @@ public class DocumentationViewController extends BaseController{
         costumerTypes = new ArrayList<>();
         textFields = new ArrayList<>();
         projectImages = FXCollections.observableArrayList();
-        projectImages.clear();
         getModelsHandler().getDocumentationModel().getImagesObservableList().clear();
         addTextFields();
         setupButtonIcons();
         try
         {
             generateMenuItems();
-            setupListViews();
+
             if(txtCostumerType.getText() != null)
             {
                 checkCostumertype();
@@ -101,10 +100,10 @@ public class DocumentationViewController extends BaseController{
             if(opnedProject !=null)
             {
                 setTextFields();
-                setUpTechniciansRemoveAddAndView();
                 getAllDropBoxFilesForProject();
             }
-
+            setUpTechniciansRemoveAddAndView();
+            setupListViews();
         }
         catch (Exception e)
         {
@@ -127,7 +126,9 @@ public class DocumentationViewController extends BaseController{
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
-
+        projectImages.clear();
+        projectImages.addAll(getModelsHandler().getDocumentationModel().getImagesObservableList());
+        lvImages.setItems(projectImages);
     }
 
     /**
@@ -572,9 +573,13 @@ public class DocumentationViewController extends BaseController{
      * @param devices
      * @throws SQLException
      */
-    private void updateTableViewsNewProject(Project projectToBeMade, ObservableList devices) throws SQLException {
+    private void updateTableViewsNewProject(Project projectToBeMade, ObservableList devices) throws Exception {
         Project project = getModelsHandler().getDocumentationModel().saveNewProject(projectToBeMade,devices);
+        //Uploads images when project is saved
         uploadImagesToBeSaved(project);
+        //Uploads technicians working on project
+        getModelsHandler().getCeoModel().addUsersWorkingOnNewProject(getModelsHandler().getCeoModel().getUserOnCurrentProject(), project);
+
         if(getModelsHandler().getLoginModel().getUser().getClass().getSimpleName().equals(CEO.class.getSimpleName()))
         {
             getModelsHandler().getCeoModel().getProjectsObservableList().add(project);
@@ -620,8 +625,10 @@ public class DocumentationViewController extends BaseController{
                 updateTableViewsNewProject(project, lvDevices.getItems());
                 AlertOpener.confirm("Has been saved", "Your changes have been saved.");
             } catch (SQLException e) {
+                e.printStackTrace();
                 ExceptionHandler.displayError(new SQLException("Failed to save project in Database"));
             } catch (Exception e) {
+                e.printStackTrace();
                 ExceptionHandler.displayError(new RuntimeException("Failed to create new project"));
             }
         }
@@ -760,8 +767,12 @@ public class DocumentationViewController extends BaseController{
      */
     private void setUpTechniciansRemoveAddAndView(){
         try {
+            if (!getModelsHandler().getLoginModel().getUser().getClass().getSimpleName().equals(CEO.class.getSimpleName())){
+                getModelsHandler().getCeoModel().getAllUsers();
+            }
+            getModelsHandler().getCeoModel().getUserOnCurrentProject().clear();
             if (opnedProject != null)
-                getModelsHandler().getCeoModel().getUserOnCurrentProject().clear();
+
                 getModelsHandler().getCeoModel().getUserOnCurrentProject().addAll(getModelsHandler().getCeoModel().getUsersWorkingOnProject(opnedProject));
         } catch (Exception e) {
             ExceptionHandler.displayError(new RuntimeException("Failed to setup technician List", e));
@@ -879,9 +890,6 @@ public class DocumentationViewController extends BaseController{
                         getModelsHandler().getDocumentationModel().readFilesFromDropBox(opnedProject.getProjectId());
                         getModelsHandler().getDocumentationModel().downloadProjectFilesFromDropBox(opnedProject.getProjectId());
                     }
-                    projectImages.clear();
-                    projectImages.addAll(getModelsHandler().getDocumentationModel().getImagesObservableList());
-                    lvImages.setItems(projectImages);
                 }
             }
         } catch (DbxException e) {

@@ -108,8 +108,13 @@ public class AssignTechnicianController extends BaseController{
             for (User u : tbvUserList.getSelectionModel().getSelectedItems()) {
                 usersToBeAdded.add(u);
             }
-            getModelsHandler().getCeoModel().addUsersWorkingOnProject(usersToBeAdded, openedProject);
-            handleExit();
+            if (openedProject !=null) {
+                getModelsHandler().getCeoModel().addUsersWorkingOnProject(usersToBeAdded, openedProject);
+            }
+            else {
+                getModelsHandler().getCeoModel().getUserOnCurrentProject().addAll(usersToBeAdded);
+            }
+                handleExit();
         } catch (Exception e) {
             ExceptionHandler.displayError(new Exception("Failed to do confirm action", e));
         }
