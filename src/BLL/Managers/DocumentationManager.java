@@ -30,56 +30,120 @@ public class DocumentationManager implements IDocumentationManager {
         deviceDAO = new DeviceDAO_DB();
         userDAO = new UserDAO_DB();
     }
+
+    /**
+     * Gets a list of all CostumerTypes from the database
+     * @return a list of all CostumerTypes
+     * @throws Exception
+     */
     @Override
     public List<CostumerType> getAllCostumerTypes() throws Exception {
         return costumerTypeDAO.getAllCostumerTypes();
     }
 
+    /**
+     * Sends a Project and list of devices to the database to get created.
+     * @param project
+     * @param devices
+     * @return the project with id from the database
+     * @throws SQLException
+     */
     @Override
     public Project createProject(Project project, List<Device> devices) throws SQLException {
         return projectDAO.createProject(project,devices);
     }
 
+    /**
+     * Sends a project to the database to have a boolean updated
+     * @param project
+     * @throws Exception
+     */
     @Override
     public void sendToPMOrTech(Project project) throws Exception {
         projectDAO.updateProject(project);
     }
 
+    /**
+     * Gets all
+     * @param project
+     * @return
+     * @throws Exception
+     */
     @Override
-    public List<Device> devicesForProject(Project project) throws Exception {
+    public List<Device> getDevicesForProject(Project project) throws Exception {
         return deviceDAO.getAllDevicesForProject(project);
     }
 
+    /**
+     *
+     * @param project
+     * @param newDevices
+     * @throws SQLException
+     */
     @Override
     public void updateProjectAndDevices(Project project, List<Device> newDevices) throws SQLException {
         projectDAO.UpdateProjectWithDevices(project,newDevices);
     }
 
+    /**
+     *
+     * @return
+     * @throws Exception
+     */
     @Override
     public List<DeviceType> getAllDeviceTypes() throws Exception {
         return deviceDAO.getAllDeviceTypes();
     }
 
+    /**
+     *
+     * @param deviceType
+     * @return
+     * @throws Exception
+     */
     @Override
     public DeviceType createCustomDeviceType(DeviceType deviceType) throws Exception {
         return deviceDAO.createDeviceType(deviceType);
     }
 
+    /**
+     *
+     * @param project
+     * @return
+     * @throws Exception
+     */
     @Override
     public List<Integer> getUsersWorkingOnProject(Project project) throws Exception{
         return userDAO.getUsersWorkingOnProject(project);
     }
 
+    /**
+     *
+     * @param project
+     * @return
+     * @throws Exception
+     */
     @Override
     public boolean lastProjectEditMatch(Project project) throws Exception {
         return projectDAO.lastProjectEditMatch(project);
     }
 
+    /**
+     *
+     * @param project
+     * @return
+     * @throws Exception
+     */
     @Override
     public Project getProjectFromId(Project project) throws Exception {
         return projectDAO.getProjectFromId(project);
     }
 
+    /**
+     *
+     * @param devices
+     * @throws SQLException
+     */
     @Override
     public void deleteDevices(List<Integer> devices) throws SQLException {
         deviceDAO.deleteDevice(devices);

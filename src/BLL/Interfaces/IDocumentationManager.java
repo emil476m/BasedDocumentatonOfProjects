@@ -15,7 +15,7 @@ public interface IDocumentationManager {
 
     void sendToPMOrTech(Project project) throws Exception;
 
-    List<Device> devicesForProject(Project project) throws Exception;
+    List<Device> getDevicesForProject(Project project) throws Exception;
 
     void updateProjectAndDevices(Project project, List<Device> newDevices) throws SQLException;
 

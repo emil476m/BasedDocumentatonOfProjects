@@ -15,7 +15,6 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 
 import java.io.File;
-import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.nio.file.Path;
 import java.sql.SQLException;
@@ -67,7 +66,7 @@ public class DocumentationModel {
 
     public void getAllDevicesForProject(Project project) throws Exception {
         devicesObservableList.clear();
-        List<Device> deviceList = documentationManager.devicesForProject(project);
+        List<Device> deviceList = documentationManager.getDevicesForProject(project);
         devicesObservableList.addAll(deviceList);
     }
 
@@ -77,7 +76,7 @@ public class DocumentationModel {
     }
 
     public void saveproject(Project project, ObservableList<Device> devices) throws Exception {
-        List<Device> devicesOnProject = documentationManager.devicesForProject(project);
+        List<Device> devicesOnProject = documentationManager.getDevicesForProject(project);
         List<Device> newDevices = new ArrayList<>();
         for (Device dev: devices)
         {

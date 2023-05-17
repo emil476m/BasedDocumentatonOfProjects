@@ -14,6 +14,14 @@ public class LoginManager implements ILoginManager {
     public LoginManager() throws IOException {
         loginDAO = new LoginDAO_DB();
     }
+
+    /**
+     * Sends a username and password to the database to find a user
+     * @param username
+     * @param password
+     * @return the result from the database.
+     * @throws SQLException
+     */
     @Override
     public User loginUser(String username, String password) throws SQLException {
         return loginDAO.loginUser(username, password);
