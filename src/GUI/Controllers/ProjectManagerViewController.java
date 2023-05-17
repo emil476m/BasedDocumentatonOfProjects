@@ -26,15 +26,22 @@ import java.time.LocalDate;
 
 public class ProjectManagerViewController extends BaseController{
 
-    public TextField txfSearch;
-    public MenuButton btnSearchChoice;
-    public MenuItem miName;
-    public MenuItem miAddress;
-    public MenuItem miDate;
-    public Text txtSearchText;
-    public Label lblLoggedInAs;
     @FXML
-    private Button btnLogout;
+    private TextField txfSearch;
+    @FXML
+    private MenuButton btnSearchChoice;
+    @FXML
+    private MenuItem miName;
+    @FXML
+    private MenuItem miAddress;
+    @FXML
+    private MenuItem miDate;
+    @FXML
+    private Text txtSearchText;
+    @FXML
+    private Label lblLoggedInAs;
+    @FXML
+    private Button btnLogout,btnOpen,btnCreate,btnDelete;
 
     @FXML
     private TableView<Project> tbvInstallationlist;
@@ -51,7 +58,7 @@ public class ProjectManagerViewController extends BaseController{
     @Override
     public void setup() {
         toggleViews();
-        logoutButtonSetup();
+        setupButtonIcons();
         lblLoggedInAs.setText("Project Manager: " + getModelsHandler().getLoginModel().getUser().getName());
         try {
             setUpTableView();
@@ -61,11 +68,14 @@ public class ProjectManagerViewController extends BaseController{
     }
 
     /**
-     * sets the icon for the logout button
+     * sets the icons for the buttons
      */
-    private void logoutButtonSetup()
+    private void setupButtonIcons()
     {
         btnLogout.setGraphic(new ImageView(new Image("/GUI/Images/ButtonIcons/icons8-logout-80.png")));
+        btnCreate.setGraphic(new ImageView(new Image("/GUI/Images/ButtonIcons/icons8-create-80.png")));
+        btnDelete.setGraphic(new ImageView(new Image("/GUI/Images/ButtonIcons/icons8-empty-trash-80.png")));
+        btnOpen.setGraphic(new ImageView(new Image("/GUI/Images/ButtonIcons/icons8-opened-folder-80.png")));
     }
 
     /**

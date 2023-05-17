@@ -102,6 +102,8 @@ public class CEOController extends BaseController{
         btnCreate.setGraphic(new ImageView(new Image("/GUI/Images/ButtonIcons/icons8-create-80.png")));
         btnDelete.setGraphic(new ImageView(new Image("/GUI/Images/ButtonIcons/icons8-empty-trash-80.png")));
         btnOpen.setGraphic(new ImageView(new Image("/GUI/Images/ButtonIcons/icons8-opened-folder-80.png")));
+        btnshowInstallations.setGraphic(new ImageView(new Image("/GUI/Images/ButtonIcons/icons8-stack-of-paper-80.png")));
+        btnShowUsers.setGraphic(new ImageView(new Image("/GUI/Images/ButtonIcons/icons8-people-64.png")));
     }
 
     /**
