@@ -17,6 +17,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
+import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
@@ -25,6 +26,7 @@ import javafx.stage.FileChooser;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
+import javafx.util.Callback;
 
 import java.io.File;
 import java.io.IOException;
@@ -128,7 +130,25 @@ public class DocumentationViewController extends BaseController{
         }
         projectImages.clear();
         projectImages.addAll(getModelsHandler().getDocumentationModel().getImagesObservableList());
+        setUplvImagesToShowName();
         lvImages.setItems(projectImages);
+    }
+
+    /**
+     * makes the lvImages listview show filenames instead of filepaths.
+     */
+    private void setUplvImagesToShowName(){
+        lvImages.setCellFactory(new Callback<ListView<File>, ListCell<File>>() {
+            public ListCell<File> call(ListView param) {
+                return new ListCell<File>(){
+                    @Override
+                    protected void updateItem(File item, boolean empty){
+                        super.updateItem(item, empty);
+                        setText(item == null || empty ? null : item.getName());
+                    }
+                };
+            }
+        });
     }
 
     /**
@@ -838,6 +858,10 @@ public class DocumentationViewController extends BaseController{
         stage.showAndWait();
     }
 
+    /**
+     * Opens a filechooser and takes the users input and creates a local file that is used to upload the image to dropbox
+     * @param actionEvent
+     */
     public void handleAddImage(ActionEvent actionEvent) {
         String filePath = null;
         FileChooser fileChooser = new FileChooser();
@@ -866,6 +890,10 @@ public class DocumentationViewController extends BaseController{
         }
     }
 
+    /**
+     * Upload all newly added images to the dropbox folder of the project
+     * @param project
+     */
     private void uploadImagesToBeSaved(Project project){
         if (!getModelsHandler().getDocumentationModel().getImagesToBeSaved().isEmpty()) {
             for (File f : getModelsHandler().getDocumentationModel().getImagesToBeSaved()) {
@@ -881,12 +909,14 @@ public class DocumentationViewController extends BaseController{
         }
     }
 
+    /**
+     * gets dropbox metadata that is used to get the images from the project that is opened
+     */
     private void getAllDropBoxFilesForProject(){
         try {
             for (Metadata m: getModelsHandler().getDocumentationModel().readAllFilesFromDropBox()){
                 if (m.getName().equals(""+opnedProject.getProjectId())){
                     if (opnedProject.getProjectId() >= 1) {
-                        getModelsHandler().getDocumentationModel().readAllFilesFromDropBox();
                         getModelsHandler().getDocumentationModel().readFilesFromDropBox(opnedProject.getProjectId());
                         getModelsHandler().getDocumentationModel().downloadProjectFilesFromDropBox(opnedProject.getProjectId());
                     }
@@ -897,33 +927,27 @@ public class DocumentationViewController extends BaseController{
         }
     }
 
-    private void imagePreview(){
-        if (lvImages.getSelectionModel().getSelectedItem() != null){
-            if (lvImages.getSelectionModel().getSelectedItem().getClass() == File.class){
-                File file1 = projectImages.get(projectImages.indexOf(lvImages.getSelectionModel().getSelectedItem()));
-                Image image = new Image(file1.getAbsolutePath());
-                imImageView.setImage(image);
-            }
-        }
-    }
-
+    /**
+     * When button is clicked checks weather to remove a device or image and then calls the relevant method.
+     * @param actionEvent
+     */
     public void handleRemove(ActionEvent actionEvent) {
         try {
-            chooseRemoveAction();
+            if (!(lvImages.getSelectionModel().getSelectedItem() == null) && lvImagesLastSelected){
+                removeImage();
+            }
+            else if(!(lvDevices.getSelectionModel().getSelectedItem() == null) && !lvImagesLastSelected){
+                deleteDevice();
+            }
         } catch (DbxException e) {
             throw new RuntimeException(e);
         }
     }
 
-    private void chooseRemoveAction() throws DbxException {
-        if (!(lvImages.getSelectionModel().getSelectedItem() == null) && lvImagesLastSelected){
-            removeImage();
-        }
-        else if(!(lvDevices.getSelectionModel().getSelectedItem() == null) && !lvImagesLastSelected){
-            deleteDevice();
-        }
-    }
-
+    /**
+     * Removes the image that was clicked on from the dropbox, and changes the imageview to another default image "WUAV.png"
+     * @throws DbxException
+     */
     private void removeImage() throws DbxException {
         if (lvImages.getSelectionModel().getSelectedItem().getClass() == File.class){
             File file1 = projectImages.get(projectImages.indexOf(lvImages.getSelectionModel().getSelectedItem()));
@@ -942,9 +966,19 @@ public class DocumentationViewController extends BaseController{
         }
     }
 
+    /**
+     * Sets the imageview to the image that was clicked.
+     * @param mouseEvent
+     */
     public void handleImageClicked(MouseEvent mouseEvent) {
         lvImagesLastSelected = true;
-        imagePreview();
+        if (lvImages.getSelectionModel().getSelectedItem() != null){
+            if (lvImages.getSelectionModel().getSelectedItem().getClass() == File.class){
+                File file1 = projectImages.get(projectImages.indexOf(lvImages.getSelectionModel().getSelectedItem()));
+                Image image = new Image(file1.getAbsolutePath());
+                imImageView.setImage(image);
+            }
+        }
     }
 
     /**
