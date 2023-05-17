@@ -147,25 +147,24 @@ public class DeviceDAO_DB implements IDeviceDAO {
     }
 
     @Override
-    public void deleteDevice(List<Device> devices) throws SQLException {
+    public void deleteDevice(List<Integer> devices) throws SQLException {
         String relation = "DELETE DeviceForProject WHERE DeviceId = ?";
         String devicestable = "DELETE Device WHERE Id=?;";
 
         try (Connection conn = dbConnector.getConnection())
         {
-            List<Device> deviceList = devices;
             conn.setAutoCommit(false);
             PreparedStatement relationTable = conn.prepareStatement(relation);
-            for (Device d: deviceList)
+            for (Integer i: devices)
             {
-                relationTable.setInt(1,d.getDeviceId());
+                relationTable.setInt(1,i);
                 relationTable.addBatch();
             }
             relationTable.executeBatch();
             PreparedStatement deviceTab = conn.prepareStatement(devicestable);
-            for (Device dv:devices)
+            for (Integer i:devices)
             {
-                deviceTab.setInt(1,dv.getDeviceId());
+                deviceTab.setInt(1,i);
                 deviceTab.addBatch();
             }
             deviceTab.executeBatch();

@@ -11,6 +11,8 @@ import javafx.fxml.FXML;
 import javafx.scene.Node;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.BorderPane;
 import javafx.stage.Stage;
@@ -47,6 +49,7 @@ public class AssignTechnicianController extends BaseController{
     @Override
     public void setup() {
         getAndShowTechnicians();
+        setupButtonIcons();
         multiSelect();
         dragScreen();
     }
@@ -149,5 +152,11 @@ public class AssignTechnicianController extends BaseController{
                 }
             }
         });
+    }
+
+    private void setupButtonIcons()
+    {
+        btnConfirm.setGraphic(new ImageView(new Image("/GUI/Images/ButtonIcons/icons8-checkmark-80.png")));
+        btnExit.setGraphic(new ImageView(new Image("/GUI/Images/ButtonIcons/icons8-logout-80.png")));
     }
 }

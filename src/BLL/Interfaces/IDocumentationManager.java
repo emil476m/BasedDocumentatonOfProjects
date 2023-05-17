@@ -29,5 +29,5 @@ public interface IDocumentationManager {
 
     Project getProjectFromId(Project project) throws Exception;
 
-    void deleteDevices(List<Device> devices) throws SQLException;
+    void deleteDevices(List<Integer> devices) throws SQLException;
 }

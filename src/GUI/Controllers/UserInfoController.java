@@ -8,6 +8,8 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Menu;
 import javafx.scene.control.MenuItem;
 import javafx.scene.control.TextField;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.text.Text;
@@ -54,7 +56,7 @@ public class UserInfoController extends BaseController {
     @Override
     public void setup() {
         setUpUserInfo();
-
+        setupButtonIcons();
     }
 
     /**
@@ -414,5 +416,16 @@ public class UserInfoController extends BaseController {
      */
     public void handleMenuItemSalesPerson(ActionEvent actionEvent) {
         txtfAcceslevel.setText(menuItemSalesPerson.getText());
+    }
+
+    /**
+     * Sets up the button icons.
+     */
+    private void setupButtonIcons()
+    {
+        btnConfirm.setGraphic(new ImageView(new Image("/GUI/Images/ButtonIcons/icons8-checkmark-80.png")));
+        btnDeleteUser.setGraphic(new ImageView(new Image("/GUI/Images/ButtonIcons/icons8-empty-trash-80.png")));
+        btnExit.setGraphic(new ImageView(new Image("/GUI/Images/ButtonIcons/icons8-logout-80.png")));
+        btnEditUser.setGraphic(new ImageView(new Image("/GUI/Images/ButtonIcons/icons8-edit-80.png")));
     }
 }

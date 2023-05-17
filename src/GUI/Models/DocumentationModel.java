@@ -191,7 +191,12 @@ public class DocumentationModel {
         return imagesToBeSaved;
     }
 
-    public void deleteDevices(List<Device> devices) throws SQLException {
+    /**
+     * Sends a list of devices to the manager to get them deleted.
+     * @param devices
+     * @throws SQLException
+     */
+    public void deleteDevices(List<Integer> devices) throws SQLException {
         documentationManager.deleteDevices(devices);
     }
 }

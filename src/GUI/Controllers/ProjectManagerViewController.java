@@ -64,7 +64,7 @@ public class ProjectManagerViewController extends BaseController{
      */
     private void logoutButtonSetup()
     {
-        btnLogout.setGraphic(new ImageView(new Image("/GUI/Images/icons8-logout-80.png")));
+        btnLogout.setGraphic(new ImageView(new Image("/GUI/Images/ButtonIcons/icons8-logout-80.png")));
     }
 
     /**

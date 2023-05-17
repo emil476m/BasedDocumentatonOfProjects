@@ -3,7 +3,6 @@ import BE.CostumerType;
 import BE.Device;
 import BE.Project;
 import BE.UserTypes.*;
-import DAL.DBUtil.LocalFileHandler;
 import GUI.Models.ModelsHandler;
 import GUI.Util.AlertOpener;
 import GUI.Util.ExceptionHandler;
@@ -70,7 +69,7 @@ public class DocumentationViewController extends BaseController{
 
     private ObservableList<File> projectImages;
 
-    private List<Device> devicestoDelete = new ArrayList<>();
+    private List<Integer> devicestoDelete = new ArrayList<>();
 
     private boolean lvImagesLastSelected = false;
 
@@ -89,6 +88,7 @@ public class DocumentationViewController extends BaseController{
         projectImages.clear();
         getModelsHandler().getDocumentationModel().getImagesObservableList().clear();
         addTextFields();
+        setupButtonIcons();
         try
         {
             generateMenuItems();
@@ -459,8 +459,10 @@ public class DocumentationViewController extends BaseController{
             {
                 try {
                     getModelsHandler().getDocumentationModel().deleteDevices(devicestoDelete);
+                    devicestoDelete = new ArrayList<>();
                 } catch (SQLException e) {
-                    ExceptionHandler.displayError(new RuntimeException("Failed to delete devices"));
+                    e.printStackTrace();
+                    ExceptionHandler.displayError(new RuntimeException("Failed to delete devices",e));
                 }
             }
             saveProject();
@@ -937,14 +939,36 @@ public class DocumentationViewController extends BaseController{
         imagePreview();
     }
 
+    /**
+     * Removes the selected device from the device listview and adds it to a list of devices to be deleted.
+     */
     private void deleteDevice() {
         Device device = (Device) lvDevices.getSelectionModel().getSelectedItem();
         lvDevices.getSelectionModel().clearSelection();
-        devicestoDelete.add(device);
+        devicestoDelete.add(device.getDeviceId());
         getModelsHandler().getDocumentationModel().getDevicesObservableList().remove(device);
+        System.out.println(devicestoDelete.toString());
     }
 
     public void handleDevicesClicked(MouseEvent mouseEvent) {
         lvImagesLastSelected = false;
+    }
+
+
+    /**
+     * Sets up the icons for the buttons.
+     */
+    private void setupButtonIcons()
+    {
+        btnSave.setGraphic(new ImageView(new Image("/GUI/Images/ButtonIcons/icons8-save-80.png")));
+        btnSaveToDevice.setGraphic(new ImageView(new Image("/GUI/Images/ButtonIcons/icons8-save-80.png")));
+        btnAddImage.setGraphic(new ImageView(new Image("/GUI/Images/ButtonIcons/icons8-images-64.png")));
+        btnSend.setGraphic(new ImageView(new Image("/GUI/Images/ButtonIcons/icons8-send-80.png")));
+        btnOpenPaint.setGraphic(new ImageView(new Image("/GUI/Images/ButtonIcons/icons8-paint-brush-80.png")));
+        btnRemove.setGraphic(new ImageView(new Image("/GUI/Images/ButtonIcons/icons8-empty-trash-80.png")));
+        btnReturn.setGraphic(new ImageView(new Image("/GUI/Images/ButtonIcons/icons8-return-80.png")));
+        btnRemoveTechnician.setGraphic(new ImageView(new Image("/GUI/Images/ButtonIcons/icons8-empty-trash-80.png")));
+        btnAddDevice.setGraphic(new ImageView(new Image("/GUI/Images/ButtonIcons/icons8-add-80.png")));
+        btnAssignTech.setGraphic(new ImageView(new Image("/GUI/Images/ButtonIcons/icons8-add-80.png")));
     }
 }

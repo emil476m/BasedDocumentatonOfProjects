@@ -19,5 +19,5 @@ public interface IDeviceDAO {
 
     boolean checkIfDeviceTypeNameIsDuplicate(DeviceType deviceType) throws Exception;
 
-    void deleteDevice(List<Device> devices) throws SQLServerException, SQLException;
+    void deleteDevice(List<Integer> devices) throws SQLServerException, SQLException;
 }

@@ -58,7 +58,7 @@ public class TechnicianViewController extends BaseController{
     @Override
     public void setup() {
         toggleViews(true,false);
-        logoutButtonSetup();
+        setupButtonIcons();
         lblLoggedInAs.setText("Technician: " + getModelsHandler().getLoginModel().getUser().getName());
         try {
             setUpTableViews();
@@ -69,11 +69,13 @@ public class TechnicianViewController extends BaseController{
     }
 
     /**
-     * sets the icon for the logout button
+     * sets  up the icons for the buttons.
      */
-    private void logoutButtonSetup()
+    private void setupButtonIcons()
     {
-        btnLogout.setGraphic(new ImageView(new Image("/GUI/Images/icons8-logout-80.png")));
+        btnLogout.setGraphic(new ImageView(new Image("/GUI/Images/ButtonIcons/icons8-logout-80.png")));
+        btnOpen.setGraphic(new ImageView(new Image("/GUI/Images/ButtonIcons/icons8-opened-folder-80.png")));
+        btnCreate.setGraphic(new ImageView(new Image("/GUI/Images/ButtonIcons/icons8-create-80.png")));
     }
 
     public void handleShowMyInstallations(ActionEvent actionEvent) {

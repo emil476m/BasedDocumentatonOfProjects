@@ -22,7 +22,6 @@ import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 
-import java.beans.Visibility;
 import java.io.IOException;
 import java.time.LocalDate;
 
@@ -98,8 +97,11 @@ public class CEOController extends BaseController{
      */
     private void buttonSetup()
     {
-        btnLogout.setGraphic(new ImageView(new Image("/GUI/Images/icons8-logout-80.png")));
-        btnSearch.setGraphic(new ImageView(new Image("/GUI/Images/icons8-search-80.png")));
+        btnLogout.setGraphic(new ImageView(new Image("/GUI/Images/ButtonIcons/icons8-logout-80.png")));
+        btnSearch.setGraphic(new ImageView(new Image("/GUI/Images/ButtonIcons/icons8-search-80.png")));
+        btnCreate.setGraphic(new ImageView(new Image("/GUI/Images/ButtonIcons/icons8-create-80.png")));
+        btnDelete.setGraphic(new ImageView(new Image("/GUI/Images/ButtonIcons/icons8-empty-trash-80.png")));
+        btnOpen.setGraphic(new ImageView(new Image("/GUI/Images/ButtonIcons/icons8-opened-folder-80.png")));
     }
 
     /**

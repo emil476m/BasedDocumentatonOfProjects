@@ -81,7 +81,7 @@ public class DocumentationManager implements IDocumentationManager {
     }
 
     @Override
-    public void deleteDevices(List<Device> devices) throws SQLException {
+    public void deleteDevices(List<Integer> devices) throws SQLException {
         deviceDAO.deleteDevice(devices);
     }
 }

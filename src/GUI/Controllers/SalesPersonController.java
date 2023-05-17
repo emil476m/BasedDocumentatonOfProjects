@@ -1,7 +1,6 @@
 package GUI.Controllers;
 
 import BE.Project;
-import GUI.Controllers.BaseController;
 import GUI.Models.ModelsHandler;
 import GUI.Util.AlertOpener;
 import GUI.Util.ExceptionHandler;
@@ -54,7 +53,7 @@ public class SalesPersonController extends BaseController {
     @Override
     public void setup() {
         toggleViews();
-        logoutButtonSetup();
+        setupButtonIcons();
         lblLoggedInAs.setText("SalesPerson: " + getModelsHandler().getLoginModel().getUser().getName());
         try {
             setUpTableViews();
@@ -65,11 +64,12 @@ public class SalesPersonController extends BaseController {
     }
 
     /**
-     * sets the icon for the logout button
+     * sets up the icons for the buttons
      */
-    private void logoutButtonSetup()
+    private void setupButtonIcons()
     {
-        btnLogout.setGraphic(new ImageView(new Image("/GUI/Images/icons8-logout-80.png")));
+        btnLogout.setGraphic(new ImageView(new Image("/GUI/Images/ButtonIcons/icons8-logout-80.png")));
+        btnOpen.setGraphic(new ImageView(new Image("/GUI/Images/ButtonIcons/icons8-opened-folder-80.png")));
     }
 
     public void handleOpen(ActionEvent actionEvent) {
@@ -238,4 +238,5 @@ public class SalesPersonController extends BaseController {
         stage.getIcons().add(new Image("/GUI/Images/WUAV.png"));
         stage.show();
     }
+
 }

@@ -75,28 +75,27 @@ public class PaintAppViewController extends BaseController{
 
             });
             canvasPane.getCanvas().setOnMouseClicked(ev -> {
-                double size = Double.parseDouble(txtBrushSize.getText());
-                double x = ev.getX() - size/2;
-                double y = ev.getY() - size/2;
+                double x = ev.getSceneX();
+                double y = ev.getSceneY();
                 if (btnAmp.isDisable()) {
-                    Image image = new Image(String.valueOf(getClass().getResource("/GUI/Images/AMP.png")));
+                    Image image = new Image(String.valueOf(getClass().getResource("/GUI/Images/PaintImages/AMP.png")));
                     brushTool.drawImage(image,x,y);
                 }
                 if (btnCC.isDisable()) {
 
-                    Image image = new Image(String.valueOf(getClass().getResource("/GUI/Images/cc.png")));
+                    Image image = new Image(String.valueOf(getClass().getResource("/GUI/Images/PaintImages/cc.png")));
                     brushTool.drawImage(image,x,y);
                 }
                 if (btnWifi.isDisable()) {
-                    Image image = new Image(String.valueOf(getClass().getResource("/GUI/Images/wifi.png")));
+                    Image image = new Image(String.valueOf(getClass().getResource("/GUI/Images/PaintImages/wifi.png")));
                     brushTool.drawImage(image,x,y);
                 }
                 if (btnProjector.isDisable()) {
-                    Image image = new Image(String.valueOf(getClass().getResource("/GUI/Images/Projector.png")));
+                    Image image = new Image(String.valueOf(getClass().getResource("/GUI/Images/PaintImages/Projector.png")));
                     brushTool.drawImage(image,x,y);
                 }
                 if (btnSpeaker.isDisable()) {
-                    Image image = new Image(String.valueOf(getClass().getResource("/GUI/Images/speaker.png")));
+                    Image image = new Image(String.valueOf(getClass().getResource("/GUI/Images/PaintImages/speaker.png")));
                     brushTool.drawImage(image,x,y);
                 }
             });
@@ -109,16 +108,16 @@ public class PaintAppViewController extends BaseController{
      */
     private void buttonIconSetup()
     {
-        btnBrush.setGraphic(new ImageView(new Image("/GUI/Images/icons8-paint-brush-80.png")));
-        btnClose.setGraphic(new ImageView(new Image("/GUI/Images/icons8-close-80.png")));
-        btnErase.setGraphic(new ImageView(new Image("/GUI/Images/icons8-eraser-64.png")));
-        btnSave.setGraphic(new ImageView(new Image("/GUI/Images/icons8-save-80.png")));
-        btnScreenSize.setGraphic(new ImageView(new Image("/GUI/Images/icons8-full-screen-80.png")));
-        btnCC.setGraphic(new ImageView(new Image("/GUI/Images/icons8-ipad-pro-50.png")));
-        btnAmp.setGraphic(new ImageView(new Image("/GUI/Images/icons8-amplifier-64.png")));
-        btnSpeaker.setGraphic(new ImageView(new Image("/GUI/Images/icons8-speaker-80.png")));
-        btnWifi.setGraphic(new ImageView(new Image("/GUI/Images/icons8-wi-fi-80.png")));
-        btnProjector.setGraphic(new ImageView(new Image("/GUI/Images/icons8-video-projector-80.png")));
+        btnBrush.setGraphic(new ImageView(new Image("/GUI/Images/ButtonIcons/icons8-paint-brush-80.png")));
+        btnClose.setGraphic(new ImageView(new Image("/GUI/Images/ButtonIcons/icons8-close-80.png")));
+        btnErase.setGraphic(new ImageView(new Image("/GUI/Images/ButtonIcons/icons8-eraser-64.png")));
+        btnSave.setGraphic(new ImageView(new Image("/GUI/Images/ButtonIcons/icons8-save-80.png")));
+        btnScreenSize.setGraphic(new ImageView(new Image("/GUI/Images/ButtonIcons/icons8-full-screen-80.png")));
+        btnCC.setGraphic(new ImageView(new Image("/GUI/Images/ButtonIcons/icons8-ipad-pro-50.png")));
+        btnAmp.setGraphic(new ImageView(new Image("/GUI/Images/ButtonIcons/icons8-amplifier-64.png")));
+        btnSpeaker.setGraphic(new ImageView(new Image("/GUI/Images/ButtonIcons/icons8-speaker-80.png")));
+        btnWifi.setGraphic(new ImageView(new Image("/GUI/Images/ButtonIcons/icons8-wi-fi-80.png")));
+        btnProjector.setGraphic(new ImageView(new Image("/GUI/Images/ButtonIcons/icons8-video-projector-80.png")));
     }
 
     /**
@@ -249,11 +248,11 @@ public class PaintAppViewController extends BaseController{
         if(stage.isMaximized())
         {
             stage.setMaximized(false);
-            btnScreenSize.setGraphic(new ImageView(new Image("/GUI/Images/icons8-full-screen-80.png")));
+            btnScreenSize.setGraphic(new ImageView(new Image("/GUI/Images/ButtonIcons/icons8-full-screen-80.png")));
         } else if (!stage.isMaximized())
         {
             stage.setMaximized(true);
-            btnScreenSize.setGraphic(new ImageView(new Image("/GUI/Images/icons8-normal-screen-80.png")));
+            btnScreenSize.setGraphic(new ImageView(new Image("/GUI/Images/ButtonIcons/icons8-normal-screen-80.png")));
         }
     }
 
