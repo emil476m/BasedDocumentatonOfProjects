@@ -21,6 +21,10 @@ public class ProjectManagerModel {
         allProjectsObservablelist = FXCollections.observableArrayList();
     }
 
+    /**
+     * Gets all projects.
+     * @throws Exception
+     */
     public void getAllProjects() throws Exception {
         List<Project> projects = projectManagerManager.getAllProjects();
         allProjectsObservablelist.clear();
@@ -29,6 +33,10 @@ public class ProjectManagerModel {
         allProjects.addAll(projects);
     }
 
+    /**
+     * Gets all DeviceTypes.
+     * @throws Exception
+     */
     public void getAllDeviceTypes() throws Exception {
         List<DeviceType> deviceTypes = projectManagerManager.getAllDeviceTypes();
         for (DeviceType d: deviceTypes){

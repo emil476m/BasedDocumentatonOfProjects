@@ -47,34 +47,55 @@ public class DocumentationModel {
         imagesToBeSaved = new ArrayList<>();
     }
 
+    /**
+     * Gets all CostumerTypes.
+     * @throws Exception
+     */
     public void getAllCostumerTypes() throws Exception {
         costumerTypes = documentationManager.getAllCostumerTypes();
     }
 
-    public List<CostumerType> getCostumerTypes()
-    {
-        return costumerTypes;
-    }
+    public List<CostumerType> getCostumerTypes() {return costumerTypes;}
 
+    /**
+     * Sends a project and list of devices to the documentationManager.
+     * @param project
+     * @param devices
+     * @return the result from the documentation manager.
+     * @throws SQLException
+     */
     public Project saveNewProject(Project project, List<Device> devices) throws SQLException {
        return documentationManager.createProject(project, devices);
     }
 
+    /**
+     * Sends a project to the documentationManager to get a project updated.
+     * @param project
+     * @throws Exception
+     */
     public void sentToProjectManager(Project project) throws Exception {
         documentationManager.sendToPMOrTech(project);
     }
 
+    /**
+     * Gets all devices for the opned project
+     * @param project
+     * @throws Exception
+     */
     public void getAllDevicesForProject(Project project) throws Exception {
         devicesObservableList.clear();
         List<Device> deviceList = documentationManager.getDevicesForProject(project);
         devicesObservableList.addAll(deviceList);
     }
 
-    public ObservableList getDevicesObservableList()
-    {
-        return devicesObservableList;
-    }
+    public ObservableList getDevicesObservableList() {return devicesObservableList;}
 
+    /**
+     * Sends a project and a list of new devices to the documentation manager to get the project and devices for the project updated.
+     * @param project
+     * @param devices
+     * @throws Exception
+     */
     public void saveproject(Project project, ObservableList<Device> devices) throws Exception {
         List<Device> devicesOnProject = documentationManager.getDevicesForProject(project);
         List<Device> newDevices = new ArrayList<>();
@@ -97,21 +118,21 @@ public class DocumentationModel {
     }
 
 
-    public boolean lastProjectEditMatch(Project project) throws Exception {
-        return documentationManager.lastProjectEditMatch(project);
-    }
+    public boolean lastProjectEditMatch(Project project) throws Exception {return documentationManager.lastProjectEditMatch(project);}
 
 
-    public Project getProjectFromId(Project project) throws Exception {
-        return documentationManager.getProjectFromId(project);
-    }
+    public Project getProjectFromId(Project project) throws Exception {return documentationManager.getProjectFromId(project);}
 
-    public void getAllDeviceFromDB() throws Exception {
-        deviceTypes = documentationManager.getAllDeviceTypes();
-    }
+    public void getAllDeviceFromDB() throws Exception {deviceTypes = documentationManager.getAllDeviceTypes();}
 
     public List<DeviceType> getDeviceTypes() {return deviceTypes;}
 
+    /**
+     * Adds a device to the device list and creates a new device type if the DeviceType does not exist
+     * @param device
+     * @param deviceType
+     * @throws Exception
+     */
     public void addDeviceToList(Device device, DeviceType deviceType) throws Exception {
         for (DeviceType dt: deviceTypes)
         {
@@ -124,16 +145,19 @@ public class DocumentationModel {
         devicesObservableList.add(device);
     }
 
-
+    /**
+     * Gets all the ids from users that are working on a project
+     * @param project
+     * @return a list of all ids from users that are working on a project
+     * @throws Exception
+     */
     public List<Integer> getUsersWorkingOnProject(Project project) throws Exception{
         List<Integer> allUsersId = documentationManager.getUsersWorkingOnProject(project);
         return allUsersId;
     }
 
     public ObservableList<File> getImagesObservableList()
-    {
-        return imagesObservableList;
-    }
+    {return imagesObservableList;}
 
     /**
      * Creates a pdf file for a project
@@ -148,19 +172,41 @@ public class DocumentationModel {
     }
 
     public Path getPdf() {return pdf.toPath();}
+
+    /**
+     * Sends dropBoxFilePath to dropBoxApiManager
+     * @param dropBoxFilePath
+     * @throws DbxException
+     */
     public void deleteFilesFromDropBox(String dropBoxFilePath) throws DbxException {
-        System.out.println("FilePath: " + dropBoxFilePath);
         dropBoxAPIManager.deleteFilesFromDropBox(dropBoxFilePath);
     }
 
+    /**
+     * Sends localFilePath and dropBoxFilePath to dropBoxApiManager.
+     * @param localFilePath
+     * @param dropBoxFilePath
+     * @throws DbxException
+     */
     public void uploadFilesFromDropBox(String localFilePath, String dropBoxFilePath) throws DbxException {
         dropBoxAPIManager.uploadFilesFromDropBox(localFilePath, dropBoxFilePath);
     }
 
+    /**
+     * Sends localFilePath and dropBoxFilePath to dropBoxApiManager.
+     * @param dropBoxFilePath
+     * @param fileName
+     * @throws DbxException
+     */
     public void downloadFilesFromDropBox(String dropBoxFilePath, String fileName) throws DbxException {
         dropBoxAPIManager.downloadFilesFromDropBox(dropBoxFilePath, fileName);
     }
 
+    /**
+     * get all the downloaded files from dropbox for a project and adds them to the device list.
+     * @param projectId
+     * @throws DbxException
+     */
     public void downloadProjectFilesFromDropBox(int projectId) throws DbxException {
         getImagesObservableList().clear();
         for (Metadata m: readFilesFromDropBox(projectId)){
@@ -170,25 +216,43 @@ public class DocumentationModel {
         }
     }
 
+    /**
+     * Reads the files from dropbox
+     * @param projectId
+     * @return the files from dropbox.
+     * @throws DbxException
+     */
     public List<Metadata> readFilesFromDropBox(int projectId) throws DbxException {
         return dropBoxAPIManager.readFilesFromDropBox("/"+projectId);
     }
 
+    /**
+     * Reads all files from dropbox
+     * @return all files from dropbox
+     * @throws DbxException
+     */
     public List<Metadata> readAllFilesFromDropBox() throws DbxException {
         return dropBoxAPIManager.readAllFilesFromDropBox();
     }
 
+    /**
+     * sends a list of localFilePaths to the dropboxApiManager to get them deleted
+     * @param localFilePaths
+     * @throws Exception
+     */
     public void deleteLocalFiles(List<String> localFilePaths) throws Exception {
         dropBoxAPIManager.deleteLocalFiles(localFilePaths);
     }
 
-    public File createLocalFile(File file) throws Exception {
-        return dropBoxAPIManager.createLocalFile(file);
-    }
+    /**
+     * Creates a new local file.
+     * @param file
+     * @return a local file
+     * @throws Exception
+     */
+    public File createLocalFile(File file) throws Exception {return dropBoxAPIManager.createLocalFile(file);}
 
-    public List<File> getImagesToBeSaved() {
-        return imagesToBeSaved;
-    }
+    public List<File> getImagesToBeSaved() {return imagesToBeSaved;}
 
     /**
      * Sends a list of devices to the manager to get them deleted.

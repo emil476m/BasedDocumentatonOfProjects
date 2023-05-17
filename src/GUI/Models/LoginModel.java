@@ -15,6 +15,12 @@ public class LoginModel {
         loginManager = new LoginManager();
     }
 
+    /**
+     * Sends and gets a user from the loginManager.
+     * @param username
+     * @param password
+     * @throws SQLException
+     */
     public void loginAction(String username, String password) throws SQLException {
        user = loginManager.loginUser(username,password);
     }

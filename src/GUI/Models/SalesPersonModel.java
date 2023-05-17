@@ -23,6 +23,10 @@ public class SalesPersonModel {
         projectsObservableList = FXCollections.observableArrayList();
     }
 
+    /**
+     * Gets all projects.
+     * @throws Exception
+     */
     public void getAllProjects() throws Exception {
         List<Project> projects = technicianManager.getAllProjects();
         projectsObservableList.addAll(projects);

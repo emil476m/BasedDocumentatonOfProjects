@@ -28,6 +28,10 @@ public class TechnicianModel {
         myProjectsObservableList = FXCollections.observableArrayList();
     }
 
+    /**
+     * Gets all projects.
+     * @throws Exception
+     */
     public void getAllProjects() throws Exception {
         List<Project> projects = technicianManager.getAllProjects();
         projectsObservableList.clear();
@@ -36,6 +40,11 @@ public class TechnicianModel {
         allProjects.addAll(projects);
     }
 
+    /**
+     * Gets all projects that the current logged-in user is working on
+     * @param user
+     * @throws Exception
+     */
     public void getAllMyProjects(User user) throws Exception {
         List<Project> myProjects = technicianManager.getMyProjects(user);
         myProjectsObservableList.clear();
