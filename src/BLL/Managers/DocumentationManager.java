@@ -64,9 +64,9 @@ public class DocumentationManager implements IDocumentationManager {
     }
 
     /**
-     * Gets all
+     * Gets all devices for a project
      * @param project
-     * @return
+     * @return a list of devices for a project
      * @throws Exception
      */
     @Override
@@ -75,7 +75,7 @@ public class DocumentationManager implements IDocumentationManager {
     }
 
     /**
-     *
+     * Sends a project and list of new devices to the database to update the devices and the project.
      * @param project
      * @param newDevices
      * @throws SQLException
@@ -86,8 +86,8 @@ public class DocumentationManager implements IDocumentationManager {
     }
 
     /**
-     *
-     * @return
+     * Gets a list of all DeviceTypes from the database
+     * @return a list of all DeviceTypes
      * @throws Exception
      */
     @Override
@@ -107,9 +107,9 @@ public class DocumentationManager implements IDocumentationManager {
     }
 
     /**
-     *
+     * Gets a list of all users working on a specific project
      * @param project
-     * @return
+     * @return a list of users working on a project
      * @throws Exception
      */
     @Override
@@ -118,9 +118,9 @@ public class DocumentationManager implements IDocumentationManager {
     }
 
     /**
-     *
+     * sends a project to the database to see if the last edit matches.
      * @param project
-     * @return
+     * @return the result from the database
      * @throws Exception
      */
     @Override
@@ -129,9 +129,9 @@ public class DocumentationManager implements IDocumentationManager {
     }
 
     /**
-     *
+     * Gets a project from the id
      * @param project
-     * @return
+     * @return a project that matches the id
      * @throws Exception
      */
     @Override
@@ -140,7 +140,7 @@ public class DocumentationManager implements IDocumentationManager {
     }
 
     /**
-     *
+     * sends a list to the database to delete the given devices from their ids.
      * @param devices
      * @throws SQLException
      */
