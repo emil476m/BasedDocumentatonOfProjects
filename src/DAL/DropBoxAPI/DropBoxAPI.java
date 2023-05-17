@@ -20,6 +20,10 @@ public class DropBoxAPI implements IDropBoxAPI {
     private DbxRequestConfig config;
     private DbxClientV2 client;
 
+
+    /**
+     * Creates Dropbox client from by using the Access token in the settings file.
+     */
     public DropBoxAPI(){
         try {
             Properties databaseProperties = new Properties();
@@ -29,7 +33,7 @@ public class DropBoxAPI implements IDropBoxAPI {
             final String ACCESS_TOKEN = access_token;
 
             // Create Dropbox client
-            config = DbxRequestConfig.newBuilder("dropbox/java-tutorial").build();
+            config = DbxRequestConfig.newBuilder("dropbox/BasedDocumentationOfProjects").build();
             client = new DbxClientV2(config, ACCESS_TOKEN);
         } catch (IOException e) {
             throw new RuntimeException(e);
@@ -38,20 +42,30 @@ public class DropBoxAPI implements IDropBoxAPI {
 
     @Override
     public void deleteFilesFromDropBox(String dropBoxFilePath) throws DbxException {
-        Metadata metadata = client.files().delete(dropBoxFilePath);
+        client.files().delete(dropBoxFilePath);
     }
 
+    /**
+     * Uploads the file at localFilePath to the dropbox in the folder at dropBoxFilePath.
+     * @param localFilePath the filepath of the file that is going to be uploaded.
+     * @param dropBoxFilePath the location in the dropbox the file is going to be uploaded to.
+     * @throws DbxException
+     */
     @Override
     public void uploadFilesFromDropBox(String localFilePath, String dropBoxFilePath) throws DbxException {
-        // Upload "test.txt" to Dropbox
         try (InputStream in = new FileInputStream(localFilePath)) {
-            FileMetadata metadata = client.files().uploadBuilder(dropBoxFilePath)
-                    .uploadAndFinish(in);
+            client.files().uploadBuilder(dropBoxFilePath).uploadAndFinish(in);
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
     }
 
+    /**
+     * Downloads the file at dropBoxFilePath in the dropbox to the folder DownloadedDropBoxFiles and rename the file to filename.
+     * @param dropBoxFilePath the location of the file in the dropbox.
+     * @param fileName the file name.
+     * @throws DbxException
+     */
     @Override
     public void downloadFilesFromDropBox(String dropBoxFilePath, String fileName) throws DbxException {
         DbxDownloader<FileMetadata> downloader = client.files().download(dropBoxFilePath);
@@ -60,10 +74,16 @@ public class DropBoxAPI implements IDropBoxAPI {
             downloader.download(out);
             out.close();
         } catch (DbxException | IOException ex) {
-            System.out.println(ex.getMessage());
+            throw new RuntimeException("Failed to download files from the dropbox",ex);
         }
     }
 
+    /**
+     * Read files from the folderpath location in dropbox, used to get images for a specific project.
+     * @param folderPath the dropbox path to the folder for the project.
+     * @return metadata that is used to get the images in the folder.
+     * @throws DbxException
+     */
     @Override
     public List<Metadata> readFilesFromDropBox(String folderPath) throws DbxException {
         List<Metadata> onlineFilePaths = new ArrayList<>();
@@ -83,6 +103,11 @@ public class DropBoxAPI implements IDropBoxAPI {
         return onlineFilePaths;
     }
 
+    /**
+     * reads the metadata from the super folder that contains all the folders with images from the projects.
+     * @return returns a list with metadata.
+     * @throws DbxException
+     */
     @Override
     public List<Metadata> readAllFilesFromDropBox() throws DbxException {
         List<Metadata> onlineFilePaths = new ArrayList<>();
@@ -102,6 +127,11 @@ public class DropBoxAPI implements IDropBoxAPI {
         return onlineFilePaths;
     }
 
+    /**
+     * Deletes local files with the LocalFileHandler.
+     * @param localFilePaths a list of filepaths
+     * @throws Exception
+     */
     @Override
     public void deleteLocalFiles(List<String> localFilePaths) throws Exception {
         for (String s: localFilePaths){
@@ -109,6 +139,12 @@ public class DropBoxAPI implements IDropBoxAPI {
         }
     }
 
+    /**
+     * Creates new files in the DownloadedDropBoxFiles from the file param.
+     * @param file its a file.
+     * @return the new file that was created.
+     * @throws Exception
+     */
     @Override
     public File createLocalFile(File file) throws Exception {
         File newFile = new File(String.valueOf(LocalFileHandler.createLocalFile(file.getPath())));
