@@ -26,7 +26,8 @@ import java.io.IOException;
 import java.time.LocalDate;
 
 public class CEOController extends BaseController{
-    public Button btnScreenSize;
+    @FXML
+    private Button btnScreenSize;
     @FXML
     private Label lblLoggedInAs;
     @FXML
@@ -88,7 +89,7 @@ public class CEOController extends BaseController{
         try {
             setUpTableViews();
         } catch (Exception e) {
-            throw new RuntimeException(e);
+            ExceptionHandler.displayError(new RuntimeException("Failed to setup TableViews",e));
         }
     }
 
@@ -193,7 +194,6 @@ public class CEOController extends BaseController{
             }
 
         } catch (Exception e) {
-            e.printStackTrace();
             ExceptionHandler.displayError(new Exception("Failed to logout", e));
         }
     }
@@ -230,7 +230,7 @@ public class CEOController extends BaseController{
         try {
             deleteSelectedItemType();
         } catch (Exception e) {
-            throw new RuntimeException(e);
+            ExceptionHandler.displayError(new RuntimeException("Failed to delete selected item",e));
         }
     }
 
@@ -350,7 +350,7 @@ public class CEOController extends BaseController{
             stage.initModality(Modality.APPLICATION_MODAL);
             stage.show();
         } catch (Exception e) {
-            throw new RuntimeException(e);
+            ExceptionHandler.displayError(new RuntimeException("Failed to open Documentation Window",e));
         }
     }
 
@@ -378,7 +378,7 @@ public class CEOController extends BaseController{
             stage.initModality(Modality.APPLICATION_MODAL);
             stage.show();
         } catch (Exception e) {
-            throw new RuntimeException(e);
+            ExceptionHandler.displayError(new RuntimeException("Failed to open Documentation window",e));
         }
     }
 

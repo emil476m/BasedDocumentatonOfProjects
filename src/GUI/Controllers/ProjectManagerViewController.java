@@ -26,7 +26,8 @@ import java.time.LocalDate;
 
 public class ProjectManagerViewController extends BaseController{
 
-    public Button btnScreenSize;
+    @FXML
+    private Button btnScreenSize;
     @FXML
     private TextField txfSearch;
     @FXML
@@ -112,7 +113,6 @@ public class ProjectManagerViewController extends BaseController{
             }
 
         } catch (Exception e) {
-            e.printStackTrace();
             ExceptionHandler.displayError(new Exception("Failed to logout", e));
         }
     }
@@ -149,7 +149,7 @@ public class ProjectManagerViewController extends BaseController{
             stage.initModality(Modality.APPLICATION_MODAL);
             stage.show();
         } catch (Exception e) {
-            throw new RuntimeException(e);
+            ExceptionHandler.displayError(new RuntimeException("Failed to create project",e));
         }
     }
 
@@ -161,7 +161,7 @@ public class ProjectManagerViewController extends BaseController{
         try {
             getModelsHandler().getProjectManagerModel().deleteProject(tbvInstallationlist.getSelectionModel().getSelectedItem());
         } catch (Exception e) {
-            throw new RuntimeException(e);
+            ExceptionHandler.displayError(new RuntimeException("Failed to delete selected item",e));
         }
     }
 
@@ -194,7 +194,7 @@ public class ProjectManagerViewController extends BaseController{
         try {
             controller.setModel(ModelsHandler.getInstance());
         } catch (Exception e) {
-            throw new RuntimeException(e);
+            ExceptionHandler.displayError(new Exception("Failed to open edit window",e));
         }
         controller.setOpenedProject(project);
         controller.setup();

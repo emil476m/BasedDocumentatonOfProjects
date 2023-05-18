@@ -68,7 +68,6 @@ public class SalesPersonController extends BaseController {
         try {
             setUpTableViews();
         } catch (Exception e) {
-            e.printStackTrace();
             ExceptionHandler.displayError(new RuntimeException("failed to set up tableviews", e));
         }
     }
@@ -127,7 +126,6 @@ public class SalesPersonController extends BaseController {
             }
 
         } catch (Exception e) {
-            e.printStackTrace();
             ExceptionHandler.displayError(new Exception("Failed to logout", e));
         }
     }
@@ -275,7 +273,7 @@ public class SalesPersonController extends BaseController {
         try {
             controller.setModel(ModelsHandler.getInstance());
         } catch (Exception e) {
-            throw new RuntimeException(e);
+            ExceptionHandler.displayError(new Exception("Failed to open documentation Window",e));
         }
         controller.setOpenedProject(project);
         controller.setup();

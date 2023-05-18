@@ -36,7 +36,7 @@ public class AddDeviceViewController extends BaseController{
             addMenuItems();
             checkDeviceType();
         } catch (Exception e) {
-            throw new RuntimeException(e);
+            ExceptionHandler.displayError(new RuntimeException("Failed to setup AddDeviceViewController",e));
         }
     }
 

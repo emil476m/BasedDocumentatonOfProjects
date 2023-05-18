@@ -163,7 +163,7 @@ public class TechnicianViewController extends BaseController{
         try {
             controller.setModel(ModelsHandler.getInstance());
         } catch (Exception e) {
-            throw new RuntimeException(e);
+            ExceptionHandler.displayError(new Exception("Failed to open edit window",e));
         }
         controller.setOpenedProject(project);
         controller.setup();
@@ -208,7 +208,6 @@ public class TechnicianViewController extends BaseController{
             }
 
         } catch (Exception e) {
-            e.printStackTrace();
             ExceptionHandler.displayError(new Exception("Failed to logout", e));
         }
     }

@@ -82,7 +82,6 @@ public class LoginViewController extends BaseController{
             }
 
         } catch (IOException e) {
-            e.printStackTrace();
             ExceptionHandler.displayError(new IOException("Failed to open new window", e));
         }
     }
@@ -101,7 +100,7 @@ public class LoginViewController extends BaseController{
         try {
             controller.setModel(ModelsHandler.getInstance());
         } catch (Exception e) {
-            throw new RuntimeException(e);
+            ExceptionHandler.displayError(new RuntimeException("Failed to open CEO",e));
         }
         controller.setup();
 
@@ -126,7 +125,7 @@ public class LoginViewController extends BaseController{
         try {
             controller.setModel(ModelsHandler.getInstance());
         } catch (Exception e) {
-            throw new RuntimeException(e);
+            ExceptionHandler.displayError(new RuntimeException("Failed to open Technician",e));
         }
         controller.setup();
 
@@ -151,7 +150,7 @@ public class LoginViewController extends BaseController{
         try {
             controller.setModel(ModelsHandler.getInstance());
         } catch (Exception e) {
-            throw new RuntimeException(e);
+            ExceptionHandler.displayError(new RuntimeException("Failed to open Project Manager",e));
         }
         controller.setup();
 
@@ -176,7 +175,7 @@ public class LoginViewController extends BaseController{
         try {
             controller.setModel(ModelsHandler.getInstance());
         } catch (Exception e) {
-            throw new RuntimeException(e);
+            ExceptionHandler.displayError(new RuntimeException("Failed to open salesperson",e));
         }
         controller.setup();
 
