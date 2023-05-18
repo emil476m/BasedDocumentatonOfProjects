@@ -32,8 +32,8 @@
       <AnchorPane prefHeight="200.0" prefWidth="200.0" styleClass="anchor-pane" BorderPane.alignment="CENTER">
          <children>
             <Button fx:id="btnOpen" layoutX="448.0" layoutY="544.0" mnemonicParsing="false" onAction="#handleOpen" prefHeight="30.0" prefWidth="140.0" styleClass="buttonothertext" text="Open" />
-            <Text fx:id="txtViewName" layoutX="55.0" layoutY="91.0" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="text" text="Installations" wrappingWidth="179.336669921875" />
-            <TableView fx:id="tbvInstallationlist" layoutX="55.0" layoutY="138.0" prefHeight="365.0" prefWidth="570.0" AnchorPane.leftAnchor="45.0" AnchorPane.topAnchor="130.0">
+            <Text fx:id="txtViewName" layoutX="55.0" layoutY="91.0" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="text" text="Installations" wrappingWidth="179.336669921875" AnchorPane.leftAnchor="55.0" AnchorPane.topAnchor="78.0" />
+            <TableView fx:id="tbvInstallationlist" layoutX="55.0" layoutY="138.0" prefHeight="365.0" prefWidth="570.0" AnchorPane.bottomAnchor="110.79999999999995" AnchorPane.leftAnchor="45.0" AnchorPane.rightAnchor="50.200000000000045" AnchorPane.topAnchor="130.0">
                <columns>
                   <TableColumn fx:id="clmINSId" prefWidth="75.0" resizable="false" text="Id" />
                   <TableColumn fx:id="clmCostumerName" prefWidth="184.0" resizable="false" text="Costumer Name" />
@@ -41,15 +41,16 @@
                   <TableColumn fx:id="clmINSDate" maxWidth="254.39999999999998" minWidth="0.0" prefWidth="132.79998779296875" resizable="false" text="Date" />
                </columns>
             </TableView>
-            <TextField fx:id="txfSearch" layoutX="358.0" layoutY="95.0" onKeyPressed="#searchOnButtonPress" promptText="Search" />
-            <MenuButton fx:id="btnSearchChoice" layoutX="518.0" layoutY="95.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="95.0" text="All">
+            <TextField fx:id="txfSearch" layoutX="358.0" layoutY="95.0" onKeyPressed="#searchOnButtonPress" promptText="Search" AnchorPane.rightAnchor="158.00000000000003" AnchorPane.topAnchor="95.0" />
+            <MenuButton fx:id="btnSearchChoice" layoutX="518.0" layoutY="95.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="95.0" text="All" AnchorPane.rightAnchor="52.40000000000002" AnchorPane.topAnchor="95.0">
                <items>
                   <MenuItem fx:id="miName" mnemonicParsing="false" onAction="#handleNameChoice" text="Name" />
                   <MenuItem fx:id="miAddress" mnemonicParsing="false" onAction="#handleAddressChoice" text="Address" />
                   <MenuItem fx:id="miDate" mnemonicParsing="false" onAction="#handleDateChoice" text="Date" />
                </items>
             </MenuButton>
-            <Text fx:id="txtSearchText" layoutX="518.0" layoutY="91.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Search for:" wrappingWidth="76.109375" />
+            <Text fx:id="txtSearchText" layoutX="518.0" layoutY="91.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Search for:" wrappingWidth="76.109375" AnchorPane.rightAnchor="71.49062500000002" AnchorPane.topAnchor="78.05078125" />
+            <Button fx:id="btnScreenSize" layoutX="568.0" layoutY="14.0" mnemonicParsing="false" text="Button" />
          </children>
       </AnchorPane>
    </center>
