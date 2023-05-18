@@ -315,7 +315,7 @@ public class PaintAppViewController extends BaseController{
     }
 
     /**
-     * Selects the projector
+     * Selects the projector tool
      * @param actionEvent
      */
     public void handleProjector(ActionEvent actionEvent) {
@@ -323,6 +323,10 @@ public class PaintAppViewController extends BaseController{
         btnProjector.setDisable(true);
     }
 
+    /**
+     * Selects the Amplifier tool
+     * @param actionEvent
+     */
     public void handleAmp(ActionEvent actionEvent) {
         resetButton();
         btnAmp.setDisable(true);

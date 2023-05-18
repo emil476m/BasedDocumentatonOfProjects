@@ -50,6 +50,10 @@ public class CEOModel {
         return userObservableList;
     }
 
+    /**
+     * Gets all projects.
+     * @throws Exception
+     */
     public void getAllProjects() throws Exception {
         List<Project> projects = ceoManager.getAllProjects();
         projectsObservableList.clear();
@@ -58,6 +62,10 @@ public class CEOModel {
         allProjects.addAll(projects);
     }
 
+    /**
+     * Gets all users
+     * @throws Exception
+     */
     public void getAllUsers() throws Exception {
         List<User> users = ceoManager.getAllUsers();
         allUsers.clear();
@@ -66,6 +74,10 @@ public class CEOModel {
         userObservableList.addAll(users);
     }
 
+    /**
+     * Gets all DeviceTypes
+     * @throws Exception
+     */
     public void getAllDeviceTypes() throws Exception {
         List<DeviceType> deviceTypes = ceoManager.getAllDeviceTypes();
         for (DeviceType d: deviceTypes){
@@ -80,12 +92,23 @@ public class CEOModel {
         allDeviceTypes.addAll(deviceTypes);
     }
 
+    /**
+     * Sends a user to the CEOManager and adds said user to the userObservableList and the allUsers
+     * @param user
+     * @throws Exception
+     */
     public void createUser(User user) throws Exception{
         User newUser = ceoManager.createUser(user);
         userObservableList.add(newUser);
         allUsers.add(newUser);
     }
 
+    /**
+     * Sends a user to the CEOManager and updates the lists where the user is found.
+     * @param updatedUser
+     * @param oldUser
+     * @throws Exception
+     */
     public void updateUser(User updatedUser, User oldUser) throws Exception{
         userObservableList.remove(oldUser);
         allUsers.remove(oldUser);
@@ -94,10 +117,21 @@ public class CEOModel {
         allUsers.add(updatedUser);
     }
 
+    /**
+     * Sends a username to the CEOManager.
+     * @param userName
+     * @return the result from the CEOManager
+     * @throws Exception
+     */
     public boolean checkUserName(String userName) throws Exception{
         return ceoManager.checkUserName(userName);
     }
 
+    /**
+     * Sends a user to the CEOManager and removes said user from all the lists it exists in.
+     * @param user
+     * @throws Exception
+     */
     public void deleteUser(User user) throws Exception {
         userObservableList.remove(user);
         allUsers.remove(user);
@@ -105,6 +139,12 @@ public class CEOModel {
         ceoManager.updateUser(user);
     }
 
+    /**
+     * Sends a user to the CEOManager and deletes the old one from all the lists it exists in
+     * @param updatedUser
+     * @param oldUser
+     * @throws Exception
+     */
     public void updateUsernameOrClass(User updatedUser, User oldUser) throws Exception {
         userObservableList.remove(oldUser);
         allUsers.remove(oldUser);
@@ -114,10 +154,22 @@ public class CEOModel {
         allUsers.add(user);
     }
 
+    /**
+     * Gets a user from their id.
+     * @param id
+     * @return
+     * @throws Exception
+     */
     public User getUserFromId(int id) throws Exception {
         return ceoManager.getUserFromId(id);
     }
 
+    /**
+     * Sends a Project to the CEOManager and deletes the project from the list
+     * @param updateProject
+     * @param oldProject
+     * @throws Exception
+     */
     public void updateProject(Project updateProject, Project oldProject) throws Exception {
         projectsObservableList.remove(oldProject);
         allProjects.remove(oldProject);
@@ -126,6 +178,11 @@ public class CEOModel {
         allProjects.add(updateProject);
     }
 
+    /**
+     * Sends a project to the CEOManager and removes it from the list.
+     * @param project
+     * @throws Exception
+     */
     public void deleteProject(Project project) throws Exception {
         projectsObservableList.remove(project);
         allProjects.remove(project);
@@ -133,13 +190,23 @@ public class CEOModel {
         ceoManager.updateProject(project);
     }
 
+    /**
+     * Sends a DeviceType to the CEOManager and adds it to the device list
+     * @param deviceType
+     * @throws Exception
+     */
     public void createDeviceType(DeviceType deviceType) throws Exception {
         DeviceType deviceType1 = ceoManager.createDeviceType(deviceType);
         deviceTypeObservableList.add(deviceType1);
         allDeviceTypes.add(deviceType1);
     }
 
-
+    /**
+     * Gets all users that are working on a specific project
+     * @param project
+     * @return
+     * @throws Exception
+     */
     public List<User> getUsersWorkingOnProject(Project project) throws Exception{
         List<Integer> allUsersId = ceoManager.getUsersWorkingOnProject(project);
 
@@ -151,6 +218,11 @@ public class CEOModel {
         return allUsersOnProject;
     }
 
+    /**
+     * gets a user from the allUsers list by looking for their id
+     * @param id
+     * @return
+     */
     public User getLocalUserFromId(int id){
         for (User u: allUsers){
             if (u.getUserID() == id)
@@ -159,15 +231,33 @@ public class CEOModel {
         return null;
     }
 
+    /**
+     * Sends a list of users to the CEOManager and adds them to the userOnCurrentProject
+     * @param usersToBeAdded
+     * @param project
+     * @throws Exception
+     */
     public void addUsersWorkingOnProject(List<User> usersToBeAdded, Project project) throws Exception {
         ceoManager.addUsersToWorkingOnProject(usersToBeAdded, project);
         userOnCurrentProject.addAll(usersToBeAdded);
     }
 
+    /**
+     * Sends a list of users to the CEOManager (this only gets called if a CEO or ProjectManager creates a new project)
+     * @param usersToBeAdded
+     * @param project
+     * @throws Exception
+     */
     public void addUsersWorkingOnNewProject(List<User> usersToBeAdded, Project project) throws Exception {
         ceoManager.addUsersToWorkingOnProject(usersToBeAdded, project);
     }
 
+    /**
+     * Sends a user and a project to the CEOManager and removes the user from the userOnCurrentProject
+     * @param user
+     * @param project
+     * @throws Exception
+     */
     public void deleteFromWorkingOnProject(User user, Project project) throws Exception {
         ceoManager.deleteFromWorkingOnProject(user, project);
         userOnCurrentProject.remove(user);
@@ -245,6 +335,12 @@ public class CEOModel {
         }
     }
 
+    /**
+     * Sends a DeviceType to the CEOManager
+     * @param deviceType
+     * @return the result from the CEOManager
+     * @throws Exception
+     */
     public boolean checkIfDeviceTypeNameIsDuplicate(DeviceType deviceType) throws Exception {
         return ceoManager.checkIfDeviceTypeNameIsDuplicate(deviceType);
     }

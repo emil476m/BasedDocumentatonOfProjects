@@ -159,6 +159,9 @@ public class AssignTechnicianController extends BaseController{
         });
     }
 
+    /**
+     * Sets up the icons for the buttons
+     */
     private void setupButtonIcons()
     {
         btnConfirm.setGraphic(new ImageView(new Image("/GUI/Images/ButtonIcons/icons8-checkmark-80.png")));

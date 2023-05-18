@@ -88,6 +88,12 @@ public class TechnicianViewController extends BaseController{
         toggleViews(true,false);
     }
 
+
+    /**
+     * Opens the documentation window
+     * @param actionEvent
+     * @throws IOException
+     */
     public void handleCreate(ActionEvent actionEvent) throws IOException {
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/GUI/Views/DocumentationView.fxml"));
 
@@ -98,7 +104,7 @@ public class TechnicianViewController extends BaseController{
         try {
             controller.setModel(ModelsHandler.getInstance());
         } catch (Exception e) {
-            throw new RuntimeException(e);
+            ExceptionHandler.displayError(new RuntimeException("Failed to set the model", e));
         }
         controller.setup();
 
@@ -110,6 +116,10 @@ public class TechnicianViewController extends BaseController{
         stage.show();
     }
 
+    /**
+     * Opens the Documentation view with the project that the user has selected.
+     * @param actionEvent
+     */
     public void handleOpen(ActionEvent actionEvent) {
         if(tbvMyInstallationlist.isVisible())
         {
@@ -131,6 +141,11 @@ public class TechnicianViewController extends BaseController{
         }
     }
 
+    /**
+     * Opens the documentation view with all textfields filled out with the information of the project.
+     * @param project
+     * @throws IOException
+     */
     private void openEditWindow(Project project) throws IOException {
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/GUI/Views/DocumentationView.fxml"));
 
@@ -154,6 +169,10 @@ public class TechnicianViewController extends BaseController{
         stage.show();
     }
 
+    /**
+     * Logs the current user out and gives the chance to log in again as the same or a different user
+     * @param actionEvent
+     */
     public void handleLogout(ActionEvent actionEvent) {
         try{
             String title = "Error Message";
@@ -187,6 +206,10 @@ public class TechnicianViewController extends BaseController{
         }
     }
 
+    /**
+     * Sets up the tableviews
+     * @throws Exception
+     */
     private void setUpTableViews() throws Exception {
         getModelsHandler().getTechnicianModel().getAllProjects();
         getModelsHandler().getTechnicianModel().getAllMyProjects(getModelsHandler().getLoginModel().getUser());
@@ -206,6 +229,11 @@ public class TechnicianViewController extends BaseController{
         clmINSDate1.setCellValueFactory(new PropertyValueFactory<>("projectDate"));
     }
 
+    /**
+     * Toggles which tableView is shown to the user
+     * @param installations
+     * @param myInstallations
+     */
     private void toggleViews(boolean installations, boolean myInstallations){
         txfSearch.clear();
         if (installations == true){
@@ -229,6 +257,9 @@ public class TechnicianViewController extends BaseController{
         }
     }
 
+    /**
+     * Searches the myInstallations tableview for the query
+     */
     private void searchMyProject() {
         String search = txfSearch.getText().toLowerCase();
 
@@ -239,6 +270,9 @@ public class TechnicianViewController extends BaseController{
         }
     }
 
+    /**
+     * Searches the installations tableview for the query
+     */
     private void searchProject() {
         String search = txfSearch.getText().toLowerCase();
 
@@ -249,10 +283,14 @@ public class TechnicianViewController extends BaseController{
         }
     }
 
+
     public void searchOnButtonPress(KeyEvent keyEvent) {
         selectSearch();
     }
 
+    /**
+     * Selects which search method to use
+     */
     private void selectSearch(){
         if (tbvMyInstallationlist.isVisible()){
             searchMyProject();
@@ -262,6 +300,10 @@ public class TechnicianViewController extends BaseController{
         }
     }
 
+    /**
+     * sets the search to look at the costumer name
+     * @param actionEvent
+     */
     public void handleNameChoice(ActionEvent actionEvent) {
         if (miName.getText().equals("Name")){
             btnSearchChoice.setText("Name");
@@ -284,6 +326,10 @@ public class TechnicianViewController extends BaseController{
 
     }
 
+    /**
+     * sets the search to look at the address
+     * @param actionEvent
+     */
     public void handleAddressChoice(ActionEvent actionEvent) {
         if (miAddress.getText().equals("Address")){
             btnSearchChoice.setText("Address");
@@ -304,6 +350,10 @@ public class TechnicianViewController extends BaseController{
         }
     }
 
+    /**
+     * sets the search to look at date
+     * @param actionEvent
+     */
     public void handleDateChoice(ActionEvent actionEvent) {
         if (miDate.getText().equals("Date")){
             btnSearchChoice.setText("Date");

@@ -298,6 +298,10 @@ public class ProjectManagerViewController extends BaseController{
         }
     }
 
+    /**
+     * Sets the search to look ath the date
+     * @param actionEvent
+     */
     public void handleDateChoice(ActionEvent actionEvent) {
         if (miDate.getText().equals("Date")){
             btnSearchChoice.setText("Date");

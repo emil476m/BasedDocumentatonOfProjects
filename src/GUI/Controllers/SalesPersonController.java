@@ -72,6 +72,10 @@ public class SalesPersonController extends BaseController {
         btnOpen.setGraphic(new ImageView(new Image("/GUI/Images/ButtonIcons/icons8-opened-folder-80.png")));
     }
 
+    /**
+     * Opens the selected project in the documentation view
+     * @param actionEvent
+     */
     public void handleOpen(ActionEvent actionEvent) {
         try {
             openDocumentationWindow((Project) tbvInstallationlist.getFocusModel().getFocusedItem());
@@ -80,6 +84,10 @@ public class SalesPersonController extends BaseController {
         }
     }
 
+    /**
+     * Logs the current user out and gives the chance to login again as the same or a different user
+     * @param actionEvent
+     */
     public void handleLogout(ActionEvent actionEvent) {
         try{
             String title = "Error Message";
@@ -114,6 +122,10 @@ public class SalesPersonController extends BaseController {
     }
 
 
+    /**
+     * sets up the tableViews.
+     * @throws Exception
+     */
     private void setUpTableViews() throws Exception {
         getModelsHandler().getSalesPersonModel().getAllProjects();
 
@@ -125,6 +137,9 @@ public class SalesPersonController extends BaseController {
         clmINSDate.setCellValueFactory(new PropertyValueFactory<>("projectDate"));
     }
 
+    /**
+     * toggles which tableview is shown
+     */
     private void toggleViews(){
         txfSearch.clear();
         tbvInstallationlist.setVisible(true);
@@ -133,11 +148,13 @@ public class SalesPersonController extends BaseController {
     }
 
 
-
     public void searchOnButtonPress(KeyEvent keyEvent) {
         selectSearch();
     }
 
+    /**
+     * Searches the installations tableview for the query
+     */
     private void searchProject() {
         String search = txfSearch.getText().toLowerCase();
 
@@ -148,12 +165,19 @@ public class SalesPersonController extends BaseController {
         }
     }
 
+    /**
+     * selects the search method
+     */
     private void selectSearch(){
         if (tbvInstallationlist.isVisible()){
             searchProject();
         }
     }
 
+    /**
+     * sets the search to look at the costumer name
+     * @param actionEvent
+     */
     public void handleNameChoice(ActionEvent actionEvent) {
         if (miName.getText().equals("Name")){
             btnSearchChoice.setText("Name");
@@ -176,6 +200,10 @@ public class SalesPersonController extends BaseController {
 
     }
 
+    /**
+     * Sets the search to look at the address
+     * @param actionEvent
+     */
     public void handleAddressChoice(ActionEvent actionEvent) {
         if (miAddress.getText().equals("Address")){
             btnSearchChoice.setText("Address");
@@ -196,6 +224,10 @@ public class SalesPersonController extends BaseController {
         }
     }
 
+    /**
+     * Sets the search to look at the date
+     * @param actionEvent
+     */
     public void handleDateChoice(ActionEvent actionEvent) {
         if (miDate.getText().equals("Date")){
             btnSearchChoice.setText("Date");
@@ -217,6 +249,11 @@ public class SalesPersonController extends BaseController {
     }
 
 
+    /**
+     * Opnes the documentation view and sets the openedProject
+     * @param project
+     * @throws IOException
+     */
     private void openDocumentationWindow(Project project) throws IOException {
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/GUI/Views/DocumentationView.fxml"));
 
