@@ -23,13 +23,20 @@ import javafx.stage.StageStyle;
 import java.io.IOException;
 
 public class SalesPersonController extends BaseController {
-    public TextField txfSearch;
-    public MenuButton btnSearchChoice;
-    public MenuItem miName;
-    public MenuItem miAddress;
-    public MenuItem miDate;
-    public Text txtSearchText;
-    public Label lblLoggedInAs;
+    @FXML
+    private TextField txfSearch;
+    @FXML
+    private MenuButton btnSearchChoice;
+    @FXML
+    private MenuItem miName;
+    @FXML
+    private MenuItem miAddress;
+    @FXML
+    private MenuItem miDate;
+    @FXML
+    private Text txtSearchText;
+    @FXML
+    private Label lblLoggedInAs;
     @FXML
     private BorderPane borderPaneTechnician;
     @FXML
@@ -48,6 +55,9 @@ public class SalesPersonController extends BaseController {
     private TableColumn<Project, String> clmINSAddress;
     @FXML
     private TableColumn clmINSDate;
+    @FXML
+    private Button btnScreenSize;
+
     private boolean searchName = true,  searchAddress = true,  searchDate = true;
 
     @Override
@@ -70,6 +80,7 @@ public class SalesPersonController extends BaseController {
     {
         btnLogout.setGraphic(new ImageView(new Image("/GUI/Images/ButtonIcons/icons8-logout-80.png")));
         btnOpen.setGraphic(new ImageView(new Image("/GUI/Images/ButtonIcons/icons8-opened-folder-80.png")));
+        btnScreenSize.setGraphic(new ImageView(new Image("/GUI/Images/ButtonIcons/icons8-full-screen-80.png")));
     }
 
     /**
@@ -276,4 +287,21 @@ public class SalesPersonController extends BaseController {
         stage.show();
     }
 
+    /**
+     * Handles the resizing of the window when a button is pressed.
+     * @param actionEvent
+     */
+    public void handleScreenSize(ActionEvent actionEvent)
+    {
+        Stage stage = (Stage) btnScreenSize.getScene().getWindow();
+        if(stage.isMaximized())
+        {
+            stage.setMaximized(false);
+            btnScreenSize.setGraphic(new ImageView(new Image("/GUI/Images/ButtonIcons/icons8-full-screen-80.png")));
+        } else if (!stage.isMaximized())
+        {
+            stage.setMaximized(true);
+            btnScreenSize.setGraphic(new ImageView(new Image("/GUI/Images/ButtonIcons/icons8-normal-screen-80.png")));
+        }
+    }
 }

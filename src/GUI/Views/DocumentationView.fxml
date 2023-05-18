@@ -11,51 +11,50 @@
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.BorderPane?>
-<?import javafx.scene.layout.Pane?>
 <?import javafx.scene.text.Text?>
 
 <BorderPane fx:id="borderPaneCEO" prefHeight="712.0" prefWidth="1321.0" styleClass="root" stylesheets="@../Css/DocumentationViewCss.css" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="GUI.Controllers.DocumentationViewController">
    <left>
-      <Pane prefHeight="606.0" prefWidth="204.0" BorderPane.alignment="CENTER">
+      <AnchorPane BorderPane.alignment="CENTER">
          <children>
-            <ImageView fitHeight="124.0" fitWidth="174.0" layoutX="15.0" layoutY="31.0" pickOnBounds="true" preserveRatio="true">
+            <ImageView fitHeight="124.0" fitWidth="174.0" pickOnBounds="true" preserveRatio="true">
                <image>
                   <Image url="@../Images/WUAV.png" />
                </image>
             </ImageView>
-            <Button fx:id="btnReturn" layoutX="27.0" layoutY="620.0" mnemonicParsing="false" onAction="#handleReturn" prefHeight="30.0" prefWidth="150.0" text="Return" />
-            <Button fx:id="btnSaveToDevice" layoutX="27.0" layoutY="574.0" mnemonicParsing="false" onAction="#handleSaveToDevice" prefHeight="30.0" prefWidth="150.0" text="Save to this Device" />
-            <Button fx:id="btnSend" layoutX="27.0" layoutY="227.0" mnemonicParsing="false" onAction="#handleSendToPMOrTech" prefHeight="30.0" prefWidth="150.0" text="Send to Project Manager" />
-            <Button fx:id="btnSave" layoutX="27.0" layoutY="187.0" mnemonicParsing="false" onAction="#handleSave" prefHeight="30.0" prefWidth="150.0" text="Save" />
-            <Button fx:id="btnOpenPaint" layoutX="27.0" layoutY="265.0" mnemonicParsing="false" onAction="#handleOpenPaint" prefHeight="30.0" prefWidth="150.0" text="Open Paint" />
-            <Button fx:id="btnAssignTech" layoutX="27.0" layoutY="303.0" mnemonicParsing="false" onAction="#handleAssignTech" prefHeight="30.0" prefWidth="150.0" text="Assign Technician" />
+            <Button fx:id="btnReturn" layoutX="12.0" layoutY="637.0" mnemonicParsing="false" onAction="#handleReturn" prefHeight="30.0" prefWidth="150.0" text="Return" AnchorPane.bottomAnchor="32.59999999999998" />
+            <Button fx:id="btnSaveToDevice" layoutX="12.0" layoutY="570.0" mnemonicParsing="false" onAction="#handleSaveToDevice" prefHeight="30.0" prefWidth="150.0" text="Save to this Device" AnchorPane.bottomAnchor="99.59999999999998" />
+            <Button fx:id="btnSend" layoutX="12.0" layoutY="254.0" mnemonicParsing="false" onAction="#handleSendToPMOrTech" prefHeight="30.0" prefWidth="150.0" text="Send to Project Manager" AnchorPane.bottomAnchor="415.59999999999997" />
+            <Button fx:id="btnSave" layoutX="12.0" layoutY="195.0" mnemonicParsing="false" onAction="#handleSave" prefHeight="30.0" prefWidth="150.0" text="Save" AnchorPane.bottomAnchor="474.59999999999997" />
+            <Button fx:id="btnOpenPaint" layoutX="12.0" layoutY="316.0" mnemonicParsing="false" onAction="#handleOpenPaint" prefHeight="30.0" prefWidth="150.0" text="Open Paint" AnchorPane.bottomAnchor="353.59999999999997" />
+            <Button fx:id="btnAssignTech" layoutX="12.0" layoutY="387.0" mnemonicParsing="false" onAction="#handleAssignTech" prefHeight="30.0" prefWidth="150.0" text="Assign Technician" AnchorPane.bottomAnchor="282.59999999999997" />
          </children>
-      </Pane>
+      </AnchorPane>
    </left>
    <center>
       <AnchorPane prefHeight="634.0" prefWidth="1111.0" styleClass="anchor-pane" BorderPane.alignment="CENTER">
          <children>
             <Button fx:id="btnAddImage" layoutX="286.0" layoutY="646.0" mnemonicParsing="false" onAction="#handleAddImage" prefHeight="30.0" prefWidth="140.0" styleClass="buttonothertext" text="Add Image" AnchorPane.bottomAnchor="25.0" AnchorPane.leftAnchor="286.0" />
-            <Button fx:id="btnAddDevice" layoutX="451.0" layoutY="646.0" mnemonicParsing="false" onAction="#handleAddDevice" prefHeight="30.0" prefWidth="140.0" styleClass="buttonothertext" text="Add Device" AnchorPane.bottomAnchor="25.0" AnchorPane.leftAnchor="451.0" />
-            <Button fx:id="btnRemove" layoutX="624.0" layoutY="646.0" mnemonicParsing="false" onAction="#handleRemove" prefHeight="30.0" prefWidth="140.0" styleClass="buttonothertext" text="Remove" AnchorPane.bottomAnchor="25.0" AnchorPane.leftAnchor="624.0" />
+            <Button fx:id="btnAddDevice" layoutX="451.0" layoutY="646.0" mnemonicParsing="false" onAction="#handleAddDevice" prefHeight="30.0" prefWidth="140.0" styleClass="buttonothertext" text="Add Device" AnchorPane.bottomAnchor="25.0" AnchorPane.rightAnchor="549.8" />
+            <Button fx:id="btnRemove" layoutX="620.0" layoutY="645.0" mnemonicParsing="false" onAction="#handleRemove" prefHeight="30.0" prefWidth="140.0" styleClass="buttonothertext" text="Remove" AnchorPane.bottomAnchor="24.600000000000023" AnchorPane.rightAnchor="380.79999999999995" />
             <TextField fx:id="txtCostumerName" layoutX="39.0" layoutY="54.0" promptText="Costumer Name" AnchorPane.leftAnchor="39.0" AnchorPane.topAnchor="54.0" />
             <TextField fx:id="txtAddress" layoutX="205.0" layoutY="54.0" promptText="Address" AnchorPane.leftAnchor="205.0" AnchorPane.topAnchor="54.0" />
             <TextField fx:id="txtZipCode" layoutX="367.0" layoutY="54.0" promptText="Zip-code" AnchorPane.leftAnchor="367.0" AnchorPane.topAnchor="54.0" />
             <TextField fx:id="txtCostumerType" layoutX="36.0" layoutY="90.0" prefHeight="37.0" prefWidth="153.0" promptText="Costumer type" AnchorPane.leftAnchor="36.0" AnchorPane.topAnchor="90.0" />
             <MenuButton fx:id="menuTypes" layoutX="190.0" layoutY="89.0" mnemonicParsing="false" prefHeight="15.0" prefWidth="32.0" text="Types" AnchorPane.leftAnchor="190.0" AnchorPane.topAnchor="90.0" />
-            <TextArea fx:id="txtaComments" layoutX="36.0" layoutY="177.0" prefHeight="243.0" prefWidth="478.0" promptText="Comments/Documentation" wrapText="true" AnchorPane.leftAnchor="36.0" AnchorPane.topAnchor="177.0" />
+            <TextArea fx:id="txtaComments" layoutX="36.0" layoutY="177.0" prefHeight="243.0" prefWidth="478.0" promptText="Comments/Documentation" wrapText="true" AnchorPane.bottomAnchor="286.2" AnchorPane.leftAnchor="36.0" AnchorPane.rightAnchor="626.4" AnchorPane.topAnchor="177.0" />
             <ListView fx:id="lvImages" layoutX="661.0" layoutY="75.0" onMouseClicked="#handleImageClicked" prefHeight="116.0" prefWidth="422.0" AnchorPane.rightAnchor="28.0" AnchorPane.topAnchor="75.0" />
             <ListView fx:id="lvDevices" layoutX="664.0" layoutY="419.0" onMouseClicked="#handleDevicesClicked" prefHeight="200.0" prefWidth="424.0" AnchorPane.bottomAnchor="87.0" AnchorPane.rightAnchor="28.0" />
-            <Label layoutX="661.0" layoutY="55.0" prefHeight="18.0" prefWidth="76.0" text="Images:" AnchorPane.leftAnchor="661.0" AnchorPane.topAnchor="55.0" />
-            <Label layoutX="664.0" layoutY="397.0" text="Devices:" AnchorPane.leftAnchor="664.0" AnchorPane.topAnchor="397.0" />
+            <Label layoutX="661.0" layoutY="55.0" prefHeight="18.0" prefWidth="76.0" text="Images:" AnchorPane.bottomAnchor="625.8" AnchorPane.rightAnchor="403.79999999999995" />
+            <Label layoutX="664.0" layoutY="397.0" text="Devices:" AnchorPane.bottomAnchor="283.79999999999995" AnchorPane.rightAnchor="419.19999999999993" />
             <TextField fx:id="txtLocation" layoutX="262.0" layoutY="95.0" promptText="Location" AnchorPane.leftAnchor="262.0" AnchorPane.topAnchor="95.0" />
             <DatePicker fx:id="dpDatePicker" layoutX="443.0" layoutY="93.0" promptText="Date" AnchorPane.leftAnchor="443.0" AnchorPane.topAnchor="93.0" />
-            <ListView fx:id="lvTechniciansOnProject" layoutX="39.0" layoutY="482.0" prefHeight="137.0" prefWidth="478.0" AnchorPane.bottomAnchor="87.0" AnchorPane.leftAnchor="39.0" />
-            <Text fx:id="txtTech" layoutX="39.0" layoutY="467.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Technicians on Project:" wrappingWidth="197.53668212890625" AnchorPane.bottomAnchor="235.0" AnchorPane.leftAnchor="39.0" />
+            <ListView fx:id="lvTechniciansOnProject" layoutX="39.0" layoutY="482.0" prefHeight="137.0" prefWidth="478.0" AnchorPane.bottomAnchor="87.0" AnchorPane.leftAnchor="39.0" AnchorPane.rightAnchor="623.4" AnchorPane.topAnchor="481.79999999999995" />
+            <Text fx:id="txtTech" layoutX="39.0" layoutY="467.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Technicians on Project:" wrappingWidth="197.53668212890625" AnchorPane.bottomAnchor="235.0" AnchorPane.leftAnchor="39.0" AnchorPane.topAnchor="455.4" />
             <Button fx:id="btnRemoveTechnician" layoutX="39.0" layoutY="621.0" mnemonicParsing="false" onAction="#handleRemoveTechnician" text="Remove Technician" AnchorPane.bottomAnchor="50.0" AnchorPane.leftAnchor="39.0" />
             <ImageView fx:id="imImageView" fitHeight="201.0" fitWidth="423.0" layoutX="660.0" layoutY="191.0" pickOnBounds="true" preserveRatio="true" AnchorPane.rightAnchor="28.0" AnchorPane.topAnchor="191.0" />
             <TextField fx:id="txtCostumerEmail" layoutX="37.0" layoutY="133.0" promptText="Costumer Email" AnchorPane.leftAnchor="37.0" AnchorPane.topAnchor="133.0" />
-            <Button fx:id="btnScreenSize" layoutX="1031.0" layoutY="14.0" mnemonicParsing="false" />
+            <Button fx:id="btnScreenSize" layoutX="1068.0" layoutY="14.0" mnemonicParsing="false" AnchorPane.rightAnchor="52.0" AnchorPane.topAnchor="14.0" />
          </children>
       </AnchorPane>
    </center>

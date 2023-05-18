@@ -11,32 +11,31 @@
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.BorderPane?>
-<?import javafx.scene.layout.Pane?>
 <?import javafx.scene.text.Text?>
 
 <BorderPane fx:id="borderPaneTechnician" prefHeight="606.0" prefWidth="869.0" styleClass="root" stylesheets="/GUI/Css/TechnicianViewCss.css" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="GUI.Controllers.TechnicianViewController">
    <left>
-      <Pane prefHeight="606.0" prefWidth="204.0" BorderPane.alignment="CENTER">
+      <AnchorPane BorderPane.alignment="CENTER">
          <children>
-            <ImageView fitHeight="124.0" fitWidth="174.0" layoutX="15.0" layoutY="31.0" pickOnBounds="true" preserveRatio="true">
+            <ImageView fitHeight="124.0" fitWidth="174.0" pickOnBounds="true" preserveRatio="true">
                <image>
                   <Image url="@../Images/WUAV.png" />
                </image>
             </ImageView>
-            <Button fx:id="btnLogout" layoutX="33.0" layoutY="546.0" mnemonicParsing="false" onAction="#handleLogout" prefHeight="30.0" prefWidth="140.0" text="Logout" />
-            <Button fx:id="btnshowMyInstallations" layoutX="33.0" layoutY="273.0" mnemonicParsing="false" onAction="#handleShowMyInstallations" prefHeight="30.0" prefWidth="140.0" text="My Installations" />
-            <Button fx:id="btnShowInstallations" layoutX="33.0" layoutY="203.0" mnemonicParsing="false" onAction="#handleShowInstallations" prefHeight="30.0" prefWidth="140.0" text="Installations" />
-            <Label fx:id="lblLoggedInAs" layoutX="22.0" layoutY="139.0" prefHeight="46.0" prefWidth="160.0" styleClass="label-User" text="Technician:" textAlignment="CENTER" wrapText="true" />
+            <Button fx:id="btnLogout" layoutX="17.0" layoutY="550.0" mnemonicParsing="false" onAction="#handleLogout" prefHeight="30.0" prefWidth="140.0" text="Logout" AnchorPane.bottomAnchor="25.99999999999998" />
+            <Button fx:id="btnshowMyInstallations" layoutX="17.0" layoutY="303.0" mnemonicParsing="false" onAction="#handleShowMyInstallations" prefHeight="30.0" prefWidth="140.0" text="My Installations" AnchorPane.bottomAnchor="273.0" />
+            <Button fx:id="btnShowInstallations" layoutX="17.0" layoutY="209.0" mnemonicParsing="false" onAction="#handleShowInstallations" prefHeight="30.0" prefWidth="140.0" text="Installations" AnchorPane.bottomAnchor="367.0" />
+            <Label fx:id="lblLoggedInAs" layoutX="14.0" layoutY="116.0" prefHeight="46.0" prefWidth="160.0" styleClass="label-User" text="Technician:" textAlignment="CENTER" wrapText="true" />
          </children>
-      </Pane>
+      </AnchorPane>
    </left>
    <center>
       <AnchorPane prefHeight="200.0" prefWidth="200.0" styleClass="anchor-pane" BorderPane.alignment="CENTER">
          <children>
-            <Button fx:id="btnCreate" layoutX="95.0" layoutY="544.0" mnemonicParsing="false" onAction="#handleCreate" prefHeight="30.0" prefWidth="140.0" styleClass="buttonothertext" text="Create" />
-            <Button fx:id="btnOpen" layoutX="448.0" layoutY="544.0" mnemonicParsing="false" onAction="#handleOpen" prefHeight="30.0" prefWidth="140.0" styleClass="buttonothertext" text="Open" />
-            <Text fx:id="txtViewName" layoutX="55.0" layoutY="91.0" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="text" text="Installations" wrappingWidth="179.336669921875" />
-            <TableView fx:id="tbvInstallationlist" layoutX="55.0" layoutY="138.0" prefHeight="365.0" prefWidth="570.0" AnchorPane.leftAnchor="45.0" AnchorPane.topAnchor="130.0">
+            <Button fx:id="btnCreate" layoutX="95.0" layoutY="544.0" mnemonicParsing="false" onAction="#handleCreate" prefHeight="30.0" prefWidth="140.0" styleClass="buttonothertext" text="Create" AnchorPane.bottomAnchor="31.99999999999998" AnchorPane.leftAnchor="95.0" />
+            <Button fx:id="btnOpen" layoutX="448.0" layoutY="544.0" mnemonicParsing="false" onAction="#handleOpen" prefHeight="30.0" prefWidth="140.0" styleClass="buttonothertext" text="Open" AnchorPane.bottomAnchor="31.99999999999998" AnchorPane.rightAnchor="107.20000000000005" />
+            <Text fx:id="txtViewName" layoutX="55.0" layoutY="91.0" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="text" text="Installations" wrappingWidth="179.336669921875" AnchorPane.leftAnchor="55.0" AnchorPane.topAnchor="78.0" />
+            <TableView fx:id="tbvInstallationlist" layoutX="55.0" layoutY="138.0" prefHeight="365.0" prefWidth="570.0" AnchorPane.bottomAnchor="110.79999999999995" AnchorPane.leftAnchor="45.0" AnchorPane.rightAnchor="50.200000000000045" AnchorPane.topAnchor="130.0">
                <columns>
                   <TableColumn fx:id="clmINSId" prefWidth="75.0" resizable="false" text="Id" />
                   <TableColumn fx:id="clmCostumerName" prefWidth="184.0" resizable="false" text="Costumer Name" />
@@ -44,24 +43,24 @@
                   <TableColumn fx:id="clmINSDate" maxWidth="254.39999999999998" minWidth="0.0" prefWidth="132.79998779296875" resizable="false" text="Date" />
                </columns>
             </TableView>
-            <TableView fx:id="tbvMyInstallationlist" prefHeight="365.0" prefWidth="570.0" AnchorPane.leftAnchor="45.0" AnchorPane.topAnchor="130.0">
+            <TableView fx:id="tbvMyInstallationlist" prefHeight="365.0" prefWidth="570.0" AnchorPane.bottomAnchor="110.79999999999995" AnchorPane.leftAnchor="45.0" AnchorPane.rightAnchor="50.200000000000045" AnchorPane.topAnchor="130.0">
                <columns>
                   <TableColumn fx:id="clmINSId1" prefWidth="75.0" resizable="false" text="Id" />
                   <TableColumn fx:id="clmCostumerName1" prefWidth="184.0" resizable="false" text="Costumer Name" />
                   <TableColumn fx:id="clmINSAddress1" minWidth="0.0" prefWidth="177.60003662109375" resizable="false" text="Address" />
-                  <TableColumn fx:id="clmINSDate1" maxWidth="254.39999999999998" minWidth="0.0" prefWidth="132.79998779296875" resizable="false" text="Date" />
+                  <TableColumn fx:id="clmINSDate1" maxWidth="254.39999999999998" minWidth="0.0" prefWidth="161.60000610351562" resizable="false" text="Date" />
                </columns>
             </TableView>
-            <TextField fx:id="txfSearch" layoutX="369.0" layoutY="95.0" onKeyPressed="#searchOnButtonPress" promptText="Search" />
-            <MenuButton fx:id="btnSearchChoice" layoutX="523.0" layoutY="95.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="95.0" text="All">
+            <TextField fx:id="txfSearch" layoutX="369.0" layoutY="95.0" onKeyPressed="#searchOnButtonPress" promptText="Search" AnchorPane.rightAnchor="147.00000000000003" AnchorPane.topAnchor="95.0" />
+            <MenuButton fx:id="btnSearchChoice" layoutX="523.0" layoutY="95.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="95.0" text="All" AnchorPane.rightAnchor="47.40000000000002" AnchorPane.topAnchor="95.0">
                <items>
                   <MenuItem fx:id="miName" mnemonicParsing="false" onAction="#handleNameChoice" text="Name" />
                   <MenuItem fx:id="miAddress" mnemonicParsing="false" onAction="#handleAddressChoice" text="Address" />
                   <MenuItem fx:id="miDate" mnemonicParsing="false" onAction="#handleDateChoice" text="Date" />
                </items>
             </MenuButton>
-            <Text fx:id="txtSearchText" layoutX="523.0" layoutY="91.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Search for:" wrappingWidth="76.109375" />
-            <Button fx:id="btnScreenSize" layoutX="590.0" layoutY="14.0" mnemonicParsing="false" text="Button" />
+            <Text fx:id="txtSearchText" layoutX="523.0" layoutY="91.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Search for:" wrappingWidth="76.109375" AnchorPane.rightAnchor="66.49062500000002" AnchorPane.topAnchor="78.0" />
+            <Button fx:id="btnScreenSize" layoutX="610.0" layoutY="14.0" mnemonicParsing="false" onAction="#handleScreenSize" AnchorPane.rightAnchor="39.60000000000002" AnchorPane.topAnchor="14.0" />
          </children>
       </AnchorPane>
    </center>
