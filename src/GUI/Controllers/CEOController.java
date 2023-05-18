@@ -26,6 +26,7 @@ import java.io.IOException;
 import java.time.LocalDate;
 
 public class CEOController extends BaseController{
+    public Button btnScreenSize;
     @FXML
     private Label lblLoggedInAs;
     @FXML
@@ -104,6 +105,7 @@ public class CEOController extends BaseController{
         btnOpen.setGraphic(new ImageView(new Image("/GUI/Images/ButtonIcons/icons8-opened-folder-80.png")));
         btnshowInstallations.setGraphic(new ImageView(new Image("/GUI/Images/ButtonIcons/icons8-stack-of-paper-80.png")));
         btnShowUsers.setGraphic(new ImageView(new Image("/GUI/Images/ButtonIcons/icons8-people-64.png")));
+        btnScreenSize.setGraphic(new ImageView(new Image("/GUI/Images/ButtonIcons/icons8-full-screen-80.png")));
     }
 
     /**
@@ -543,4 +545,21 @@ public class CEOController extends BaseController{
         selectSearch();
     }
 
+    /**
+     * Handles the resizing of the window when a button is pressed.
+     * @param actionEvent
+     */
+    public void handleScreenSize(ActionEvent actionEvent)
+    {
+        Stage stage = (Stage) btnScreenSize.getScene().getWindow();
+        if(stage.isMaximized())
+        {
+            stage.setMaximized(false);
+            btnScreenSize.setGraphic(new ImageView(new Image("/GUI/Images/ButtonIcons/icons8-full-screen-80.png")));
+        } else if (!stage.isMaximized())
+        {
+            stage.setMaximized(true);
+            btnScreenSize.setGraphic(new ImageView(new Image("/GUI/Images/ButtonIcons/icons8-normal-screen-80.png")));
+        }
+    }
 }

@@ -26,6 +26,7 @@ import java.time.LocalDate;
 
 public class ProjectManagerViewController extends BaseController{
 
+    public Button btnScreenSize;
     @FXML
     private TextField txfSearch;
     @FXML
@@ -76,6 +77,7 @@ public class ProjectManagerViewController extends BaseController{
         btnCreate.setGraphic(new ImageView(new Image("/GUI/Images/ButtonIcons/icons8-create-80.png")));
         btnDelete.setGraphic(new ImageView(new Image("/GUI/Images/ButtonIcons/icons8-empty-trash-80.png")));
         btnOpen.setGraphic(new ImageView(new Image("/GUI/Images/ButtonIcons/icons8-opened-folder-80.png")));
+        btnScreenSize.setGraphic(new ImageView(new Image("/GUI/Images/ButtonIcons/icons8-full-screen-80.png")));
     }
 
     /**
@@ -319,6 +321,24 @@ public class ProjectManagerViewController extends BaseController{
             searchName = true;
             searchAddress = true;
             searchDate = true;
+        }
+    }
+
+    /**
+     * Handles the resizing of the window when a button is pressed.
+     * @param actionEvent
+     */
+    public void handleScreenSize(ActionEvent actionEvent)
+    {
+        Stage stage = (Stage) btnScreenSize.getScene().getWindow();
+        if(stage.isMaximized())
+        {
+            stage.setMaximized(false);
+            btnScreenSize.setGraphic(new ImageView(new Image("/GUI/Images/ButtonIcons/icons8-full-screen-80.png")));
+        } else if (!stage.isMaximized())
+        {
+            stage.setMaximized(true);
+            btnScreenSize.setGraphic(new ImageView(new Image("/GUI/Images/ButtonIcons/icons8-normal-screen-80.png")));
         }
     }
 }

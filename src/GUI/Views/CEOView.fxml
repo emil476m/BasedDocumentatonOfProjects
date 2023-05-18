@@ -11,58 +11,57 @@
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.BorderPane?>
-<?import javafx.scene.layout.Pane?>
 <?import javafx.scene.text.Text?>
 
 <BorderPane fx:id="borderPaneCEO" prefHeight="606.0" prefWidth="869.0" styleClass="root" stylesheets="/GUI/Css/CEOViewCss.css" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="GUI.Controllers.CEOController">
    <left>
-      <Pane prefHeight="606.0" prefWidth="204.0" BorderPane.alignment="CENTER">
+      <AnchorPane BorderPane.alignment="CENTER">
          <children>
-            <ImageView fitHeight="124.0" fitWidth="174.0" layoutX="15.0" layoutY="31.0" pickOnBounds="true" preserveRatio="true">
+            <ImageView fitHeight="124.0" fitWidth="174.0" pickOnBounds="true" preserveRatio="true">
                <image>
                   <Image url="@../Images/WUAV.png" />
                </image>
             </ImageView>
-            <Button fx:id="btnLogout" layoutX="33.0" layoutY="546.0" mnemonicParsing="false" onAction="#handleLogout" prefHeight="30.0" prefWidth="140.0" text="Logout" />
-            <Button fx:id="btnshowInstallations" layoutX="33.0" layoutY="273.0" mnemonicParsing="false" onAction="#handleShowInstallations" prefHeight="30.0" prefWidth="140.0" text="Installations" />
-            <Button fx:id="btnShowUsers" layoutX="33.0" layoutY="203.0" mnemonicParsing="false" onAction="#handleShowUsers" prefHeight="30.0" prefWidth="140.0" text="Users" />
-            <Label fx:id="lblLoggedInAs" layoutX="43.0" layoutY="137.0" prefHeight="48.0" prefWidth="119.0" styleClass="label-User" text="CEO:" wrapText="true" />
+            <Button fx:id="btnLogout" layoutX="17.0" layoutY="544.0" mnemonicParsing="false" onAction="#handleLogout" prefHeight="30.0" prefWidth="140.0" text="Logout" AnchorPane.bottomAnchor="32.0" AnchorPane.leftAnchor="17.0" />
+            <Button fx:id="btnshowInstallations" layoutX="17.0" layoutY="279.0" mnemonicParsing="false" onAction="#handleShowInstallations" prefHeight="30.0" prefWidth="140.0" text="Installations" AnchorPane.leftAnchor="17.0" AnchorPane.topAnchor="279.0" />
+            <Button fx:id="btnShowUsers" layoutX="17.0" layoutY="219.0" mnemonicParsing="false" onAction="#handleShowUsers" prefHeight="30.0" prefWidth="140.0" text="Users" AnchorPane.leftAnchor="17.0" AnchorPane.topAnchor="219.0" />
+            <Label fx:id="lblLoggedInAs" layoutX="28.0" layoutY="130.0" prefHeight="48.0" prefWidth="119.0" styleClass="label-User" text="CEO:" wrapText="true" />
          </children>
-      </Pane>
+      </AnchorPane>
    </left>
    <center>
       <AnchorPane prefHeight="200.0" prefWidth="200.0" styleClass="anchor-pane" BorderPane.alignment="CENTER">
          <children>
-            <Button fx:id="btnCreate" layoutX="95.0" layoutY="544.0" mnemonicParsing="false" onAction="#handleCreate" prefHeight="30.0" prefWidth="140.0" styleClass="buttonothertext" text="Create" />
-            <Button fx:id="btnDelete" layoutX="275.0" layoutY="544.0" mnemonicParsing="false" onAction="#handleDelete" prefHeight="30.0" prefWidth="140.0" styleClass="buttonothertext" text="Delete" />
-            <Button fx:id="btnOpen" layoutX="448.0" layoutY="544.0" mnemonicParsing="false" onAction="#handleOpen" prefHeight="30.0" prefWidth="140.0" styleClass="buttonothertext" text="Open" />
-            <Text fx:id="txtViewName" layoutX="57.0" layoutY="90.0" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="text" text="Users" wrappingWidth="156.13671875" />
-            <TableView fx:id="tbvUserlist" layoutX="45.0" layoutY="128.0" prefHeight="365.0" prefWidth="570.0" AnchorPane.leftAnchor="45.0" AnchorPane.rightAnchor="50.0" AnchorPane.topAnchor="130.0">
+            <Button fx:id="btnCreate" layoutX="95.0" layoutY="544.0" mnemonicParsing="false" onAction="#handleCreate" prefHeight="30.0" prefWidth="140.0" styleClass="buttonothertext" text="Create" AnchorPane.bottomAnchor="32.0" AnchorPane.rightAnchor="460.0" />
+            <Button fx:id="btnDelete" layoutX="275.0" layoutY="544.0" mnemonicParsing="false" onAction="#handleDelete" prefHeight="30.0" prefWidth="140.0" styleClass="buttonothertext" text="Delete" AnchorPane.bottomAnchor="32.0" AnchorPane.rightAnchor="280.0" />
+            <Button fx:id="btnOpen" layoutX="453.0" layoutY="544.0" mnemonicParsing="false" onAction="#handleOpen" prefHeight="30.0" prefWidth="140.0" styleClass="buttonothertext" text="Open" AnchorPane.bottomAnchor="32.0" AnchorPane.rightAnchor="102.0" />
+            <Text fx:id="txtViewName" layoutX="57.0" layoutY="90.0" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="text" text="Users" wrappingWidth="156.13671875" AnchorPane.leftAnchor="57.0" AnchorPane.topAnchor="77.0" />
+            <TableView fx:id="tbvUserlist" layoutX="45.0" layoutY="128.0" prefHeight="365.0" prefWidth="570.0" AnchorPane.bottomAnchor="111.0" AnchorPane.leftAnchor="45.0" AnchorPane.rightAnchor="50.0" AnchorPane.topAnchor="130.0">
               <columns>
                 <TableColumn fx:id="clmUserId" prefWidth="75.0" resizable="false" text="Id" />
                 <TableColumn fx:id="clmUserName" prefWidth="317.0" resizable="false" text="Name" />
                   <TableColumn fx:id="clmUserClass" minWidth="0.0" prefWidth="176.0" resizable="false" text="Class" />
               </columns>
             </TableView>
-            <TableView fx:id="tbvInstallationlist" layoutX="55.0" layoutY="138.0" prefHeight="365.0" prefWidth="570.0" AnchorPane.leftAnchor="45.0" AnchorPane.topAnchor="130.0">
+            <TableView fx:id="tbvInstallationlist" layoutX="55.0" layoutY="138.0" prefHeight="365.0" prefWidth="570.0" AnchorPane.bottomAnchor="111.0" AnchorPane.leftAnchor="45.0" AnchorPane.rightAnchor="50.0" AnchorPane.topAnchor="130.0">
                <columns>
                   <TableColumn fx:id="clmINSId" prefWidth="75.0" resizable="false" text="Id" />
                   <TableColumn fx:id="clmCostumerName" prefWidth="149.0" resizable="false" text="Costumer Name" />
                   <TableColumn fx:id="clmINSAddress" minWidth="0.0" prefWidth="208.0" resizable="false" text="Address" />
-                  <TableColumn fx:id="clmINSDate" minWidth="0.0" prefWidth="137.0" resizable="false" text="Date" />
+                  <TableColumn fx:id="clmINSDate" minWidth="0.0" prefWidth="167.0" resizable="false" text="Date" />
                </columns>
             </TableView>
-            <TextField fx:id="txfSearch" layoutX="363.0" layoutY="94.0" onKeyPressed="#searchOnButtonPress" promptText="Search" />
-            <MenuButton fx:id="btnSearchChoice" layoutX="518.0" layoutY="94.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="95.0" text="All">
+            <TextField fx:id="txfSearch" layoutX="363.0" layoutY="94.0" onKeyPressed="#searchOnButtonPress" promptText="Search" AnchorPane.rightAnchor="183.0" AnchorPane.topAnchor="94.0" />
+            <MenuButton fx:id="btnSearchChoice" layoutX="518.0" layoutY="94.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="95.0" text="All" AnchorPane.rightAnchor="82.0" AnchorPane.topAnchor="94.0">
               <items>
                 <MenuItem fx:id="miName" mnemonicParsing="false" onAction="#handleNameChoice" text="Name" />
                 <MenuItem fx:id="miAddress" mnemonicParsing="false" onAction="#handleAddressChoice" text="Address" />
                   <MenuItem fx:id="miDate" mnemonicParsing="false" onAction="#handleDateChoice" text="Date" />
               </items>
             </MenuButton>
-            <Text fx:id="txtSearchText" layoutX="518.0" layoutY="90.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Search for:" wrappingWidth="76.109375" />
-            <Button fx:id="btnSearch" layoutX="533.4" layoutY="93.0" mnemonicParsing="false" onAction="#handleSearch" prefHeight="26.0" prefWidth="43.0" AnchorPane.rightAnchor="89.0" />
-            <Button fx:id="btnScreenSize" layoutX="590.0" layoutY="14.0" mnemonicParsing="false" text="Button" />
+            <Text fx:id="txtSearchText" layoutX="518.0" layoutY="90.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Search for:" wrappingWidth="76.109375" AnchorPane.rightAnchor="100.890625" AnchorPane.topAnchor="77.0" />
+            <Button fx:id="btnSearch" layoutX="533.4" layoutY="93.0" mnemonicParsing="false" onAction="#handleSearch" prefHeight="26.0" prefWidth="43.0" AnchorPane.rightAnchor="89.0" AnchorPane.topAnchor="93.0" />
+            <Button fx:id="btnScreenSize" layoutX="619.0" layoutY="30.0" mnemonicParsing="false" onAction="#handleScreenSize" AnchorPane.rightAnchor="24.0" AnchorPane.topAnchor="30.0" />
          </children>
       </AnchorPane>
    </center>
