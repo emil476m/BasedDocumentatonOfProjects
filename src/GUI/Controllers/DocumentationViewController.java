@@ -29,6 +29,7 @@ import javafx.util.Callback;
 
 import java.io.File;
 import java.io.IOException;
+import java.lang.reflect.Executable;
 import java.nio.file.Files;
 import java.sql.SQLException;
 import java.sql.Timestamp;
@@ -46,7 +47,7 @@ public class DocumentationViewController extends BaseController{
     @FXML
     private Button btnRemoveTechnician;
     @FXML
-    private Button btnAssignTech,btnOpenPaint,btnSave,btnSend,btnSaveToDevice,btnAddImage,btnAddDevice,btnRemove,btnReturn;
+    private Button btnAssignTech,btnOpenPaint,btnSave,btnSend,btnSaveToDevice,btnAddImage,btnAddDevice,btnRemove,btnReturn, btnScreenSize;
     @FXML
     private TextField txtCostumerName,txtAddress,txtZipCode,txtCostumerType,txtLocation, txtCostumerEmail;
     @FXML
@@ -108,7 +109,6 @@ public class DocumentationViewController extends BaseController{
         }
         catch (Exception e)
         {
-            e.printStackTrace();
             ExceptionHandler.displayError(new RuntimeException("failed to set up window", e));
         }
     }
@@ -125,7 +125,7 @@ public class DocumentationViewController extends BaseController{
             }
             lvDevices.setItems(getModelsHandler().getDocumentationModel().getDevicesObservableList());
         } catch (Exception e) {
-            throw new RuntimeException(e);
+            ExceptionHandler.displayError(new Throwable("Failed to set up lists please try again",e));
         }
         projectImages.clear();
         projectImages.addAll(getModelsHandler().getDocumentationModel().getImagesObservableList());
@@ -342,7 +342,7 @@ public class DocumentationViewController extends BaseController{
                 if (localFilePaths != null && !localFilePaths.isEmpty())
                     getModelsHandler().getDocumentationModel().deleteLocalFiles(localFilePaths);
             } catch (Exception e) {
-                throw new RuntimeException(e);
+                ExceptionHandler.displayError(new Throwable("failed to delete local files",e));
             }
 
             Stage stage = (Stage) btnReturn.getScene().getWindow();
@@ -406,7 +406,7 @@ public class DocumentationViewController extends BaseController{
                 getModelsHandler().getDocumentationModel().sentToProjectManager(project);
             }
             catch (Exception e) {
-                ExceptionHandler.displayError(new RuntimeException("Failed to send installation to project manager", e));
+                ExceptionHandler.displayError(new Throwable("Failed to send installation to project manager", e));
             }
         }
     }
@@ -481,7 +481,6 @@ public class DocumentationViewController extends BaseController{
                     getModelsHandler().getDocumentationModel().deleteDevices(devicestoDelete);
                     devicestoDelete = new ArrayList<>();
                 } catch (SQLException e) {
-                    e.printStackTrace();
                     ExceptionHandler.displayError(new RuntimeException("Failed to delete devices",e));
                 }
             }
@@ -490,7 +489,7 @@ public class DocumentationViewController extends BaseController{
     }
 
     /**
-     * Saves the current changes to the openedProjcet:
+     * Saves the current changes to the openedProject:
      */
     private void saveProject()
     {
@@ -534,7 +533,6 @@ public class DocumentationViewController extends BaseController{
             }
 
         } catch (Exception e) {
-            e.printStackTrace();
             ExceptionHandler.displayError(new RuntimeException("failed to update project", e));
         }
     }
@@ -644,10 +642,8 @@ public class DocumentationViewController extends BaseController{
                 updateTableViewsNewProject(project, lvDevices.getItems());
                 AlertOpener.confirm("Has been saved", "Your changes have been saved.");
             } catch (SQLException e) {
-                e.printStackTrace();
                 ExceptionHandler.displayError(new SQLException("Failed to save project in Database"));
             } catch (Exception e) {
-                e.printStackTrace();
                 ExceptionHandler.displayError(new RuntimeException("Failed to create new project"));
             }
         }
@@ -777,7 +773,7 @@ public class DocumentationViewController extends BaseController{
         try {
             opnedProject = getModelsHandler().getDocumentationModel().getProjectFromId(project);
         } catch (Exception e) {
-            throw new RuntimeException(e);
+            ExceptionHandler.displayError(new RuntimeException("failed to set the opened project", e));
         }
     }
 
@@ -846,7 +842,7 @@ public class DocumentationViewController extends BaseController{
         try {
             controller.setModel(ModelsHandler.getInstance());
         } catch (Exception e) {
-            throw new RuntimeException(e);
+            ExceptionHandler.displayError(new RuntimeException("failed to set model", e));
         }
         controller.setup();
 
@@ -880,7 +876,7 @@ public class DocumentationViewController extends BaseController{
                 try {
                     file = getModelsHandler().getDocumentationModel().createLocalFile(file);
                 } catch (Exception e) {
-                    throw new RuntimeException(e);
+                    ExceptionHandler.displayError(new Throwable("failed to create new locale files", e));
                 }
                 projectImages.add(file);
                 getModelsHandler().getDocumentationModel().getImagesToBeSaved().add(file);
@@ -900,7 +896,7 @@ public class DocumentationViewController extends BaseController{
                     try {
                         getModelsHandler().getDocumentationModel().uploadFilesFromDropBox(f.getPath(), "/" + project.getProjectId() + "/" + f.getName());
                     } catch (DbxException e) {
-                        throw new RuntimeException(e);
+                        ExceptionHandler.displayError(new DbxException("Failed to upload files",e));
                     }
                 }
             }
@@ -922,7 +918,7 @@ public class DocumentationViewController extends BaseController{
                 }
             }
         } catch (DbxException e) {
-            throw new RuntimeException(e);
+            ExceptionHandler.displayError(new DbxException("Failed to get all files fro the project", e));
         }
     }
 
@@ -939,7 +935,7 @@ public class DocumentationViewController extends BaseController{
                 deleteDevice();
             }
         } catch (DbxException e) {
-            throw new RuntimeException(e);
+            ExceptionHandler.displayError(new DbxException("failed to delete items",e));
         }
     }
 
@@ -1011,5 +1007,24 @@ public class DocumentationViewController extends BaseController{
         btnRemoveTechnician.setGraphic(new ImageView(new Image("/GUI/Images/ButtonIcons/icons8-empty-trash-80.png")));
         btnAddDevice.setGraphic(new ImageView(new Image("/GUI/Images/ButtonIcons/icons8-add-80.png")));
         btnAssignTech.setGraphic(new ImageView(new Image("/GUI/Images/ButtonIcons/icons8-add-80.png")));
+        btnScreenSize.setGraphic(new ImageView(new Image("/GUI/Images/ButtonIcons/icons8-full-screen-80.png")));
+    }
+
+    /**
+     * Handles the resizing of the window when a button is pressed.
+     * @param actionEvent
+     */
+    public void handleScreenSize(ActionEvent actionEvent)
+    {
+        Stage stage = (Stage) btnScreenSize.getScene().getWindow();
+        if(stage.isMaximized())
+        {
+            stage.setMaximized(false);
+            btnScreenSize.setGraphic(new ImageView(new Image("/GUI/Images/ButtonIcons/icons8-full-screen-80.png")));
+        } else if (!stage.isMaximized())
+        {
+            stage.setMaximized(true);
+            btnScreenSize.setGraphic(new ImageView(new Image("/GUI/Images/ButtonIcons/icons8-normal-screen-80.png")));
+        }
     }
 }

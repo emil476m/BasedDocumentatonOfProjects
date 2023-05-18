@@ -63,7 +63,7 @@ public class TechnicianViewController extends BaseController{
 
     @Override
     public void setup() {
-        toggleViews(true,false);
+        toggleViews(false,true);
         setupButtonIcons();
         lblLoggedInAs.setText("Technician: " + getModelsHandler().getLoginModel().getUser().getName());
         try {

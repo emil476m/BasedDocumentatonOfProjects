@@ -40,7 +40,7 @@
                   <TableColumn fx:id="clmINSId" prefWidth="75.0" resizable="false" text="Id" />
                   <TableColumn fx:id="clmCostumerName" prefWidth="184.0" resizable="false" text="Costumer Name" />
                   <TableColumn fx:id="clmINSAddress" minWidth="0.0" prefWidth="177.60003662109375" resizable="false" text="Address" />
-                  <TableColumn fx:id="clmINSDate" maxWidth="254.39999999999998" minWidth="0.0" prefWidth="132.79998779296875" resizable="false" text="Date" />
+                  <TableColumn fx:id="clmINSDate" maxWidth="254.39999999999998" minWidth="0.0" prefWidth="161.60000610351562" resizable="false" text="Date" />
                </columns>
             </TableView>
             <TableView fx:id="tbvMyInstallationlist" prefHeight="365.0" prefWidth="570.0" AnchorPane.bottomAnchor="110.79999999999995" AnchorPane.leftAnchor="45.0" AnchorPane.rightAnchor="50.200000000000045" AnchorPane.topAnchor="130.0">
