@@ -22,6 +22,11 @@ public class UserDAO_DB implements IUserDAO {
         dbConnector = new DatabaseConnector();
     }
 
+    /**
+     * Gets all users, that are not soft deleted.
+     * @return returns a list of all users it found.
+     * @throws Exception
+     */
     @Override
     public List<User> getAllUsers() throws Exception {
         String sql = "SELECT * FROM [User] WHERE IsDeleted = 'false';";
@@ -63,6 +68,12 @@ public class UserDAO_DB implements IUserDAO {
         }
     }
 
+    /**
+     * creates a new user in the database
+     * @param user
+     * @return returns a new user object with a userId.
+     * @throws Exception
+     */
     @Override
     public User createUser(User user) throws Exception{
         Properties databaseProperties = new Properties();
@@ -119,6 +130,11 @@ public class UserDAO_DB implements IUserDAO {
         }
     }
 
+    /**
+     * updates a users data in the database, is also used to soft delete users.
+     * @param user
+     * @throws Exception
+     */
     @Override
     public void updateUser(User user) throws Exception {
         Properties databaseProperties = new Properties();
@@ -148,6 +164,12 @@ public class UserDAO_DB implements IUserDAO {
         }
     }
 
+    /**
+     * checks if a username already exists in the database and returns false if it does, and true if it does not.
+     * @param userName
+     * @return returns false if username exist in database and true if it does not exist.
+     * @throws Exception
+     */
     @Override
     public boolean checkUserName(String userName) throws Exception {
         String sql = "SELECT UserName FROM [User] WHERE UserName = ?;";
@@ -172,6 +194,12 @@ public class UserDAO_DB implements IUserDAO {
         }
     }
 
+    /**
+     * Uses a userId to find and return a specific user object.
+     * @param userId
+     * @return
+     * @throws Exception
+     */
     @Override
     public User getUserFromId(int userId) throws Exception {
         String sql = "SELECT * FROM [User] WHERE Id = ?;";
@@ -215,6 +243,12 @@ public class UserDAO_DB implements IUserDAO {
         }
     }
 
+    /**
+     * Get all users(technicians) with relations to a specific project.
+     * @param project
+     * @return
+     * @throws Exception
+     */
     @Override
     public List<Integer> getUsersWorkingOnProject(Project project) throws Exception {
         String sql = "SELECT * FROM WorkingOnProject WHERE ProjectId = ?;";
@@ -240,6 +274,12 @@ public class UserDAO_DB implements IUserDAO {
         }
     }
 
+    /**
+     * Creates relations between a list of users(Technicians) and a project.
+     * @param userListToBeAdded
+     * @param project
+     * @throws Exception
+     */
     @Override
     public void addUsersToWorkingOnProject(List<User> userListToBeAdded, Project project) throws Exception {
         String sql = "INSERT INTO [WorkingOnProject] (ProjectId, UserId) VALUES (?,?);";
@@ -259,6 +299,12 @@ public class UserDAO_DB implements IUserDAO {
         }
     }
 
+    /**
+     * Deletes the relation between a User(technician) and a project in the database
+     * @param user
+     * @param project
+     * @throws Exception
+     */
     @Override
     public void deleteFromWorkingOnProject(User user, Project project) throws Exception {
         String sql = "DELETE FROM WorkingOnProject WHERE UserId = ? AND ProjectId = ?;";

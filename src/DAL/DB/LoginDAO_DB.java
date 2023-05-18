@@ -17,6 +17,13 @@ public class LoginDAO_DB implements ILoginDAO {
        dbConnector = new DatabaseConnector();
    }
 
+    /**
+     * Find a user in the database by using username and checks the password with BCrypt, returns found user object if the password matches.
+     * @param username
+     * @param password
+     * @return returns found user object.
+     * @throws SQLException
+     */
     @Override
     public User loginUser(String username, String password) throws SQLException {
        String sql = "SELECT * FROM [User] INNER JOIN [UserType] ON [User].UserType = [UserType].ID WHERE UserName=? AND IsDeleted=?";

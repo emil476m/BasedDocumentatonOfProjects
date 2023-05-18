@@ -20,6 +20,11 @@ public class ProjectDAO_DB implements IProjectDAO {
         dbConnector = new DatabaseConnector();
     }
 
+    /**
+     * Retrieves all projects that are not soft deleted.
+     * @return returns a list of project objects.
+     * @throws Exception
+     */
     @Override
     public List<Project> getAllProjects() throws Exception {
         String sql = "SELECT * FROM [Project] WHERE IsDeleted = 'false';";
@@ -58,6 +63,12 @@ public class ProjectDAO_DB implements IProjectDAO {
         }
     }
 
+    /**
+     * Retrieves all projects from the database with a relations to the user(Technician).
+     * @param user
+     * @return returns a list of the projects found.
+     * @throws Exception
+     */
     @Override
     public List<Project> getMyProjects(User user) throws Exception {
         String sql = "SELECT * From WorkingOnProject \n" +
@@ -100,6 +111,11 @@ public class ProjectDAO_DB implements IProjectDAO {
         }
     }
 
+    /**
+     * Updates a project in the database from a project object.
+     * @param project
+     * @throws Exception
+     */
     @Override
     public void updateProject(Project project) throws Exception {
         String sql = "UPDATE [Project] SET CostumerName = ?, CostumerEmail = ?, ProjectDate = ?, ProjectLocation = ?, ProjectDescription = ?, ProjectCreator = ?, IsDeleted = ?, LastEditedBy = ?, LastEdited = ?, CanBeEditedByTech = ?, CostumerType = ?, ProjectAddress = ?, ProjectZipCode = ? WHERE Id = ?;";
@@ -129,6 +145,13 @@ public class ProjectDAO_DB implements IProjectDAO {
         }
     }
 
+    /**
+     * Creates a project and devices ind the database from a project object and a list of devices objects, then calls the createDeviceForProject method.
+     * @param project
+     * @param device
+     * @return returns a new project object with the generated projectId from the Database.
+     * @throws SQLException
+     */
     @Override
     public Project createProject(Project project, List<Device> device) throws SQLException {
         String projectTableString = "INSERT INTO Project (CostumerName,CostumerEmail,ProjectDate,ProjectLocation,ProjectDescription,ProjectCreator,IsDeleted,LastEditedBy,LastEdited,CanBeEditedByTech,CostumerType,ProjectAddress,ProjectZipCode) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?);";
@@ -194,6 +217,12 @@ public class ProjectDAO_DB implements IProjectDAO {
         }
     }
 
+    /**
+     * Creates new devices for a project and creates relations between the project and devices.
+     * @param project
+     * @param devices
+     * @throws SQLServerException
+     */
     private void createDeviceForProject(Project project, List<Device> devices) throws SQLServerException {
         String deviceTable = "INSERT INTO Device (DeviceUsername, DevicePassword, DeviceType) VALUES(?,?,?);";
         String deviceForProject = "INSERT INTO DeviceForProject (DeviceId,ProjectId) VALUES(?,?);";
@@ -230,11 +259,15 @@ public class ProjectDAO_DB implements IProjectDAO {
         }
     }
 
+    /**
+     * Updates a project and calls the createDeviceForProject() method.
+     * @param project
+     * @param newDevices
+     * @throws SQLException
+     */
     @Override
     public void UpdateProjectWithDevices(Project project, List<Device> newDevices) throws SQLException {
         String projectTable = "UPDATE [Project] SET CostumerName = ?, ProjectDate = ?, ProjectLocation = ?, ProjectDescription = ?, ProjectCreator = ?, IsDeleted = ?, LastEditedBy = ?, LastEdited = ?, CanBeEditedByTech = ?, CostumerType = ?, ProjectAddress = ?, ProjectZipCode = ? WHERE Id = ?;";
-        String deviceTable = "INSERT INTO Device (DeviceUsername,DevicePassword,DeviceType) VALUES(?,?,?);";
-        String deviceForProject = "INSERT INTO DeviceForProject (DeviceId,ProjectId) VALUSE (?,?)";
         try (Connection conn = dbConnector.getConnection()) {
             PreparedStatement statement = conn.prepareStatement(projectTable);
             conn.setAutoCommit(false);
@@ -263,6 +296,12 @@ public class ProjectDAO_DB implements IProjectDAO {
         }
     }
 
+    /**
+     * Uses a projectId to find a specific project and returns it
+     * @param project
+     * @return returns a project.
+     * @throws Exception
+     */
     @Override
     public Project getProjectFromId(Project project) throws Exception {
         String sql = "SELECT * From Project WHERE Id = ?;";
@@ -301,6 +340,12 @@ public class ProjectDAO_DB implements IProjectDAO {
         }
     }
 
+    /**
+     * Matches a project objects last edited variable with the databases
+     * @param project
+     * @return returns true if the projects last edited variable match with the database and false if it does not.
+     * @throws Exception
+     */
     @Override
     public boolean lastProjectEditMatch(Project project) throws Exception {
         String sql = "SELECT * From Project WHERE Id = ?;";
@@ -321,7 +366,7 @@ public class ProjectDAO_DB implements IProjectDAO {
         }
         catch (SQLException e)
         {
-            throw new SQLException("Failed to retrieve the installation");
+            throw new SQLException("Failed to match last edited");
         }
     }
 }

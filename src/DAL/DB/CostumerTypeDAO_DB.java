@@ -20,6 +20,11 @@ public class CostumerTypeDAO_DB implements ICostumerTypeDAO {
         dbConnector = new DatabaseConnector();
     }
 
+    /**
+     * Retrieves all customerTypes from the database.
+     * @return returns a list of found customerTypes.
+     * @throws SQLException
+     */
     @Override
     public List<CostumerType> getAllCostumerTypes() throws SQLException {
         List<CostumerType> costumerTypes = new ArrayList<>();

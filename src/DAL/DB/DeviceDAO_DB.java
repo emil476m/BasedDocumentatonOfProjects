@@ -20,6 +20,11 @@ public class DeviceDAO_DB implements IDeviceDAO {
         dbConnector = new DatabaseConnector();
     }
 
+    /**
+     * Retrieves all DeviceTypes that are not soft deleted.
+     * @return returns a list of found DeviceTypes.
+     * @throws Exception
+     */
     @Override
     public List<DeviceType> getAllDeviceTypes() throws Exception {
         String sql = "SELECT * FROM DeviceType WHERE IsDeleted = 'false';";
@@ -45,6 +50,12 @@ public class DeviceDAO_DB implements IDeviceDAO {
         }
     }
 
+    /**
+     * Creates a new DeviceType in the database
+     * @param deviceType
+     * @return returns a new DeviceType object with an id generated from the database.
+     * @throws Exception
+     */
     @Override
     public DeviceType createDeviceType(DeviceType deviceType) throws Exception{
         String sql = "INSERT INTO [DeviceType] (Type, IsDeleted, Custom) VALUES (?,?,?);";
@@ -76,6 +87,11 @@ public class DeviceDAO_DB implements IDeviceDAO {
         }
     }
 
+    /**
+     * Is used to soft delete DeviceTypes.
+     * @param deviceType
+     * @throws Exception
+     */
     @Override
     public void updateDeviceType(DeviceType deviceType) throws Exception {
         String sql = "UPDATE [DeviceType] SET Type = ?, IsDeleted = ?, Custom = ? WHERE Id = ?;";
@@ -95,6 +111,12 @@ public class DeviceDAO_DB implements IDeviceDAO {
         }
     }
 
+    /**
+     * Retrieves all devices related to a specific project.
+     * @param project
+     * @return returns a list of device objects that was found.
+     * @throws SQLException
+     */
     @Override
     public List<Device> getAllDevicesForProject(Project project) throws SQLException {
         String sql = "SELECT * FROM Device\n" +
@@ -124,6 +146,12 @@ public class DeviceDAO_DB implements IDeviceDAO {
         }
     }
 
+    /**
+     * Checks if the devicetype name is duplicate.
+     * @param deviceType
+     * @return returns true if the name is a duplicate and false if it is not.
+     * @throws Exception
+     */
     @Override
     public boolean checkIfDeviceTypeNameIsDuplicate(DeviceType deviceType) throws Exception {
         String sql = "SELECT * FROM DeviceType WHERE Type LIKE '%" + deviceType.getType() + "%';";
@@ -146,6 +174,11 @@ public class DeviceDAO_DB implements IDeviceDAO {
         }
     }
 
+    /**
+     * Hard deletes devices and relations between said devices and a project.
+     * @param devices
+     * @throws SQLException
+     */
     @Override
     public void deleteDevice(List<Integer> devices) throws SQLException {
         String relation = "DELETE DeviceForProject WHERE DeviceId = ?";
