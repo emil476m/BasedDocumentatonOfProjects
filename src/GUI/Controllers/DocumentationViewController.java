@@ -248,6 +248,8 @@ public class DocumentationViewController extends BaseController{
         txtTech.setVisible(false);
         btnRemoveTechnician.setDisable(true);
         btnRemoveTechnician.setVisible(false);
+        dpDatePicker.setDisable(true);
+        txtCostumerEmail.setEditable(false);
     }
 
     /**

@@ -15,16 +15,16 @@
 
 <BorderPane fx:id="borderPaneCEO" prefHeight="606.0" prefWidth="869.0" styleClass="root" stylesheets="/GUI/Css/CEOViewCss.css" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="GUI.Controllers.CEOController">
    <left>
-      <AnchorPane BorderPane.alignment="CENTER">
+      <AnchorPane prefHeight="606.0" prefWidth="203.0" BorderPane.alignment="CENTER">
          <children>
             <ImageView fitHeight="124.0" fitWidth="174.0" pickOnBounds="true" preserveRatio="true">
                <image>
                   <Image url="@../Images/WUAV.png" />
                </image>
             </ImageView>
-            <Button fx:id="btnLogout" layoutX="17.0" layoutY="544.0" mnemonicParsing="false" onAction="#handleLogout" prefHeight="30.0" prefWidth="140.0" text="Logout" AnchorPane.bottomAnchor="32.0" AnchorPane.leftAnchor="17.0" />
-            <Button fx:id="btnshowInstallations" layoutX="17.0" layoutY="279.0" mnemonicParsing="false" onAction="#handleShowInstallations" prefHeight="30.0" prefWidth="140.0" text="Installations" AnchorPane.leftAnchor="17.0" AnchorPane.topAnchor="279.0" />
-            <Button fx:id="btnShowUsers" layoutX="17.0" layoutY="219.0" mnemonicParsing="false" onAction="#handleShowUsers" prefHeight="30.0" prefWidth="140.0" text="Users" AnchorPane.leftAnchor="17.0" AnchorPane.topAnchor="219.0" />
+            <Button fx:id="btnLogout" layoutX="34.0" layoutY="544.0" mnemonicParsing="false" onAction="#handleLogout" prefHeight="30.0" prefWidth="140.0" text="Logout" AnchorPane.bottomAnchor="32.0" AnchorPane.leftAnchor="34.0" />
+            <Button fx:id="btnshowInstallations" layoutX="32.0" layoutY="288.0" mnemonicParsing="false" onAction="#handleShowInstallations" prefHeight="30.0" prefWidth="140.0" text="Installations" AnchorPane.leftAnchor="32.0" AnchorPane.topAnchor="288.0" />
+            <Button fx:id="btnShowUsers" layoutX="32.0" layoutY="206.0" mnemonicParsing="false" onAction="#handleShowUsers" prefHeight="30.0" prefWidth="140.0" text="Users" AnchorPane.leftAnchor="32.0" AnchorPane.topAnchor="206.0" />
             <Label fx:id="lblLoggedInAs" layoutX="28.0" layoutY="130.0" prefHeight="48.0" prefWidth="119.0" styleClass="label-User" text="CEO:" wrapText="true" />
          </children>
       </AnchorPane>
