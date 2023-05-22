@@ -15,7 +15,7 @@
 
 <BorderPane fx:id="borderPaneProjectManager" prefHeight="606.0" prefWidth="869.0" styleClass="root" stylesheets="/GUI/Css/ProjectManagerViewCss.css" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="GUI.Controllers.ProjectManagerViewController">
    <left>
-      <AnchorPane prefHeight="606.0" prefWidth="191.0" BorderPane.alignment="CENTER">
+      <AnchorPane BorderPane.alignment="CENTER">
          <children>
             <ImageView fitHeight="124.0" fitWidth="174.0" pickOnBounds="true" preserveRatio="true" AnchorPane.topAnchor="0.0">
                <image>

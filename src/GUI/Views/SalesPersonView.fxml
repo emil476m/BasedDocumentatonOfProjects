@@ -15,14 +15,14 @@
 
 <BorderPane fx:id="borderPaneTechnician" prefHeight="606.0" prefWidth="869.0" styleClass="root" stylesheets="/GUI/Css/TechnicianViewCss.css" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="GUI.Controllers.SalesPersonController">
    <left>
-      <AnchorPane prefHeight="606.0" prefWidth="204.0" BorderPane.alignment="CENTER">
+      <AnchorPane BorderPane.alignment="CENTER">
          <children>
             <ImageView fitHeight="124.0" fitWidth="174.0" pickOnBounds="true" preserveRatio="true">
                <image>
                   <Image url="@../Images/WUAV.png" />
                </image>
             </ImageView>
-            <Button fx:id="btnLogout" layoutX="32.0" layoutY="544.0" mnemonicParsing="false" onAction="#handleLogout" prefHeight="30.0" prefWidth="140.0" text="Logout" AnchorPane.bottomAnchor="32.0" />
+            <Button fx:id="btnLogout" layoutX="17.0" layoutY="546.0" mnemonicParsing="false" onAction="#handleLogout" prefHeight="30.0" prefWidth="140.0" text="Logout" AnchorPane.bottomAnchor="29.99999999999998" />
             <Label fx:id="lblLoggedInAs" layoutX="7.0" layoutY="104.0" prefHeight="51.0" prefWidth="160.0" styleClass="label-User" text="SalesPerson:" textAlignment="CENTER" wrapText="true" />
          </children>
       </AnchorPane>
@@ -49,7 +49,7 @@
                </items>
             </MenuButton>
             <Text fx:id="txtSearchText" layoutX="518.0" layoutY="91.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Search for:" wrappingWidth="76.109375" AnchorPane.rightAnchor="71.49062500000002" AnchorPane.topAnchor="78.05078125" />
-            <Button fx:id="btnScreenSize" layoutX="605.0" layoutY="14.0" mnemonicParsing="false" onAction="#handleScreenSize" AnchorPane.rightAnchor="44.60000000000002" AnchorPane.topAnchor="14.0" />
+            <Button fx:id="btnScreenSize" layoutX="605.0" layoutY="14.0" mnemonicParsing="false" AnchorPane.rightAnchor="44.60000000000002" AnchorPane.topAnchor="14.0" onAction="#handleScreenSize" />
          </children>
       </AnchorPane>
    </center>

@@ -15,16 +15,16 @@
 
 <BorderPane fx:id="borderPaneTechnician" prefHeight="606.0" prefWidth="869.0" styleClass="root" stylesheets="/GUI/Css/TechnicianViewCss.css" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="GUI.Controllers.TechnicianViewController">
    <left>
-      <AnchorPane prefHeight="606.0" prefWidth="199.0" BorderPane.alignment="CENTER">
+      <AnchorPane BorderPane.alignment="CENTER">
          <children>
-            <ImageView fitHeight="124.0" fitWidth="174.0" layoutX="13.0" pickOnBounds="true" preserveRatio="true">
+            <ImageView fitHeight="124.0" fitWidth="174.0" pickOnBounds="true" preserveRatio="true">
                <image>
                   <Image url="@../Images/WUAV.png" />
                </image>
             </ImageView>
-            <Button fx:id="btnLogout" layoutX="30.0" layoutY="552.0" mnemonicParsing="false" onAction="#handleLogout" prefHeight="30.0" prefWidth="140.0" text="Logout" AnchorPane.bottomAnchor="24.0" />
-            <Button fx:id="btnshowMyInstallations" layoutX="30.0" layoutY="303.0" mnemonicParsing="false" onAction="#handleShowMyInstallations" prefHeight="30.0" prefWidth="140.0" text="My Installations" AnchorPane.bottomAnchor="273.0" />
-            <Button fx:id="btnShowInstallations" layoutX="30.0" layoutY="205.0" mnemonicParsing="false" onAction="#handleShowInstallations" prefHeight="30.0" prefWidth="140.0" text="Installations" AnchorPane.bottomAnchor="371.0" />
+            <Button fx:id="btnLogout" layoutX="17.0" layoutY="550.0" mnemonicParsing="false" onAction="#handleLogout" prefHeight="30.0" prefWidth="140.0" text="Logout" AnchorPane.bottomAnchor="25.99999999999998" />
+            <Button fx:id="btnshowMyInstallations" layoutX="17.0" layoutY="303.0" mnemonicParsing="false" onAction="#handleShowMyInstallations" prefHeight="30.0" prefWidth="140.0" text="My Installations" AnchorPane.bottomAnchor="273.0" />
+            <Button fx:id="btnShowInstallations" layoutX="17.0" layoutY="209.0" mnemonicParsing="false" onAction="#handleShowInstallations" prefHeight="30.0" prefWidth="140.0" text="Installations" AnchorPane.bottomAnchor="367.0" />
             <Label fx:id="lblLoggedInAs" layoutX="14.0" layoutY="116.0" prefHeight="46.0" prefWidth="160.0" styleClass="label-User" text="Technician:" textAlignment="CENTER" wrapText="true" />
          </children>
       </AnchorPane>
