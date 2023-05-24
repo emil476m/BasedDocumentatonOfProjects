@@ -17,7 +17,7 @@ class PDFGeneratorTest {
 
 @DisplayName("PDF generation test")
     @Test
-    public void PdfGenerationTestWithValidImput()
+    public void PdfGenerationTestWithInvalidInput()
     {
         Project project = new Project("testProject","TestEmail@email.com", LocalDate.now(),"Yes","we did some stuff and things",3,false,3,true, Timestamp.valueOf("2023-05-16 09:23:00"),1,"testStreet 1", "171717");
         File file = new File("GUI/Images/WUAV.png");
