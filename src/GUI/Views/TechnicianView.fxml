@@ -60,7 +60,7 @@
                </items>
             </MenuButton>
             <Text fx:id="txtSearchText" layoutX="523.0" layoutY="91.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Search for:" wrappingWidth="76.109375" AnchorPane.rightAnchor="66.49062500000002" AnchorPane.topAnchor="78.0" />
-            <Button fx:id="btnScreenSize" layoutX="610.0" layoutY="14.0" mnemonicParsing="false" onAction="#handleScreenSize" AnchorPane.rightAnchor="39.60000000000002" AnchorPane.topAnchor="14.0" />
+            <Button fx:id="btnScreenSize" layoutX="610.0" layoutY="14.0" mnemonicParsing="false" onAction="#handleScreenSize" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
          </children>
       </AnchorPane>
    </center>

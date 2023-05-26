@@ -88,6 +88,7 @@ public class DocumentationViewController extends BaseController{
         textFields = new ArrayList<>();
         projectImages = FXCollections.observableArrayList();
         getModelsHandler().getDocumentationModel().getImagesObservableList().clear();
+        //getModelsHandler().getDocumentationModel().getImagesToBeSaved().clear();
         addTextFields();
         setupButtonIcons();
         try

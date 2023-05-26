@@ -61,7 +61,7 @@
             </MenuButton>
             <Text fx:id="txtSearchText" layoutX="518.0" layoutY="90.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Search for:" wrappingWidth="76.109375" AnchorPane.rightAnchor="100.890625" AnchorPane.topAnchor="77.0" />
             <Button fx:id="btnSearch" layoutX="533.4" layoutY="93.0" mnemonicParsing="false" onAction="#handleSearch" prefHeight="26.0" prefWidth="43.0" AnchorPane.rightAnchor="89.0" AnchorPane.topAnchor="93.0" />
-            <Button fx:id="btnScreenSize" layoutX="619.0" layoutY="30.0" mnemonicParsing="false" onAction="#handleScreenSize" AnchorPane.rightAnchor="24.0" AnchorPane.topAnchor="30.0" />
+            <Button fx:id="btnScreenSize" layoutX="619.0" layoutY="30.0" mnemonicParsing="false" onAction="#handleScreenSize" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
          </children>
       </AnchorPane>
    </center>
