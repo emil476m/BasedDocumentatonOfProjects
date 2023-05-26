@@ -985,7 +985,6 @@ public class DocumentationViewController extends BaseController{
         lvDevices.getSelectionModel().clearSelection();
         devicestoDelete.add(device.getDeviceId());
         getModelsHandler().getDocumentationModel().getDevicesObservableList().remove(device);
-        System.out.println(devicestoDelete.toString());
     }
 
     public void handleDevicesClicked(MouseEvent mouseEvent) {

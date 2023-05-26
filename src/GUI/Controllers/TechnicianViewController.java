@@ -69,7 +69,6 @@ public class TechnicianViewController extends BaseController{
         try {
             setUpTableViews();
         } catch (Exception e) {
-            e.printStackTrace();
             ExceptionHandler.displayError(new RuntimeException("failed to set up tableviews", e));
         }
     }
