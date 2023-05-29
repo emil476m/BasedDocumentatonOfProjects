@@ -40,7 +40,7 @@
               <columns>
                 <TableColumn fx:id="clmUserId" prefWidth="75.0" resizable="false" text="Id" />
                 <TableColumn fx:id="clmUserName" prefWidth="317.0" resizable="false" text="Name" />
-                  <TableColumn fx:id="clmUserClass" minWidth="0.0" prefWidth="176.0" resizable="false" text="Class" />
+                  <TableColumn fx:id="clmUserClass" minWidth="0.0" prefWidth="206.59999389648442" resizable="false" text="Class" />
               </columns>
             </TableView>
             <TableView fx:id="tbvInstallationlist" layoutX="55.0" layoutY="138.0" prefHeight="365.0" prefWidth="570.0" AnchorPane.bottomAnchor="111.0" AnchorPane.leftAnchor="45.0" AnchorPane.rightAnchor="50.0" AnchorPane.topAnchor="130.0">
